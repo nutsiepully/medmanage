@@ -31,7 +31,7 @@ public class DBOpenHelper extends SQLiteOpenHelper{
 	 * INT: resident_id
 	 * VARCHAR: name
 	 * INT: age
-	 * INT: gender --why int? to acheive bool (either male or female)
+	 * INT: gender --why int? to achieve bool (either male or female)
 	 * INT: room_number
 	 * VARCHAR: diagnosis
 	 * VARCHAR: symptoms
