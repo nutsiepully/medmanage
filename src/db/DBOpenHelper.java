@@ -14,7 +14,7 @@ import android.util.Log;
 public class DBOpenHelper extends SQLiteOpenHelper{
 	private static final String TAG = "db::MedDBOpenHelper"; //For error log
 	
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 4;
 	public static final String DATABASE_NAME = "MedHelper";
 	public static final String RESIDENTS_TABLE_NAME = "Residents";
 	public static final String MEDS_TABLE_NAME = "Medication";
@@ -114,7 +114,7 @@ public class DBOpenHelper extends SQLiteOpenHelper{
 	 */
 	private static final String LOG_TABLE_CREATE = 
 			"CREATE TABLE IF NOT EXISTS " + LOG_TABLE_NAME + " (" +
-					"log_id INTEGER PRIMARY KEY" +
+					"log_id INTEGER PRIMARY KEY, " +
 					"provider_id INTEGER, "+
 					"resident_id INTEGER, "+
 					"medication_id INTEGER, "+
@@ -137,8 +137,8 @@ public class DBOpenHelper extends SQLiteOpenHelper{
 			"CREATE TABLE IF NOT EXISTS " + RESIDENT_MEDS_TABLE_NAME + " (" +
 					"resident_id INTEGER, " +
 					"medication_id INTEGER, " +
-					"recurrence VARCHAR, " +
-					"PRIMARY_KEY(resident_id, medication_id)" +
+					"recurrence VARCHAR" +
+					//"PRIMARY_KEY(resident_id, medication_id)" +
 					");";
 	
 	public DBOpenHelper(Context context){

@@ -175,12 +175,41 @@ public class Resident {
 			newResidentValues.put(RESIDENTS_COLUMNS[9], picturePath);
 			newResidentValues.put(RESIDENTS_COLUMNS[10], term);
 			newResidentValues.put(RESIDENTS_COLUMNS[11], neighborhood);
-			
-			// row doesn't exist, so insert
+
 			Log.i(TAG, "Inserting new Resident into table with values: "+newResidentValues.toString());
-			writeDatabase.insert(DBOpenHelper.RESIDENTS_TABLE_NAME, null, newResidentValues);
-			writeDatabase.close();
-			return true;
+			long insertSuccess = writeDatabase.insert(DBOpenHelper.RESIDENTS_TABLE_NAME, null, newResidentValues);
+			if(insertSuccess <= 0){
+				Log.e(TAG, "Error inserting new Resident.");
+				writeDatabase.close();
+				return false;
+			}else{
+				//Store succeeded, so grab the id that was generated upon insert
+				writeDatabase.close();
+				readDatabase = openHelper.getReadableDatabase();
+				Cursor residentResults = readDatabase.query(DBOpenHelper.RESIDENTS_TABLE_NAME, 
+						new String[] {"resident_id"}, "name = ?",
+						new String[] { name }, null, null, null);
+				//process the results of the query
+				if (residentResults == null) {
+					Log.e(TAG, "Error doing query for resident by ID.");
+					readDatabase.close();
+					return false;
+				} else {
+					residentResults.moveToFirst();
+
+					if (residentResults.getCount() > 0) {
+						// Get the values from the cursor
+						this.resident_id = residentResults.getInt(0);
+
+						readDatabase.close();
+						return true;
+					} else {
+						Log.e(TAG, "No rows returned by resident query.");
+						readDatabase.close();
+						return false;
+					}
+				}
+			}
 			
 		} catch (SQLException e) {
 			Log.e(TAG, "Error trying to run query to insert Resident: " + e.getMessage());
@@ -256,6 +285,14 @@ public class Resident {
 
 	public void setRecentActions(ArrayList<String> recentActions) {
 		this.recentActions = recentActions;
+	}
+	
+	/**
+	 * Adds a new action to the recentActions list.
+	 * @param action A description of the action to add to the list.
+	 */
+	public void addAction(String action){
+		recentActions.add(action);
 	}
 
 	public String getPicturePath() {
