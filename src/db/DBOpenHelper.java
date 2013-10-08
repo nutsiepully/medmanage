@@ -12,15 +12,15 @@ import android.util.Log;
  *
  */
 public class DBOpenHelper extends SQLiteOpenHelper{
-	private static final String TAG = "db::MedDBOpenHelper";
+	private static final String TAG = "db::MedDBOpenHelper"; //For error log
 	
 	private static final int DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME = "MedHelper";
-	private static final String RESIDENTS_TABLE_NAME = "Residents";
-	private static final String MEDS_TABLE_NAME = "Medication";
-	private static final String RESIDENT_MEDS_TABLE_NAME = "Resident_Medication";
-	private static final String LOG_TABLE_NAME = "Log";
-	private static final String PROVIDERS_TABLE_NAME = "Providers";
+	public static final String DATABASE_NAME = "MedHelper";
+	public static final String RESIDENTS_TABLE_NAME = "Residents";
+	public static final String MEDS_TABLE_NAME = "Medication";
+	public static final String RESIDENT_MEDS_TABLE_NAME = "Resident_Medication";
+	public static final String LOG_TABLE_NAME = "Log";
+	public static final String PROVIDERS_TABLE_NAME = "Providers";
 	
 	/**
 	 * Table: RESIDENTS
@@ -34,12 +34,12 @@ public class DBOpenHelper extends SQLiteOpenHelper{
 	 * INT: gender --why int? to achieve bool (either male or female)
 	 * INT: room_number
 	 * VARCHAR: diagnosis
-	 * VARCHAR: symptoms
+	 * VARCHAR: preferences --The preferences regarding how they take their medicine, etc.
 	 * VARCHAR: notes --TODO: This may turn into a reference to a Notes table?
 	 * VARCHAR: recent_actions --TODO: Also may turn into a reference
 	 * VARCHAR: resident_picture --Stored as the local (mobile device) path to the pic
 	 * VARCHAR: term --The term of the patient. Short term, acute care...
-	 * INT: has_diabetes --TODO: Might remove this value after some discussion
+	 * VARCHAR: neighborhood
 	 */
 	private static final String RESIDENTS_TABLE_CREATE =
 			"CREATE TABLE IF NOT EXISTS " + RESIDENTS_TABLE_NAME + " (" +
@@ -49,12 +49,12 @@ public class DBOpenHelper extends SQLiteOpenHelper{
 					"gender INTEGER, "+
 					"room_number INTEGER, "+
 					"diagnosis VARCHAR, "+
-					"symptoms VARCHAR, "+
+					"preferences VARCHAR, "+
 					"notes VARCHAR, " +
 					"recent_actions VARCHAR, "+
 					"resident_picture VARCHAR, "+
 					"term VARCHAR, "+
-					"has_diabetes INTEGER"+
+					"neighborhood VARCHAR"+
 					");";
 	
 	/**
