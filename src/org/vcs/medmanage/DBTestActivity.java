@@ -20,7 +20,7 @@ public class DBTestActivity extends Activity {
         
         //Create a Resident
         Resident testResident = new Resident();
-        testResident.setName("Kurt Traver");
+        testResident.setName("Ressy 2");
         testResident.setAge(24);
         testResident.setGender(false);
         testResident.setRoomNumber(13);
@@ -30,7 +30,7 @@ public class DBTestActivity extends Activity {
         testResident.addAction("Gave 'im a pill this morning.");
         testResident.setPicturePath("no picture");
         testResident.setTerm("short term");
-        testResident.setNeighborhood("City");
+        testResident.setNeighborhood("Beach");
         
         //Store the Resident
         boolean storeSuccess = testResident.storeResident(getBaseContext());
