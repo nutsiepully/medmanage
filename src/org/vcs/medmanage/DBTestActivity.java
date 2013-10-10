@@ -45,7 +45,7 @@ public class DBTestActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		TextView testTV3 = (TextView) findViewById(R.id.testTextBox3);
 
 		// Add a couple residents
-		// addResidents();
+		addResidents();
 
 		// Recall the Residents alphabetically and put their names in the
 		// TextView
@@ -140,25 +140,6 @@ public class DBTestActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			Toast.makeText(getBaseContext(),
 					"Resident was successfully created.", Toast.LENGTH_LONG)
 					.show();
-		}
-	}
-
-	/**
-	 * Retrieves a resident from the DB with the given name. Wrapper only here
-	 * for testing purposes.
-	 */
-	public Resident getResident(String rezzyName) {
-		RuntimeExceptionDao<Resident, Integer> residentDao = getHelper()
-				.getResidentDataDao();
-		List<Resident> foundRes = residentDao.queryForEq("name", rezzyName);
-		if (foundRes.size() <= 0) {
-			Log.e(TAG, "Error retreiving Res from DB with resident name: "
-					+ rezzyName);
-			Toast.makeText(getBaseContext(), "Couldn't retrieve resident",
-					Toast.LENGTH_LONG).show();
-			return null;
-		} else {
-			return foundRes.get(0);
 		}
 	}
 }
