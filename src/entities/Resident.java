@@ -3,6 +3,9 @@ package entities;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -32,6 +35,7 @@ import db.DBOpenHelper;
  * @author Kurt
  *
  */
+@DatabaseTable(tableName = "residents")
 public class Resident {
 	public static final String TAG = "entities::Resident"; //For error log
 	public static final String[] RESIDENTS_COLUMNS = 
@@ -53,169 +57,46 @@ public class Resident {
 	/**
 	 * RESIDENT ATTRIBUTES
 	 * Directly reflects what is stored in the DB.
+	 * Using ORMLite notation.
+	 * The @DatabaseField annotation specifies that the following attribute be
+	 * persisted to an auto-generated DB.
 	 */
-	public int resident_id;
-	public String name;
-	public int age;
-	public boolean gender;
-	public int roomNumber;
-	public String diagnosis;
-	public String prefs; //Not named 'preferences', because 'preferences' is a reserved var name
-	public String notes;
-	public ArrayList<String> recentActions;
-	public String picturePath;
-	public String term;
-	public String neighborhood;
+	@DatabaseField(generatedId = true)
+	private int resident_id;
+	@DatabaseField(canBeNull = false)
+	private String name;
+	@DatabaseField
+	private int age;
+	@DatabaseField
+	private boolean gender;
+	@DatabaseField
+	private int roomNumber;
+	@DatabaseField
+	private String primaryDiagnosis;
+	@DatabaseField
+	private String otherDiagnoses;
+	@DatabaseField
+	private String prefs; //Not named 'preferences', because 'preferences' is a reserved var name
+	@DatabaseField
+	private String notes;
+	@DatabaseField
+	private String recentActions;
+	@DatabaseField
+	private String picturePath;
+	@DatabaseField
+	private String term;
+	@DatabaseField
+	private String neighborhood;
+	@DatabaseField
+	private String allergies;
 	/**
 	 * END RESIDENT ATTRIBUTES
 	 */
 	
-	DBOpenHelper openHelper;
-	SQLiteDatabase readDatabase;
-	SQLiteDatabase writeDatabase;
-	
-	/**
-	 * Default constructor. Specifies non-null values for the attributes.
-	 * @param inContext The Context of the application at the time the DB is
-	 * opened.
-	 */
 	public Resident(){
-		resident_id = -1;
-		name = new String();
-		age = -1;
-		gender = false; //False is male, true is female
-		roomNumber = -1;
-		diagnosis = new String();
-		prefs = new String();
-		notes = new String();
-		recentActions = new ArrayList<String>();
-		picturePath = new String();
-		term = new String();
-		neighborhood = new String();
-	}
-	
-	/**
-	 * Builds a Resident object by retrieving the necessary information from 
-	 * the DB where the given 'id' matches an ID in the DB. Fills the current
-	 * reference to a Resident object.
-	 * @param id The ID of the Resident to look for in the DB.
-	 * @return True if the query succeeds, else false.
-	 */
-	public boolean getResident(int id, Context inContext){
-		openHelper = new DBOpenHelper(inContext);
-		readDatabase = openHelper.getReadableDatabase();
-		
-		//Query with the id
-		Cursor residentResults = readDatabase.query(DBOpenHelper.RESIDENTS_TABLE_NAME, 
-				RESIDENTS_COLUMNS, "resident_id = ?",
-				new String[] { Integer.toString(id) }, null, null, null);
-
-		//process the results of the query
-		if (residentResults == null) {
-			Log.e(TAG, "Error doing query for resident by ID.");
-			readDatabase.close();
-			return false;
-		} else {
-			residentResults.moveToFirst();
-
-			if (residentResults.getCount() > 0) {
-				// Get the values from the cursor
-				this.resident_id = residentResults.getInt(0);
-				this.name = residentResults.getString(1);
-				this.age = residentResults.getInt(2);
-				int gender = residentResults.getInt(3);
-				this.gender = gender <= 0 ? true : false;
-				this.roomNumber = residentResults.getInt(4);
-				this.diagnosis = residentResults.getString(5);
-				this.prefs = residentResults.getString(6);
-				this.notes = residentResults.getString(7);
-				this.recentActions = new ArrayList<String>(Arrays.asList(residentResults.getString(8).split("\n")));
-				this.picturePath = residentResults.getString(9);
-				this.term = residentResults.getString(10);
-				this.neighborhood = residentResults.getString(11);
-
-				readDatabase.close();
-				return true;
-			} else {
-				Log.e(TAG, "No rows returned by resident query.");
-				readDatabase.close();
-				return false;
-			}
-		}
-	}
-	
-	/**
-	 * Adds the current Resident object to the DB if it doesn't already exist 
-	 * in the DB. If there is an error, a message is Toast-ed and logged to the
-	 * error log. After a successful call to storeResident, the resident_id 
-	 * field will be populated with the appropriate value from the DB. From then
-	 * on, all calls to set[param]() methods will also cause an update to the 
-	 * DB.
-	 * @return 'True' if the resident is successfully inserted. Else, 'false'.
-	 */
-	public boolean storeResident(Context inContext){
-		openHelper = new DBOpenHelper(inContext);
-		writeDatabase = openHelper.getWritableDatabase();
-		
-		try {
-			ContentValues newResidentValues = new ContentValues();
-			newResidentValues.put(RESIDENTS_COLUMNS[1], name);
-			newResidentValues.put(RESIDENTS_COLUMNS[2], age);
-			newResidentValues.put(RESIDENTS_COLUMNS[3], gender);
-			newResidentValues.put(RESIDENTS_COLUMNS[4], roomNumber);
-			newResidentValues.put(RESIDENTS_COLUMNS[5], diagnosis);
-			newResidentValues.put(RESIDENTS_COLUMNS[6], prefs);
-			newResidentValues.put(RESIDENTS_COLUMNS[7], notes);
-			//Convert the list of activities to a string, separated by "\n"
-			StringBuffer recentActivitesString = new StringBuffer();
-			for(int i = 0; i < recentActions.size(); i++){
-				recentActivitesString.append(recentActions.get(i)).append("\n");
-			}
-			newResidentValues.put(RESIDENTS_COLUMNS[8], recentActivitesString.toString());
-			newResidentValues.put(RESIDENTS_COLUMNS[9], picturePath);
-			newResidentValues.put(RESIDENTS_COLUMNS[10], term);
-			newResidentValues.put(RESIDENTS_COLUMNS[11], neighborhood);
-
-			Log.i(TAG, "Inserting new Resident into table with values: "+newResidentValues.toString());
-			long insertSuccess = writeDatabase.insert(DBOpenHelper.RESIDENTS_TABLE_NAME, null, newResidentValues);
-			if(insertSuccess <= 0){
-				Log.e(TAG, "Error inserting new Resident.");
-				writeDatabase.close();
-				return false;
-			}else{
-				//Store succeeded, so grab the id that was generated upon insert
-				writeDatabase.close();
-				readDatabase = openHelper.getReadableDatabase();
-				Cursor residentResults = readDatabase.query(DBOpenHelper.RESIDENTS_TABLE_NAME, 
-						new String[] {"resident_id"}, "name = ?",
-						new String[] { name }, null, null, null);
-				//process the results of the query
-				if (residentResults == null) {
-					Log.e(TAG, "Error doing query for resident by ID.");
-					readDatabase.close();
-					return false;
-				} else {
-					residentResults.moveToFirst();
-
-					if (residentResults.getCount() > 0) {
-						// Get the values from the cursor
-						this.resident_id = residentResults.getInt(0);
-
-						readDatabase.close();
-						return true;
-					} else {
-						Log.e(TAG, "No rows returned by resident query.");
-						readDatabase.close();
-						return false;
-					}
-				}
-			}
-			
-		} catch (SQLException e) {
-			Log.e(TAG, "Error trying to run query to insert Resident: " + e.getMessage());
-			writeDatabase.close();
-			return false;
-		}
+		//Per ORMLite, all classes that wish to be persisted to the DB must
+		//    declare a no-argument constructor.
+		recentActions = new String();
 	}
 	
 
@@ -256,11 +137,11 @@ public class Resident {
 	}
 
 	public String getDiagnosis() {
-		return diagnosis;
+		return primaryDiagnosis;
 	}
 
 	public void setDiagnosis(String diagnosis) {
-		this.diagnosis = diagnosis;
+		this.primaryDiagnosis = diagnosis;
 	}
 
 	public String getPrefs() {
@@ -279,11 +160,11 @@ public class Resident {
 		this.notes = notes;
 	}
 
-	public ArrayList<String> getRecentActions() {
+	public String getRecentActions() {
 		return recentActions;
 	}
 
-	public void setRecentActions(ArrayList<String> recentActions) {
+	public void setRecentActions(String recentActions) {
 		this.recentActions = recentActions;
 	}
 	
@@ -292,7 +173,9 @@ public class Resident {
 	 * @param action A description of the action to add to the list.
 	 */
 	public void addAction(String action){
-		recentActions.add(action);
+		StringBuffer temp = new StringBuffer(recentActions);
+		temp.append("\n").append(action);
+		recentActions = temp.toString();
 	}
 
 	public String getPicturePath() {

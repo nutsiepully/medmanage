@@ -1,0 +1,54 @@
+#
+# generated on 2013/10/09 06:20:37
+#
+# --table-start--
+dataClass=entities.Resident
+tableName=residents
+# --table-fields-start--
+# --field-start--
+fieldName=resident_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+canBeNull=false
+# --field-end--
+# --field-start--
+fieldName=age
+# --field-end--
+# --field-start--
+fieldName=gender
+# --field-end--
+# --field-start--
+fieldName=roomNumber
+# --field-end--
+# --field-start--
+fieldName=primaryDiagnosis
+# --field-end--
+# --field-start--
+fieldName=otherDiagnoses
+# --field-end--
+# --field-start--
+fieldName=prefs
+# --field-end--
+# --field-start--
+fieldName=notes
+# --field-end--
+# --field-start--
+fieldName=recentActions
+# --field-end--
+# --field-start--
+fieldName=picturePath
+# --field-end--
+# --field-start--
+fieldName=term
+# --field-end--
+# --field-start--
+fieldName=neighborhood
+# --field-end--
+# --field-start--
+fieldName=allergies
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
