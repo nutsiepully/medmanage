@@ -17,7 +17,7 @@ import entities.Resident;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private static final String DATABASE_NAME = "medManage.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	
 	private Dao<Resident, Integer> residentDao = null;
 	private RuntimeExceptionDao<Resident, Integer> residentRuntimeDao = null;

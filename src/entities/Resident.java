@@ -13,8 +13,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import db.DBOpenHelper;
-
 /**
  * Representation of the residents at the Home. Interacts silently with the DB 
  * to build a resident in memory. 
@@ -201,4 +199,45 @@ public class Resident {
 	public void setNeighborhood(String neighborhood) {
 		this.neighborhood = neighborhood;
 	}
+
+
+	public int getResident_id() {
+		return resident_id;
+	}
+
+
+	public void setResident_id(int resident_id) {
+		this.resident_id = resident_id;
+	}
+
+
+	public String getPrimaryDiagnosis() {
+		return primaryDiagnosis;
+	}
+
+
+	public void setPrimaryDiagnosis(String primaryDiagnosis) {
+		this.primaryDiagnosis = primaryDiagnosis;
+	}
+
+
+	public String getOtherDiagnoses() {
+		return otherDiagnoses;
+	}
+
+
+	public void setOtherDiagnoses(String otherDiagnoses) {
+		this.otherDiagnoses = otherDiagnoses;
+	}
+
+
+	public String getAllergies() {
+		return allergies;
+	}
+
+
+	public void setAllergies(String allergies) {
+		this.allergies = allergies;
+	}
+	
 }

@@ -8,7 +8,16 @@
         android:id="@+id/testTextBox"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World, MyActivity"
             />
+    <TextView
+        android:id="@+id/testTextBox2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/testTextBox3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
 </LinearLayout>
 
