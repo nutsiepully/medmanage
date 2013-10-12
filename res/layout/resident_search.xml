@@ -15,39 +15,49 @@
         android:id="@+id/searchMenuLinearLayout"
         >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <RadioGroup
+            android:layout_width="match_parent"
             android:layout_height="110dp"
             android:layout_gravity="left|center_vertical"
-            android:id="@+id/searchButtonsLinearLayout">
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:id="@+id/searchButtonsRadioGroup"
+            >
+            <RadioButton android:id="@+id/roomSearchRadioButton"
+                android:layout_width="wrap_content"
                 android:layout_weight="1"
-                android:text="Room"
-                android:id="@+id/roomSearchButton"
-                android:clickable="false" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="110dp"
+                android:text="@string/roomSearchRadioButton"
+                android:onClick="selectSearchType"
+                android:textColor="@android:color/black"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/darker_gray"
+                />
+            <RadioButton android:id="@+id/statusSearchRadioButton"
+                android:layout_width="wrap_content"
                 android:layout_weight="1"
-                android:text="Status"
-                android:id="@+id/statusSearchButton" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="110dp"
+                android:text="@string/statusSearchRadioButton"
+                android:onClick="selectSearchType"
+                android:textColor="@android:color/black"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/holo_purple"
+                />
+            <RadioButton android:id="@+id/alphabeticSearchRadioButton"
+                android:layout_width="wrap_content"
                 android:layout_weight="1"
-                android:text="A-Z"
-                android:id="@+id/alphabeticSearchButton" />
-        </LinearLayout>
+                android:layout_height="110dp"
+                android:text="@string/alphabeticSearchRadioButton"
+                android:onClick="selectSearchType"
+                android:textColor="@android:color/black"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/holo_blue_dark"
+                />
+        </RadioGroup>
 
-        <ExpandableListView
+        <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/expandableListView"
+            android:id="@+id/searchOptionsListView"
             android:layout_gravity="center" />
     </LinearLayout>
 
@@ -56,13 +66,13 @@
         android:layout_weight="4"
         android:layout_height="fill_parent"
         android:id="@+id/residentSearchLinearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         >
 
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/residentScrollView"
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/residentListView"
             android:layout_gravity="left|center_vertical" />
     </LinearLayout>
 </LinearLayout>
