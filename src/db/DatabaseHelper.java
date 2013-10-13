@@ -13,6 +13,7 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import entities.Medication;
 import entities.Resident;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
@@ -20,7 +21,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private static final int DATABASE_VERSION = 2;
 	
 	private Dao<Resident, Integer> residentDao = null;
+	private Dao<Medication, Integer> medicationDao = null;
 	private RuntimeExceptionDao<Resident, Integer> residentRuntimeDao = null;
+	private RuntimeExceptionDao<Medication, Integer> medicationRuntimeDao = null;
 	
 	/**
 	 * This is used to load the Schema from a generated config file. The config
@@ -40,6 +43,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			 * LIST TABLES TO BE CREATED HERE
 			 */
 			TableUtils.createTable(connectionSource, Resident.class);
+			TableUtils.createTable(connectionSource, Medication.class);
 		}catch(Exception e){
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
 			throw new RuntimeException(e);
@@ -52,6 +56,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			Log.i(DatabaseHelper.class.getName(), "onUpgrade");
 			//Drop the old tables
 			TableUtils.dropTable(connectionSource, Resident.class, true);
+			TableUtils.dropTable(connectionSource, Medication.class, true);
 			
 			//Recreate old tables
 			onCreate(db, connectionSource);
@@ -76,6 +81,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	/**
 	 * Creates a Database Access Object for the Resident class (or returns 
 	 * cached value).
+	 * Not called "getResidentDao" because that caused compile errors upon rename.
 	 * @return
 	 * @throws SQLException
 	 * @throws java.sql.SQLException 
@@ -96,6 +102,31 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			residentRuntimeDao = getRuntimeExceptionDao(Resident.class);
 		}
 		return residentRuntimeDao;
+	}
+	
+	/**
+	 * Creates a Database Access Object for the Medication class (or returns 
+	 * cached value).
+	 * @return
+	 * @throws SQLException
+	 * @throws java.sql.SQLException 
+	 */
+	public Dao<Medication, Integer> getMedicationDao() throws SQLException {
+		if(medicationDao == null){
+			medicationDao = getDao(Medication.class);
+		}
+		return medicationDao;
+	}
+	
+	/**
+	 * Creates the RuntimeExceptionDao for Resident.
+	 * @return
+	 */
+	public RuntimeExceptionDao<Medication, Integer> getMedicationDataDao(){
+		if(medicationRuntimeDao == null){
+			medicationRuntimeDao = getRuntimeExceptionDao(Medication.class);
+		}
+		return medicationRuntimeDao;
 	}
 }
 

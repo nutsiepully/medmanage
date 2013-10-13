@@ -1,6 +1,35 @@
 #
-# generated on 2013/10/09 06:20:37
+# generated on 2013/10/13 12:37:43
 #
+# --table-start--
+dataClass=entities.Medication
+tableName=medication
+# --table-fields-start--
+# --field-start--
+fieldName=medication_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --field-start--
+fieldName=description
+# --field-end--
+# --field-start--
+fieldName=picturePath
+# --field-end--
+# --field-start--
+fieldName=notes
+# --field-end--
+# --field-start--
+fieldName=sideEffects
+# --field-end--
+# --field-start--
+fieldName=warnings
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
 # --table-start--
 dataClass=entities.Resident
 tableName=residents

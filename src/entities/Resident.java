@@ -1,17 +1,7 @@
 package entities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 /**
  * In-memory representation of a Resident from the DB backend. This class mostly
