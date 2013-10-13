@@ -184,7 +184,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	}
 	
 	/**
-	 * Creates the RuntimeExceptionDao for Resident.
+	 * Creates the RuntimeExceptionDao for Provider.
 	 * @return
 	 */
 	public RuntimeExceptionDao<Provider, Integer> getProviderDataDao(){
@@ -197,7 +197,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	////////
 	
 	/**
-	 * Creates a Database Access Object for the Medication class (or returns 
+	 * Creates a Database Access Object for the Log class (or returns 
 	 * cached value).
 	 * @return
 	 * @throws SQLException
@@ -211,7 +211,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	}
 	
 	/**
-	 * Creates the RuntimeExceptionDao for Resident.
+	 * Creates the RuntimeExceptionDao for Log.
 	 * @return
 	 */
 	public RuntimeExceptionDao<entities.Log, Integer> getLogDataDao(){
