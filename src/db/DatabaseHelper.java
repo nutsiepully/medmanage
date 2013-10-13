@@ -14,7 +14,9 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import entities.Medication;
+import entities.Provider;
 import entities.Resident;
+import entities.ResidentMedication;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private static final String DATABASE_NAME = "medManage.db";
@@ -22,8 +24,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	
 	private Dao<Resident, Integer> residentDao = null;
 	private Dao<Medication, Integer> medicationDao = null;
+	private Dao<ResidentMedication, Integer> residentMedicationDao = null;
+	private Dao<Provider, Integer> providerDao = null;
+	private Dao<entities.Log, Integer> logDao = null;
+	
 	private RuntimeExceptionDao<Resident, Integer> residentRuntimeDao = null;
 	private RuntimeExceptionDao<Medication, Integer> medicationRuntimeDao = null;
+	private RuntimeExceptionDao<ResidentMedication, Integer> residentMedicationRuntimeDao = null;
+	private RuntimeExceptionDao<Provider, Integer> providerRuntimeDao = null;
+	private RuntimeExceptionDao<entities.Log, Integer> logRuntimeDao = null;
 	
 	/**
 	 * This is used to load the Schema from a generated config file. The config
@@ -44,6 +53,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			 */
 			TableUtils.createTable(connectionSource, Resident.class);
 			TableUtils.createTable(connectionSource, Medication.class);
+			TableUtils.createTable(connectionSource, ResidentMedication.class);
+			TableUtils.createTable(connectionSource, Provider.class);
+			TableUtils.createTable(connectionSource, entities.Log.class);
 		}catch(Exception e){
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
 			throw new RuntimeException(e);
@@ -57,6 +69,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			//Drop the old tables
 			TableUtils.dropTable(connectionSource, Resident.class, true);
 			TableUtils.dropTable(connectionSource, Medication.class, true);
+			TableUtils.dropTable(connectionSource, ResidentMedication.class, true);
+			TableUtils.dropTable(connectionSource, Provider.class, true);
+			TableUtils.dropTable(connectionSource, entities.Log.class, true);
 			
 			//Recreate old tables
 			onCreate(db, connectionSource);
@@ -127,6 +142,83 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			medicationRuntimeDao = getRuntimeExceptionDao(Medication.class);
 		}
 		return medicationRuntimeDao;
+	}
+	
+	/**
+	 * Creates a Database Access Object for the ResidentMedication class (or returns 
+	 * cached value).
+	 * @return
+	 * @throws SQLException
+	 * @throws java.sql.SQLException 
+	 */
+	public Dao<ResidentMedication, Integer> getResidentMedicationDao() throws SQLException {
+		if(residentMedicationDao == null){
+			residentMedicationDao = getDao(ResidentMedication.class);
+		}
+		return residentMedicationDao;
+	}
+	
+	/**
+	 * Creates the RuntimeExceptionDao for ResidentMedication.
+	 * @return
+	 */
+	public RuntimeExceptionDao<ResidentMedication, Integer> getResidentMedicationDataDao(){
+		if(residentMedicationRuntimeDao == null){
+			residentMedicationRuntimeDao = getRuntimeExceptionDao(ResidentMedication.class);
+		}
+		return residentMedicationRuntimeDao;
+	}
+	
+	/**
+	 * Creates a Database Access Object for the Provider class (or returns 
+	 * cached value).
+	 * @return
+	 * @throws SQLException
+	 * @throws java.sql.SQLException 
+	 */
+	public Dao<Provider, Integer> getProviderDao() throws SQLException {
+		if(providerDao == null){
+			providerDao = getDao(Provider.class);
+		}
+		return providerDao;
+	}
+	
+	/**
+	 * Creates the RuntimeExceptionDao for Resident.
+	 * @return
+	 */
+	public RuntimeExceptionDao<Provider, Integer> getProviderDataDao(){
+		if(providerRuntimeDao == null){
+			providerRuntimeDao = getRuntimeExceptionDao(Provider.class);
+		}
+		return providerRuntimeDao;
+	}
+	
+	////////
+	
+	/**
+	 * Creates a Database Access Object for the Medication class (or returns 
+	 * cached value).
+	 * @return
+	 * @throws SQLException
+	 * @throws java.sql.SQLException 
+	 */
+	public Dao<entities.Log, Integer> getLogDao() throws SQLException {
+		if(logDao == null){
+			logDao = getDao(entities.Log.class);
+		}
+		return logDao;
+	}
+	
+	/**
+	 * Creates the RuntimeExceptionDao for Resident.
+	 * @return
+	 */
+	public RuntimeExceptionDao<entities.Log, Integer> getLogDataDao(){
+		if(logRuntimeDao == null){
+			logRuntimeDao = getRuntimeExceptionDao(entities.Log.class);
+		}
+		return logRuntimeDao;
 	}
 }
 
