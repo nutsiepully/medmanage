@@ -96,7 +96,11 @@ public class Resident {
 		//    declare a no-argument constructor.
 		recentActions = new String();
 	}
-	
+
+    public Resident(String name, int roomNumber) {
+        this.name = name;
+        this.roomNumber = roomNumber;
+    }
 
 	public int getId() {
 		return resident_id;
@@ -239,5 +243,12 @@ public class Resident {
 	public void setAllergies(String allergies) {
 		this.allergies = allergies;
 	}
-	
+
+    @Override
+    public String toString() {
+        return "Resident{" +
+                "name='" + name + '\'' +
+                ", roomNumber=" + roomNumber +
+                '}';
+    }
 }
