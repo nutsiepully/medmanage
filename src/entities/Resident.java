@@ -14,22 +14,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 /**
- * Representation of the residents at the Home. Interacts silently with the DB 
- * to build a resident in memory. 
- * The access model between Resident object 
- * and DB is such that the values for the Resident attributes are fetched at the
- * time the object is created, and each access of the object subsequently refers
- * to the stale data. However, if a value is updated in the Resident object, 
- * the change is propagated to the DB s.t. the data in the object is always 
- * consistent with the DB.
- * The usage paradigm is as follows:
- * Create a Resident object with the default constructor.
- * Then, call getResident to get a reference to something already in the DB.
- * Or, if you would like to insert a new Resident, set all the params of a 
- * Resident and then call the storeResident method.
- * Modify values of a valid reference by calling set[param](). If the Resident 
- * is not yet in the DB, the set[param]() call will only affect the local copy
- * until a call to storeResident.
+ * In-memory representation of a Resident from the DB backend. This class mostly
+ * serves the purpose of specifying the Resident schema so that ORMLite can 
+ * take over the responsibility of replicating it in the DB.
+ * The preferred way to build a resident is either to call its default 
+ * constructor, or use the ResidentUtils class to fetch and existing Resident. A
+ * resident can be modified by fetching it through the ResidentUtils, modifying
+ * its properties, then using the appropriate DAO to call update() on it.
  * @author Kurt
  *
  */
