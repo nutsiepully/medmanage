@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+import com.j256.ormlite.dao.DaoManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,10 +34,13 @@ public class ResidentSearchActivity extends Activity {
 
     private ArrayAdapter<Resident> residentAdapter;
 
+    private ResidentService residentService;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.resident_search);
+
+        ApplicationInitializer.init();
         setupUI();
     }
 
@@ -43,9 +49,9 @@ public class ResidentSearchActivity extends Activity {
         residentStatusesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, residentStatusList);
         alphabeticRangeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, alphabeticRangeList);
 
-        residentList.add(new Resident("Name 1", 123));
-        residentList.add(new Resident("Name 2", 124));
         residentAdapter = new ArrayAdapter<Resident>(this, android.R.layout.simple_list_item_1, residentList);
+
+        residentService = new ResidentService(this);
 
         final ListView residentListView = (ListView) findViewById(R.id.residentListView);
         residentListView.setAdapter(residentAdapter);
@@ -55,8 +61,7 @@ public class ResidentSearchActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ((ListView)parent).setItemChecked(position, true);
-                residentList.add(new Resident("Name 1", 123));
-//                fetchAndDisplayResidents(searchOptionsListView.getAdapter(), position);
+                fetchAndDisplayResidents(searchOptionsListView.getAdapter(), position);
             }
         });
 
@@ -64,12 +69,30 @@ public class ResidentSearchActivity extends Activity {
         RadioButton roomSearchRadioButton = (RadioButton) findViewById(R.id.roomSearchRadioButton);
         roomSearchRadioButton.setChecked(true);
         selectSearchType(roomSearchRadioButton);
+        fetchAndDisplayResidents(searchOptionsListView.getAdapter(), 0);
     }
 
     private void fetchAndDisplayResidents(ListAdapter adapter, int position) {
+        RadioGroup searchButtonsRadioGroup = (RadioGroup) findViewById(R.id.searchButtonsRadioGroup);
+
+        List<Resident> searchedResidents;
+        String searchTerm = (String)adapter.getItem(position);
+
+        switch (searchButtonsRadioGroup.getCheckedRadioButtonId()) {
+            case R.id.roomSearchRadioButton:
+            default:
+                searchedResidents = residentService.getResidentsForCorridor(searchTerm);
+                break;
+            case R.id.statusSearchRadioButton:
+                searchedResidents = residentService.getResidentsForStatus(searchTerm);
+                break;
+            case R.id.alphabeticSearchRadioButton:
+                searchedResidents = residentService.getResidentsForAlphabetRange(searchTerm);
+                break;
+        }
+
         residentAdapter.clear();
-        residentAdapter.addAll(ResidentUtils.getResidentsInNeighborhood(
-                new DBTestActivity().getHelper().getResidentDataDao(), (String)adapter.getItem(position)));
+        residentAdapter.addAll(searchedResidents);
     }
 
     public void selectSearchType(View view) {

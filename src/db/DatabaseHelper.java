@@ -110,7 +110,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		}
 		return residentDao;
 	}
-	
+
 	/**
 	 * Creates the RuntimeExceptionDao for Resident.
 	 * @return
