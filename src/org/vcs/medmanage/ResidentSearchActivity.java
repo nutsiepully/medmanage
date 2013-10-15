@@ -49,7 +49,7 @@ public class ResidentSearchActivity extends Activity {
         residentStatusesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, residentStatusList);
         alphabeticRangeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, alphabeticRangeList);
 
-        residentAdapter = new ArrayAdapter<Resident>(this, android.R.layout.simple_list_item_1, residentList);
+        residentAdapter = new ArrayAdapter<Resident>(this, R.layout.list_item, R.id.listTextView, residentList);
 
         residentService = new ResidentService(this);
 
