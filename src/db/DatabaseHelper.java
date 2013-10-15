@@ -20,7 +20,7 @@ import entities.ResidentMedication;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private static final String DATABASE_NAME = "medManage.db";
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 8;
 	
 	private Dao<Resident, Integer> residentDao = null;
 	private Dao<Medication, Integer> medicationDao = null;
@@ -269,9 +269,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		
 		//Add to DB
 		RuntimeExceptionDao<Resident, Integer> dao = getResidentDataDao();
-		dao.update(resident1);
-		dao.update(resident2);
-		dao.update(resident3);
+		dao.create(resident1);
+		dao.create(resident2);
+		dao.create(resident3);
 	}
 }
 
