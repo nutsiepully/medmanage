@@ -20,7 +20,7 @@ import entities.ResidentMedication;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private static final String DATABASE_NAME = "medManage.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 4;
 	
 	private Dao<Resident, Integer> residentDao = null;
 	private Dao<Medication, Integer> medicationDao = null;
@@ -56,6 +56,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, ResidentMedication.class);
 			TableUtils.createTable(connectionSource, Provider.class);
 			TableUtils.createTable(connectionSource, entities.Log.class);
+			
+			//Populate the DB with some default data
+			populateDefault();
 		}catch(Exception e){
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
 			throw new RuntimeException(e);
@@ -194,8 +197,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return providerRuntimeDao;
 	}
 	
-	////////
-	
 	/**
 	 * Creates a Database Access Object for the Log class (or returns 
 	 * cached value).
@@ -219,6 +220,58 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			logRuntimeDao = getRuntimeExceptionDao(entities.Log.class);
 		}
 		return logRuntimeDao;
+	}
+	
+	/**
+	 * Populates the DB with some default data
+	 */
+	public void populateDefault(){
+		Resident resident1 = new Resident();
+		Resident resident2 = new Resident();
+		Resident resident3 = new Resident();
+		
+		//Create residents
+		resident1.setName("Barbara Velasquez");
+		resident1.setGender(true);
+		resident1.setNeighborhood("Corridor 1");
+		resident1.setAllergies("Peanuts");
+		resident1.setPrimaryDiagnosis("Glaucoma");
+		resident1.setOtherDiagnoses("Alzheimer's\nParkinsons");
+		resident1.setNotes("Pleasant mood today.");
+		resident1.setPrefs("No outstanding preferences.");
+		resident1.setRecentActions("Joined Vincentian");
+		resident1.setRoomNumber(305);
+		resident1.setTerm("Short term");
+		
+		resident2.setName("James Cooper");
+		resident2.setGender(false);
+		resident2.setNeighborhood("Corridor 2");
+		resident2.setAllergies("Asparagus");
+		resident2.setPrimaryDiagnosis("Dementia");
+		resident2.setOtherDiagnoses("None");
+		resident2.setNotes("Can have sudden mood swings.");
+		resident2.setPrefs("Prefers pills with apple sauce.");
+		resident2.setRecentActions("Took acetomeniphin\nJoined Vincentian");
+		resident2.setRoomNumber(211);
+		resident2.setTerm("Acute care");
+		
+		resident3.setName("Patricia Anderson");
+		resident3.setGender(true);
+		resident3.setNeighborhood("Corridor 3");
+		resident3.setAllergies("None.");
+		resident3.setPrimaryDiagnosis("Chronic arthritis");
+		resident3.setOtherDiagnoses("None");
+		resident3.setNotes("Likes to be called Patty.");
+		resident3.setPrefs("Prefers pills to be crushed when they can be");
+		resident3.setRecentActions("Fell in the tub.\nJoined Vincentian");
+		resident3.setRoomNumber(401);
+		resident3.setTerm("Short term");
+		
+		//Add to DB
+		RuntimeExceptionDao<Resident, Integer> dao = getResidentDataDao();
+		dao.update(resident1);
+		dao.update(resident2);
+		dao.update(resident3);
 	}
 }
 

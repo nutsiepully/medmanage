@@ -23,7 +23,7 @@
             android:id="@+id/searchButtonsRadioGroup"
             >
             <RadioButton android:id="@+id/roomSearchRadioButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="110dp"
                 android:text="@string/roomSearchRadioButton"
@@ -33,7 +33,7 @@
                 android:background="@android:color/darker_gray"
                 />
             <RadioButton android:id="@+id/statusSearchRadioButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="110dp"
                 android:text="@string/statusSearchRadioButton"
@@ -43,7 +43,7 @@
                 android:background="@android:color/holo_purple"
                 />
             <RadioButton android:id="@+id/alphabeticSearchRadioButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="110dp"
                 android:text="@string/alphabeticSearchRadioButton"
