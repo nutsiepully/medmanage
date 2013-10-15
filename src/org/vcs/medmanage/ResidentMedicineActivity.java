@@ -4,9 +4,11 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -14,6 +16,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import db.DatabaseHelper;
 
@@ -25,31 +30,37 @@ import entities.Resident;
  * */
 public class ResidentMedicineActivity extends Activity {
 
-    private List<String> corridorsList = Arrays.asList(new String[]{"Corridor 1", "Corridor 2", "Corridor 3"});
-    private List<String> residentStatusList = Arrays.asList(new String[]{"Red", "Yellow", "Green"});
-    private List<String> alphabeticRangeList = Arrays.asList(new String[]{"A-F", "G-M", "N-Z"});
-    
     private DatabaseHelper database;
-    
-    
+  
     Resident currentResident;
-
-
+    
     private ArrayAdapter<Resident> residentAdapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        database = new DatabaseHelper(this);
+        Log.e(UI_MODE_SERVICE, "Entered App");
         
+        // Set the default patient
+
+        /*RuntimeExceptionDao<Resident, Integer> dao = 
+        		((DatabaseHelper) getHelper()).getResidentDataDao();
+        
+        */
+        setContentView(R.layout.resident_medicine);
         displayPatientProfile(currentResident);
         displayMedicineList(currentResident);
         
-        setContentView(R.layout.resident_medicine);
+        
         }
     
     // Show the Patient Information in a normal fashion
     public void displayPatientProfile(Resident res){
     	
+    	// Change the patient profile picture
+    	//ImageView iv = (ImageView) findViewById(R.id.patientPicture);
+    	//iv.setImageBitmap(bitmap);
+    	Log.e(UI_MODE_SERVICE, "Entered displayPatientProfile");
+    	setTxtViews();
     }
     
     // List view of the information 
@@ -59,53 +70,63 @@ public class ResidentMedicineActivity extends Activity {
     
     public int updateTextView(String toThis, String name) {
     	String finalString = "";
-    	TextView textView;
+    	TextView t;
      	
     	if(name.equals("txtPatientName")){
-    		textView = (TextView) findViewById(R.id.txtPatientName);
+    		t = (TextView) this.findViewById(R.id.txtPatientName);
+    		
+    		
     	}   	
      	else if(name.equals("txtPatientGender")){
-    		textView = (TextView) findViewById(R.id.txtPatientGender);
+    		t = (TextView) this.findViewById(R.id.txtPatientGender);
     		finalString = "Gender: ";
     	}
     	else if(name.equals("txtPatientRoom")){
-    		textView = (TextView) findViewById(R.id.txtPatientRoom);
+    		t = (TextView) this.findViewById(R.id.txtPatientRoom);
     		finalString = "Room ";
     	}
     	else if(name.equals("txtPatientDiagnosis")){
-    		textView = (TextView) findViewById(R.id.txtPatientDiagnosis);
+    		t = (TextView) this.findViewById(R.id.txtPatientDiagnosis);
     		finalString = "Diagnosis: ";
     	}
     	else if(name.equals("txtPatientAge")){
-    		textView = (TextView) findViewById(R.id.txtPatientAge);
+    		t = (TextView) findViewById(R.id.txtPatientAge);
     		finalString = "Age: ";
     	}
     	else if(name.equals("txtPatientWeight")){
-    		textView = (TextView) findViewById(R.id.txtPatientWeight);
+    		t = (TextView) findViewById(R.id.txtPatientWeight);
     		finalString = "Weight: ";
     	}
     	else if(name.equals("txtPatientRecentActions")){
-    		textView = (TextView) findViewById(R.id.txtPatientRecentActions);
+    		t = (TextView) findViewById(R.id.txtPatientRecentActions);
     		finalString = "Recent Activity: \n";
     	}
     	else if(name.equals("txtPatientNotes")){
-    		textView = (TextView) findViewById(R.id.txtPatientNotes);
+    		t = (TextView) findViewById(R.id.txtPatientNotes);
     		finalString = "Nurse Notes: \n";
     	}
     	else{
     		// Didn't find any text view
-    		textView = null;
+    		return -1;
     	}
     	
     	finalString = finalString + toThis;
+    	Log.e(UI_MODE_SERVICE, "This is: " + finalString);
         
-    	if (textView != null){
-    		textView.setText(finalString);
-    		return 1;
-    	}
 
-    	// bad things happened?
-        return -1;
+    	t.setText(finalString);
+        return 1;
+    }
+    
+    public void setTxtViews(){
+    	updateTextView("Phil Simms", "txtPatientName");
+    	updateTextView("Male", "txtPatientGender");
+    	updateTextView("24", "txtPatientAge");
+    	updateTextView("13", "txtPatientRoom");
+    	updateTextView("Melanoma", "txtPatientDiagnosis");
+    	updateTextView("165", "txtPatientWeight");
+    	updateTextView("10am: Gave tylenol for headache.", "txtPatientRecentActions");
+    	updateTextView("Beach", "txtPatientNotes");
     }
 
 }

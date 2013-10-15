@@ -16,45 +16,68 @@
         android:id="@+id/patientProfileLinearLayout"
         >
         
+		<!-- ImageView
+	    android:id="@+id/patientPicture"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:scaleType="center"
+	    android:src="@drawable/ic_launcher" /-->
+		
         <TextView  
 	    android:layout_width="fill_parent" 
 	    android:text="patientName" 
-	    android:layout_height="wrap_content" 
+	    android:layout_height="wrap_content"
+	    android:textColor="#000000" 
+	    android:textSize="40sp"
 	    android:id="@+id/txtPatientName"/>
         <TextView  
 	    android:layout_width="fill_parent" 
 	    android:text="patientRoom" 
-	    android:layout_height="wrap_content" 
+	    android:layout_height="wrap_content"
+	    android:textColor="#000000"  
+	    android:textSize="40sp"
 	    android:id="@+id/txtPatientRoom"/>
         <TextView  
 	    android:layout_width="fill_parent" 
 	    android:text="patientGender" 
 	    android:layout_height="wrap_content" 
+	    android:textColor="#000000" 
+	    style="@android:style/TextAppearance.Medium"
 	    android:id="@+id/txtPatientGender" />
         <TextView  
 	    android:layout_width="fill_parent" 
 	    android:text="patientDiagnosis" 
-	    android:layout_height="wrap_content" 
+	    android:layout_height="wrap_content"
+	    android:textColor="#000000"  
+	    style="@android:style/TextAppearance.Medium"
 	    android:id="@+id/txtPatientDiagnosis" />
         <TextView  
 	    android:layout_width="fill_parent" 
 	    android:text="patientAge" 
-	    android:layout_height="wrap_content" 
+	    android:layout_height="wrap_content"
+	    android:textColor="#000000"  
+	    style="@android:style/TextAppearance.Medium"
 	    android:id="@+id/txtPatientAge" />
         <TextView  
 	    android:layout_width="fill_parent" 
 	    android:text="patientWeight" 
 	    android:layout_height="wrap_content" 
+	    android:textColor="#000000" 
+	    style="@android:style/TextAppearance.Medium"
 	    android:id="@+id/txtPatientWeight" />
         <TextView  
 	    android:layout_width="fill_parent" 
 	    android:text="patientRecentActions" 
 	    android:layout_height="wrap_content" 
+	    android:textColor="#000000" 
+	    style="@android:style/TextAppearance.Medium"
 	    android:id="@+id/txtPatientRecentActions" />
         <TextView  
 	    android:layout_width="fill_parent" 
 	    android:text="patientNotes" 
 	    android:layout_height="wrap_content" 
+	    android:textColor="#000000" 
+	    style="@android:style/TextAppearance.Medium"
 	    android:id="@+id/txtPatientNotes" />
 
     </LinearLayout>
