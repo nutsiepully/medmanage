@@ -1,11 +1,11 @@
 package org.vcs.medmanage;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 
@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import db.DatabaseHelper;
 import entities.Resident;
+import entities.ResidentUtils;
 
 public class ResidentSearchActivity extends Activity {
 
@@ -45,26 +47,29 @@ public class ResidentSearchActivity extends Activity {
         residentList.add(new Resident("Name 2", 124));
         residentAdapter = new ArrayAdapter<Resident>(this, android.R.layout.simple_list_item_1, residentList);
 
-        ListView residentListView = (ListView) findViewById(R.id.residentListView);
+        final ListView residentListView = (ListView) findViewById(R.id.residentListView);
         residentListView.setAdapter(residentAdapter);
 
-        RadioButton roomSearchRadioButton = (RadioButton) findViewById(R.id.roomSearchRadioButton);
-        roomSearchRadioButton.setChecked(true);
-        selectSearchType(roomSearchRadioButton);
-
-        ListView searchOptionsListView = (ListView) findViewById(R.id.searchOptionsListView);
+        final ListView searchOptionsListView = (ListView) findViewById(R.id.searchOptionsListView);
         searchOptionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ((ListView)parent).setItemChecked(position, true);
-                residentAdapter.add(new Resident("Hello", 111));
+                residentList.add(new Resident("Name 1", 123));
+//                fetchAndDisplayResidents(searchOptionsListView.getAdapter(), position);
             }
         });
 
-        // Not working at the moment. Basically should select one of the radio buttons
-        // when the activity fires up, so that the radioButtonGroup is never in an
-        // unchecked state.
-//        findViewById(R.id.roomSearchRadioButton).callOnClick();
+        // Emulate room search button getting clicked by default.
+        RadioButton roomSearchRadioButton = (RadioButton) findViewById(R.id.roomSearchRadioButton);
+        roomSearchRadioButton.setChecked(true);
+        selectSearchType(roomSearchRadioButton);
+    }
+
+    private void fetchAndDisplayResidents(ListAdapter adapter, int position) {
+        residentAdapter.clear();
+        residentAdapter.addAll(ResidentUtils.getResidentsInNeighborhood(
+                new DBTestActivity().getHelper().getResidentDataDao(), (String)adapter.getItem(position)));
     }
 
     public void selectSearchType(View view) {
