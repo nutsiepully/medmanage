@@ -56,6 +56,10 @@ public class ResidentSearchActivity extends Activity {
         searchOptionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for (int i = 0; i < parent.getChildCount(); i++) {
+                    View v = parent.getChildAt(i);
+                    v.setBackgroundColor(Color.WHITE);
+                }
                 view.setBackgroundColor(Color.BLACK);
                 residentAdapter.add(new Resident("Hello", 111));
             }
