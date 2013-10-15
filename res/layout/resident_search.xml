@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/searchOptionsListView"
             android:layout_gravity="center"
+            android:choiceMode="singleChoice"
             />
     </LinearLayout>
 

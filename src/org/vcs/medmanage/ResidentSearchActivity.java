@@ -37,9 +37,9 @@ public class ResidentSearchActivity extends Activity {
     }
 
     private void setupUI() {
-        corridorsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, corridorsList);
-        residentStatusesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, residentStatusList);
-        alphabeticRangeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, alphabeticRangeList);
+        corridorsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, corridorsList);
+        residentStatusesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, residentStatusList);
+        alphabeticRangeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, alphabeticRangeList);
 
         residentList.add(new Resident("Name 1", 123));
         residentList.add(new Resident("Name 2", 124));
@@ -56,11 +56,7 @@ public class ResidentSearchActivity extends Activity {
         searchOptionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for (int i = 0; i < parent.getChildCount(); i++) {
-                    View v = parent.getChildAt(i);
-                    v.setBackgroundColor(Color.WHITE);
-                }
-                view.setBackgroundColor(Color.BLACK);
+                ((ListView)parent).setItemChecked(position, true);
                 residentAdapter.add(new Resident("Hello", 111));
             }
         });
@@ -86,6 +82,7 @@ public class ResidentSearchActivity extends Activity {
                 searchOptionsListView.setAdapter(alphabeticRangeAdapter);
                 break;
         }
+        searchOptionsListView.setItemChecked(0, true);
     }
 
 }
