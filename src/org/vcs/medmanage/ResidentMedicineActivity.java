@@ -108,31 +108,31 @@ public class ResidentMedicineActivity extends OrmLiteBaseActivity<DatabaseHelper
     	}   	
      	else if(name.equals("txtPatientGender")){
     		t = (TextView) this.findViewById(R.id.txtPatientGender);
-    		finalString = "Gender: ";
+    		finalString = "GENDER: ";
     	}
     	else if(name.equals("txtPatientRoom")){
     		t = (TextView) this.findViewById(R.id.txtPatientRoom);
-    		finalString = "Room ";
+    		finalString = "ROOM ";
     	}
     	else if(name.equals("txtPatientDiagnosis")){
     		t = (TextView) this.findViewById(R.id.txtPatientDiagnosis);
-    		finalString = "Diagnosis: ";
+    		finalString = "DIAGNOSIS: ";
     	}
     	else if(name.equals("txtPatientAge")){
     		t = (TextView) findViewById(R.id.txtPatientAge);
-    		finalString = "Age: ";
+    		finalString = "AGE: ";
     	}
     	else if(name.equals("txtPatientWeight")){
     		t = (TextView) findViewById(R.id.txtPatientWeight);
-    		finalString = "Weight: ";
+    		finalString = "TO_REPLACE: ";
     	}
     	else if(name.equals("txtPatientRecentActions")){
     		t = (TextView) findViewById(R.id.txtPatientRecentActions);
-    		finalString = "Recent Activity: \n";
+    		finalString = "RECENT ACTIVITY: \n";
     	}
     	else if(name.equals("txtPatientNotes")){
     		t = (TextView) findViewById(R.id.txtPatientNotes);
-    		finalString = "Nurse Notes: \n";
+    		finalString = "NURSE NOTES: \n";
     	}
     	else{
     		// Didn't find any text view
