@@ -24,15 +24,13 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 import db.DatabaseHelper;
 
 import entities.Resident;
+import entities.ResidentUtils;
 
 
 /* This class will be the Resident's profile page with a tab for the medications the residents are on
  * 
  * */
-public class ResidentMedicineActivity extends Activity {
-
-    private DatabaseHelper database;
-  
+public class ResidentMedicineActivity extends OrmLiteBaseActivity<DatabaseHelper>{
     Resident currentResident;
     
     private ArrayAdapter<Resident> residentAdapter;
@@ -41,22 +39,44 @@ public class ResidentMedicineActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.d(UI_MODE_SERVICE, "Entered App");
         setContentView(R.layout.resident_medicine);
-        // Set the default patient
+        
+        /**
+         * Grab relevant resident info from the Intent passed in by clicking any
+         * of the Resident tiles.
+         * TODO: connect to any resident tiles.
+         * Nothing passed in so far, so we'll query for one of the default 
+         * Residents. normally, no DB access should be needed to retrieve a 
+         * Resident-- the Resident will be passed along with the Intent.
+         */
 
-        /*RuntimeExceptionDao<Resident, Integer> dao = 
-        		((DatabaseHelper) getHelper()).getResidentDataDao();
+        //Grab a reference to the dao
+        //ORMLite recommends that a reference the database be grabbed for each
+        //    DB access, rather than being a global var.
+        RuntimeExceptionDao<Resident, Integer> dao = getHelper()
+				.getResidentDataDao();
         
-        */
-        
-        displayPatientProfile(currentResident);
-        displayMedicineList(currentResident);
+        List<Resident> residentFindResults = ResidentUtils.findResident(dao, "James Cooper");
+        if(residentFindResults == null){
+        	//Error looking for patient
+        	Log.e(ResidentMedicineActivity.class.getName(), "Couldn't retrieve James Cooper");
+        	currentResident = null;
+        }else if(residentFindResults.size() <= 0){
+        	//Didn't find the patient
+        	Log.e(ResidentMedicineActivity.class.getName(), "Didn't find a matching Residnet");
+        	currentResident = null;
+        }else{
+        	//Success!
+        	currentResident = residentFindResults.get(0);
+        	displayPatientProfile(currentResident);
+            displayMedicineList(currentResident);
+        }
         
         //Changes on click :)
         final Button button = (Button) findViewById(R.id.button1);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-            	setTxtViews();
+            	setTxtViews(currentResident);
             }
         });
         
@@ -69,7 +89,7 @@ public class ResidentMedicineActivity extends Activity {
     	//ImageView iv = (ImageView) findViewById(R.id.patientPicture);
     	//iv.setImageBitmap(bitmap);
     	Log.d(UI_MODE_SERVICE, "Entered displayPatientProfile");
-    	
+    	setTxtViews(currentResident);
     }
     
     // List view of the information 
@@ -126,15 +146,20 @@ public class ResidentMedicineActivity extends Activity {
         return 1;
     }
     
-    public void setTxtViews(){
-    	updateTextView("Phil Simms", "txtPatientName");
-    	updateTextView("Male", "txtPatientGender");
-    	updateTextView("24", "txtPatientAge");
-    	updateTextView("13", "txtPatientRoom");
-    	updateTextView("Melanoma", "txtPatientDiagnosis");
-    	updateTextView("165", "txtPatientWeight");
-    	updateTextView("10am: Gave tylenol for headache.", "txtPatientRecentActions");
-    	updateTextView("Beach", "txtPatientNotes");
+    /**
+     * Updates the text fields representing Resident attributes based on the 
+     * Resident passed in.
+     * @param residentToDisplay The Resident to use to update the text fields.
+     */
+    public void setTxtViews(Resident residentToDisplay){
+    	updateTextView(residentToDisplay.getName(), "txtPatientName");
+    	updateTextView(residentToDisplay.isGender() ? "Female" : "Male", "txtPatientGender");
+    	updateTextView(Integer.toString(residentToDisplay.getAge()), "txtPatientAge");
+    	updateTextView(Integer.toString(residentToDisplay.getRoomNumber()), "txtPatientRoom");
+    	updateTextView(residentToDisplay.getPrimaryDiagnosis(), "txtPatientDiagnosis");
+    	updateTextView("TO_REMOVE", "txtPatientWeight");
+    	updateTextView(residentToDisplay.getRecentActions(), "txtPatientRecentActions");
+    	updateTextView(residentToDisplay.getNotes(), "txtPatientNotes");
     }
 
 }
