@@ -20,7 +20,7 @@ import entities.ResidentMedication;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private static final String DATABASE_NAME = "medManage.db";
-	private static final int DATABASE_VERSION = 8;
+	private static final int DATABASE_VERSION = 13;
 	
 	private Dao<Resident, Integer> residentDao = null;
 	private Dao<Medication, Integer> medicationDao = null;
@@ -267,11 +267,36 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		resident3.setRoomNumber(401);
 		resident3.setTerm("Short term");
 		
+		//Create meds
+		Medication newMed1 = new Medication();
+		newMed1.setName("Excedrin");
+		newMed1.setDescription("It's a pill");
+		newMed1.setNotes("You gotta take it to eat it.");
+		newMed1.setSideEffects("Well, it's not good.");
+		newMed1.setWarnings("Careful wid it.");
+		
+		Medication newMed2 = new Medication();
+		newMed2.setName("Percoset");
+		newMed2.setDescription("It's a pill");
+		newMed2.setNotes("You gotta take it to eat it.");
+		newMed2.setSideEffects("Well, it's not good.");
+		newMed2.setWarnings("Careful wid it.");
+		
+		//Associate meds with Ressys
+		ResidentMedication relation1 = new ResidentMedication(newMed1, 2);
+		ResidentMedication relation2 = new ResidentMedication(newMed2, 2);
+		
 		//Add to DB
 		RuntimeExceptionDao<Resident, Integer> dao = getResidentDataDao();
 		dao.create(resident1);
 		dao.create(resident2);
 		dao.create(resident3);
+		
+		getMedicationDataDao().create(newMed1);
+		getMedicationDataDao().create(newMed2);
+		
+		getResidentMedicationDataDao().create(relation1);
+		getResidentMedicationDataDao().create(relation2);
 	}
 }
 
