@@ -12,8 +12,10 @@ public class ResidentMedication {
 	 * The @DatabaseField annotation specifies that the following attribute be
 	 * persisted to an auto-generated DB.
 	 */
-	@DatabaseField
-	private int medication_id;
+	@DatabaseField(generatedId = true)
+	private int res_med_id;
+	@DatabaseField(foreign = true)
+	private Medication medication;
 	@DatabaseField
 	private int resident_id;
 	@DatabaseField
@@ -24,25 +26,25 @@ public class ResidentMedication {
 	
 	public ResidentMedication(){
 		//Must define no-arg constructor for ORMLite
-		medication_id = -1;
+		medication = new Medication();
 		resident_id = -1;
 		forWhat = new String();
 	}
 	
-	public ResidentMedication(int medId, int residentId){
-		medication_id = medId;
+	public ResidentMedication(Medication med, int residentId){
+		medication = med;
 		resident_id = residentId;
 		forWhat = new String();
 	}
 	
-	public ResidentMedication(int medId, int residentId, String forWhat){
-		medication_id = medId;
+	public ResidentMedication(Medication med, int residentId, String forWhat){
+		medication = med;
 		resident_id = residentId;
 		this.forWhat = forWhat;
 	}
 
-	public int getMedication_id() {
-		return medication_id;
+	public Medication getMedication() {
+		return medication;
 	}
 
 	public int getResident_id() {

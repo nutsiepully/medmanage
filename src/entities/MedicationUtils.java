@@ -67,6 +67,35 @@ public class MedicationUtils {
 			return null;
 		}
 	}
+	
+	/**
+	 * Gets all of the Medication that a Resident is taking.
+	 * @param res The Resident for which to find Medication.
+	 * @return A List of the Medication a Resident takes.  'null" if there is an
+	 * error. Errors logged to log.e().
+	 */
+	public List<Medication> getMedicationForResident(RuntimeExceptionDao<ResidentMedication, Integer> rmDao, Resident res){
+		List<Medication> medication = new ArrayList<Medication>();
+		List<ResidentMedication> residentMeds = new ArrayList<ResidentMedication>();
+		QueryBuilder<ResidentMedication, Integer> queryBuilder = 
+				rmDao.queryBuilder();
+		try{
+			//Build query
+			queryBuilder.where().eq("resident_id", res.getResident_id());
+			
+			//Run query
+			residentMeds = rmDao.query(queryBuilder.prepare());
+			
+			//Get each medication
+			for(ResidentMedication resMedEntry : residentMeds){
+				medication.add(resMedEntry.getMedication());
+			}
+			return medication;
+		}catch(SQLException e){
+			Log.e(TAG, "Error trying to get all medication", e);
+			return null;
+		}
+	}
 
 	public RuntimeExceptionDao<Medication, Integer> getDao() {
 		return dao;

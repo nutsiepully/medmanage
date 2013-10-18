@@ -23,7 +23,9 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import db.DatabaseHelper;
 
+import entities.MedicationUtils;
 import entities.Resident;
+import entities.ResidentMedication;
 import entities.ResidentUtils;
 
 
@@ -157,7 +159,13 @@ public class ResidentMedicineActivity extends OrmLiteBaseActivity<DatabaseHelper
     	updateTextView(Integer.toString(residentToDisplay.getAge()), "txtPatientAge");
     	updateTextView(Integer.toString(residentToDisplay.getRoomNumber()), "txtPatientRoom");
     	updateTextView(residentToDisplay.getPrimaryDiagnosis(), "txtPatientDiagnosis");
-    	updateTextView("TO_REMOVE", "txtPatientWeight");
+    	//List of meds test
+    	//JUST FOR TESTING. This code is safe to remove as you please. As it is,
+    	//    it may be helpful as a guide of how to get at Res meds.
+    	RuntimeExceptionDao<ResidentMedication, Integer> resMedDao = getHelper().getResidentMedicationDataDao();
+    	MedicationUtils medUtils = new MedicationUtils(getHelper().getMedicationDataDao());
+    	updateTextView(medUtils.getMedicationForResident(resMedDao, residentToDisplay).toString(), "txtPatientWeight");
+    	
     	updateTextView(residentToDisplay.getRecentActions(), "txtPatientRecentActions");
     	updateTextView(residentToDisplay.getNotes(), "txtPatientNotes");
     }
