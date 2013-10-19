@@ -7,24 +7,17 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     
     <uses-sdk
-        android:minSdkVersion="17"
-        android:targetSdkVersion="17" />
+        android:minSdkVersion="18"
+        android:targetSdkVersion="18" />
 
-    <application
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
-        <activity
-            android:name="org.vcs.medmanage.DBTestActivity"
-            android:label="@string/app_name" >
+    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+        <activity android:name="DBTestActivity"
+                  android:label="@string/app_name">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.vcs.medmanage.ResidentSearchActivity" >
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name="org.vcs.medmanage.ResidentSearchActivity" ></activity>
         <activity android:name="org.vcs.medmanage.ResidentMedicineActivity" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -1,8 +1,13 @@
 package org.vcs.medmanage;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +32,7 @@ import entities.ResidentUtils;
  */
 public class DBTestActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	private final String TAG = "DBTestActivity";
+	Button button;
 
 	/**
 	 * Called when the activity is first created.
@@ -81,6 +87,8 @@ public class DBTestActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			textViewText3.append(res.getName() + "\n");
 		}
 		testTV3.setText("Search test:\n" + textViewText3.toString());
+		
+		addListenerOnButton();
 	}
 
 	/**
@@ -141,5 +149,28 @@ public class DBTestActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 					"Resident was successfully created.", Toast.LENGTH_LONG)
 					.show();
 		}
+
 	}
+	
+	public void addListenerOnButton() {
+		 
+		button = (Button) findViewById(R.id.button1);
+
+		button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+
+			  Intent browserIntent = 
+	                        new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.mkyong.com"));
+			    startActivity(browserIntent);
+
+			}
+
+		});
+
+	}
+	
 }
+
+
