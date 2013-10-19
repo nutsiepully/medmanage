@@ -1,26 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.vcs.medmanage"
-          android:versionCode="1"
-          android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="17" android:targetSdkVersion="17"/>
-    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
-        <activity android:name="DBTestActivity"
-                  android:label="@string/app_name">
+    package="org.vcs.medmanage"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    
+    <uses-sdk
+        android:minSdkVersion="17"
+        android:targetSdkVersion="17" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <activity
+            android:name="org.vcs.medmanage.DBTestActivity"
+            android:label="@string/app_name" >
             <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ResidentSearchActivity">
+        <activity android:name="org.vcs.medmanage.ResidentSearchActivity" >
             <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ResidentMedicineActivity">
+        <activity android:name="org.vcs.medmanage.ResidentMedicineActivity" >
             <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
-            <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="org.vcs.medmanage.MedicationListActivity"
+            android:label="@string/title_medication_list" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.vcs.medmanage.MedicationDetailActivity"
+            android:label="@string/title_medication_detail"
+            android:parentActivityName=".MedicationListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MedicationListActivity" />
         </activity>
     </application>
+
 </manifest>

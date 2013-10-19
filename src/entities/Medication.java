@@ -40,6 +40,15 @@ public class Medication {
 		warnings = new String();
 	}
 	
+	public Medication(String medName, String description){
+		this.name = medName;
+		this.description = description;
+		picturePath = new String();
+		notes = new String();
+		sideEffects = new String();
+		warnings = new String();
+	}
+	
 	public int getMedication_id() {
 		return medication_id;
 	}
@@ -78,5 +87,9 @@ public class Medication {
 	}
 	public void setWarnings(String warnings) {
 		this.warnings = warnings;
+	}
+	@Override
+	public String toString(){
+		return name;
 	}
 }
