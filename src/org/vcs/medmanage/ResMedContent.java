@@ -24,12 +24,16 @@ public class ResMedContent {
 	 * A map of sample (dummy) items, by ID.
 	 */
 	public static Map<String, Medication> ITEM_MAP = new HashMap<String, Medication>();
-
-	static {
-		// Add 3 sample items.
-		addItem(new Medication("Advil", "Anti-inflammatory. Typical use for mild pain relief"));
-		addItem(new Medication("Vicodin", "Strong pain reliever."));
-		addItem(new Medication("Percoset", "Strong pain reliever"));
+	
+	/**
+	 * Constructor that builds the list of medication to display based on the 
+	 * meds in the list.
+	 * @param meds The meds to be added for the fragment to display.
+	 */
+	public ResMedContent(List<Medication> meds){
+		for(Medication med : meds){
+			addItem(med);
+		}
 	}
 
 	private static void addItem(Medication item) {

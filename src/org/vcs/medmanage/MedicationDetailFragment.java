@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import org.vcs.medmanage.dummy.DummyContent;
-
 import entities.Medication;
 
 /**

@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.vcs.medmanage.dummy.DummyContent;
-
 import entities.Medication;
 
 /**
