@@ -1,5 +1,5 @@
 #
-# generated on 2013/10/17 09:03:18
+# generated on 2013/10/19 07:05:01
 #
 # --table-start--
 dataClass=entities.Log
@@ -138,6 +138,7 @@ generatedId=true
 # --field-start--
 fieldName=medication
 foreign=true
+foreignAutoRefresh=true
 # --field-end--
 # --field-start--
 fieldName=resident_id

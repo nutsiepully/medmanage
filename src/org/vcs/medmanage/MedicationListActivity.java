@@ -46,6 +46,10 @@ public class MedicationListActivity extends FragmentActivity implements
 	 */
 	private Resident currentResident;
 	/**
+	 * The medications for the currentResident
+	 */
+	private List<Medication> medsList;
+	/**
 	 * For accesses to the DB to get Resident meds and Res allergies.
 	 */
 	private DatabaseHelper databaseHelper = null;
@@ -78,14 +82,15 @@ public class MedicationListActivity extends FragmentActivity implements
 		List<Resident> foundResidents = ResidentUtils.findResident(dao, "James Cooper");
 		if(foundResidents.size() > 0){
 			currentResident = foundResidents.get(0);
-			
-			//Get a list of Medications for the Resident
-			RuntimeExceptionDao<ResidentMedication, Integer> resMedDao = 
-					getHelper().getResidentMedicationDataDao();
-	    	MedicationUtils medUtils = new MedicationUtils(getHelper().getMedicationDataDao());
-	    	List<Medication> resMeds = medUtils.getMedicationForResident(resMedDao, currentResident);
 	    	
 	    	//TODO: use the list to build the display and all.
+	    	Bundle arguments = new Bundle();
+			arguments.putInt("ResidentId", currentResident.getResident_id());
+			MedicationListFragment fragment = new MedicationListFragment();
+			fragment.setArguments(arguments);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.medication_list, fragment)
+					.commit();
 		}else{
 			Toast.makeText(getBaseContext(), "Failed to find james cooper?", Toast.LENGTH_LONG).show();
 		}
@@ -137,5 +142,13 @@ public class MedicationListActivity extends FragmentActivity implements
 			OpenHelperManager.releaseHelper();
 			databaseHelper = null;
 		}
+	}
+
+	public Resident getCurrentResident() {
+		return currentResident;
+	}
+
+	public List<Medication> getMedsList() {
+		return medsList;
 	}
 }

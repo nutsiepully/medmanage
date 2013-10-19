@@ -1,5 +1,12 @@
 package org.vcs.medmanage;
 
+import java.util.List;
+
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+
+import db.DatabaseHelper;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -8,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import entities.Medication;
+import entities.MedicationUtils;
+import entities.ResidentMedication;
 
 /**
  * A list fragment representing a list of ResidentMeds. This fragment also
@@ -36,6 +45,10 @@ public class MedicationListFragment extends ListFragment {
 	 * The current activated item position. Only used on tablets.
 	 */
 	private int mActivatedPosition = ListView.INVALID_POSITION;
+	
+	private ResMedContent resContent = null;
+	private int residentId = -1;
+	DatabaseHelper databaseHelper = null;
 
 	/**
 	 * A callback interface that all activities containing this fragment must
@@ -69,10 +82,53 @@ public class MedicationListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setListAdapter(new ArrayAdapter<Medication>(getActivity(),
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, ResMedContent.ITEMS));
+		
+		//Get arguments
+		Bundle inArgs = getArguments();
+		if(inArgs != null){
+			if(inArgs.containsKey("ResidentId")){
+				residentId = inArgs.getInt("ResidentId");
+				extractMedication();
+			}
+		}
+		
+		if(resContent != null){
+			setListAdapter(new ArrayAdapter<Medication>(getActivity(),
+					android.R.layout.simple_list_item_activated_1,
+					android.R.id.text1, ResMedContent.ITEMS));
+		}
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+		setListShown(true);
+	}
+	
+	/**
+	 * Finds all the medication for the current resident so that we can list 
+	 * them.
+	 */
+	public void extractMedication(){
+		//Get a list of Medications for the Resident
+		RuntimeExceptionDao<ResidentMedication, Integer> resMedDao = 
+				getHelper().getResidentMedicationDataDao();
+    	MedicationUtils medUtils = new MedicationUtils(getHelper().getMedicationDataDao());
+    	List<Medication> medsList = medUtils.getMedicationForResident(resMedDao, residentId);
+    	
+    	resContent = new ResMedContent(medsList);
+	}
+	
+	/**
+	 * Gets a reference to the DB. If it fails, it returns null instead.
+	 */
+	protected DatabaseHelper getHelper(){
+		if(databaseHelper == null){
+			databaseHelper = 
+					OpenHelperManager.getHelper(getActivity().getBaseContext(), DatabaseHelper.class);
+		}
+		return databaseHelper;
 	}
 
 	@Override
@@ -115,7 +171,9 @@ public class MedicationListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(ResMedContent.ITEMS.get(position).getName());
+		if(resContent != null){
+			mCallbacks.onItemSelected(resContent.ITEMS.get(position).toString());
+		}
 	}
 
 	@Override

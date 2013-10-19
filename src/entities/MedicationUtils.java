@@ -74,14 +74,14 @@ public class MedicationUtils {
 	 * @return A List of the Medication a Resident takes.  'null" if there is an
 	 * error. Errors logged to log.e().
 	 */
-	public List<Medication> getMedicationForResident(RuntimeExceptionDao<ResidentMedication, Integer> rmDao, Resident res){
+	public List<Medication> getMedicationForResident(RuntimeExceptionDao<ResidentMedication, Integer> rmDao, int residentId){
 		List<Medication> medication = new ArrayList<Medication>();
 		List<ResidentMedication> residentMeds = new ArrayList<ResidentMedication>();
 		QueryBuilder<ResidentMedication, Integer> queryBuilder = 
 				rmDao.queryBuilder();
 		try{
 			//Build query
-			queryBuilder.where().eq("resident_id", res.getResident_id());
+			queryBuilder.where().eq("resident_id", residentId);
 			
 			//Run query
 			residentMeds = rmDao.query(queryBuilder.prepare());

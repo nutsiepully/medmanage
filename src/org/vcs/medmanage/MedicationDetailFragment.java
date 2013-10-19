@@ -53,10 +53,10 @@ public class MedicationDetailFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_medication_detail,
 				container, false);
 
-		// Show the dummy content as text in a TextView.
+		// Show the content as text in a TextView.
 		if (medItem != null) {
 			((TextView) rootView.findViewById(R.id.medication_detail))
-					.setText(medItem.getDescription());
+					.setText(medItem.toString());
 		}
 
 		return rootView;

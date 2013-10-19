@@ -14,7 +14,7 @@ public class ResidentMedication {
 	 */
 	@DatabaseField(generatedId = true)
 	private int res_med_id;
-	@DatabaseField(foreign = true)
+	@DatabaseField(foreign = true, foreignAutoRefresh=true)
 	private Medication medication;
 	@DatabaseField
 	private int resident_id;

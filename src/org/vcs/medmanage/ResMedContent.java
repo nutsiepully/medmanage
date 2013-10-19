@@ -36,7 +36,7 @@ public class ResMedContent {
 		}
 	}
 
-	private static void addItem(Medication item) {
+	public static void addItem(Medication item) {
 		ITEMS.add(item);
 		ITEM_MAP.put(item.getName(), item);
 	}
