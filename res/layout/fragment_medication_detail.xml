@@ -9,4 +9,5 @@
     tools:context=".MedicationDetailFragment" 
     android:textColor="#000000"
     android:background="@drawable/rounded_edges"
+    android:fontFamily="sans-serif-light"
     />

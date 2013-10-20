@@ -135,6 +135,7 @@ public class MedicationListActivity extends FragmentActivity implements
 			//Get the rest of the med info
 			TextView sideEffect = (TextView)findViewById(R.id.side_effects);
 			TextView warnings = (TextView)findViewById(R.id.warnings);
+			TextView notes = (TextView)findViewById(R.id.notes);
 			//Search for the matching med
 			Medication thisMed = new Medication();
 			for(Medication med : medsList){
@@ -142,8 +143,10 @@ public class MedicationListActivity extends FragmentActivity implements
 					thisMed = med;
 				}
 			}
+			//Set the text for the fields
 			sideEffect.setText("\n\t\t"+thisMed.getSideEffects());
 			warnings.setText("\n\t\t"+thisMed.getWarnings());
+			notes.setText("\n\t\t"+thisMed.getNotes());
 
 		} else {
 			// In single-pane mode, simply start the detail activity

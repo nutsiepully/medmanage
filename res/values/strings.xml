@@ -10,5 +10,6 @@
     <string name="side_effects_title">SIDE EFFECTS</string>
     <string name="warnings_title">WARNINGS</string>
     <string name="description_title">DESCRIPTION</string>
+    <string name="notes_title">NOTES</string>
 
 </resources>

@@ -49,6 +49,24 @@
 	        android:layout_height="0dp"
 	        android:layout_weight="1"
         	/>
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="@string/notes_title"
+            android:textSize="@dimen/medication_titles"
+            android:fontFamily="sans-serif-light"
+            />
+        <TextView 
+            android:id="@+id/notes"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="@dimen/medication_detail"
+            android:background="@drawable/rounded_edges"
+            android:fontFamily="sans-serif-light"
+            />
     </LinearLayout>
     
     
@@ -64,6 +82,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center"
+	        android:fontFamily="sans-serif-light"
 	        />
         <TextView 
             android:layout_width="match_parent"
@@ -81,6 +100,7 @@
             android:background="@drawable/rounded_edges"
             android:textColor="#000000"
             android:textSize="@dimen/medication_detail"
+            android:fontFamily="sans-serif-light"
             />
         <TextView 
             android:layout_width="match_parent"
@@ -98,6 +118,7 @@
             android:background="@drawable/rounded_edges"
             android:textColor="#000000"
             android:textSize="@dimen/medication_detail"
+            android:fontFamily="sans-serif-light"
             />
     </LinearLayout>
 </LinearLayout>
