@@ -1,5 +1,6 @@
 package org.vcs.medmanage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -16,6 +17,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -92,6 +94,15 @@ public class MedicationListActivity extends FragmentActivity implements
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.medication_list, fragment)
 					.commit();
+			
+			//Made a bad decision trying fragments, so we have to be ugly and 
+			//    get medication twice. Here we get medication
+			RuntimeExceptionDao<Medication, Integer> medDao = getHelper()
+					.getMedicationDataDao();
+			RuntimeExceptionDao<ResidentMedication, Integer> medsDao = 
+					getHelper().getResidentMedicationDataDao();
+			MedicationUtils medUtils = new MedicationUtils(medDao);
+			medsList = medUtils.getMedicationForResident(medsDao, currentResident.getResident_id());
 		}else{
 			Toast.makeText(getBaseContext(), "Failed to find james cooper?", Toast.LENGTH_LONG).show();
 		}
@@ -120,6 +131,19 @@ public class MedicationListActivity extends FragmentActivity implements
 			ImageView drugPicture = (ImageView)findViewById(R.id.medication_picture);
 			int picReference = getResources().getIdentifier(id.toLowerCase(), "drawable", pack);
 			drugPicture.setImageResource(picReference);
+			
+			//Get the rest of the med info
+			TextView sideEffect = (TextView)findViewById(R.id.side_effects);
+			TextView warnings = (TextView)findViewById(R.id.warnings);
+			//Search for the matching med
+			Medication thisMed = new Medication();
+			for(Medication med : medsList){
+				if(med.toString().equals(id)){
+					thisMed = med;
+				}
+			}
+			sideEffect.setText("SIDE EFFECTS\n\t"+thisMed.getSideEffects());
+			warnings.setText("WARNINGS\n\t"+thisMed.getWarnings());
 
 		} else {
 			// In single-pane mode, simply start the detail activity
