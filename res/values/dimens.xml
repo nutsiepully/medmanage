@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="medication_titles">24dp</dimen>
+    <dimen name="medication_detail">18dp</dimen>
+</resources>

@@ -7,5 +7,7 @@
     <string name="alphabeticSearchRadioButton">A-Z</string>
     <string name="title_medication_list">ResidentMeds</string>
     <string name="title_medication_detail">Medication Detail</string>
+    <string name="side_effects_title">SIDE EFFECTS</string>
+    <string name="warnings_title">WARNINGS</string>
 
 </resources>

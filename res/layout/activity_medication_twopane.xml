@@ -47,16 +47,36 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"/>
         <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="@string/side_effects_title"
+            android:textSize="@dimen/medication_titles"
+            />
+        <TextView 
             android:id="@+id/side_effects"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_edges"
+            android:textColor="#000000"
+            android:textSize="@dimen/medication_detail"
+            />
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="@string/warnings_title"
+            android:textSize="@dimen/medication_titles"
             />
         <TextView 
             android:id="@+id/warnings"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_edges"
+            android:textColor="#000000"
+            android:textSize="@dimen/medication_detail"
             />
     </LinearLayout>
 </LinearLayout>

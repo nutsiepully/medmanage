@@ -142,8 +142,8 @@ public class MedicationListActivity extends FragmentActivity implements
 					thisMed = med;
 				}
 			}
-			sideEffect.setText("SIDE EFFECTS\n\t"+thisMed.getSideEffects());
-			warnings.setText("WARNINGS\n\t"+thisMed.getWarnings());
+			sideEffect.setText("\n\t\t"+thisMed.getSideEffects());
+			warnings.setText("\n\t\t"+thisMed.getWarnings());
 
 		} else {
 			// In single-pane mode, simply start the detail activity
