@@ -38,7 +38,7 @@
         <TextView 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/section_title_text"
             android:text="@string/description_title"
             android:textSize="@dimen/medication_titles"
             android:fontFamily="sans-serif-light"
@@ -52,7 +52,7 @@
         <TextView 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/section_title_text"
             android:text="@string/notes_title"
             android:textSize="@dimen/medication_titles"
             android:fontFamily="sans-serif-light"
@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:textColor="#000000"
+            android:textColor="@color/detail_text"
             android:textSize="@dimen/medication_detail"
             android:background="@drawable/rounded_edges"
             android:fontFamily="sans-serif-light"
@@ -87,7 +87,7 @@
         <TextView 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/section_title_text"
             android:text="@string/side_effects_title"
             android:textSize="@dimen/medication_titles"
             android:fontFamily="sans-serif-light"
@@ -98,14 +98,14 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_edges"
-            android:textColor="#000000"
+            android:textColor="@color/detail_text"
             android:textSize="@dimen/medication_detail"
             android:fontFamily="sans-serif-light"
             />
         <TextView 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/section_title_text"
             android:text="@string/warnings_title"
             android:textSize="@dimen/medication_titles"
             android:fontFamily="sans-serif-light"
@@ -116,7 +116,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_edges"
-            android:textColor="#000000"
+            android:textColor="@color/detail_text"
             android:textSize="@dimen/medication_detail"
             android:fontFamily="sans-serif-light"
             />
