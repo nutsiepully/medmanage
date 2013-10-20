@@ -56,7 +56,7 @@ public class MedicationDetailFragment extends Fragment {
 		// Show the content as text in a TextView.
 		if (medItem != null) {
 			((TextView) rootView.findViewById(R.id.medication_detail))
-					.setText(medItem.toString());
+					.setText(medItem.getDescription());
 		}
 
 		return rootView;

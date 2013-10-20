@@ -1,5 +1,6 @@
 package db;
 
+import java.io.File;
 import java.sql.SQLException;
 
 import org.vcs.medmanage.R;
@@ -19,6 +20,7 @@ import entities.Resident;
 import entities.ResidentMedication;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
+	public final String TAG = DatabaseHelper.class.getName();
 	private static final String DATABASE_NAME = "medManage.db";
 	private static final int DATABASE_VERSION = 15;
 	
@@ -225,7 +227,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	/**
 	 * Populates the DB with some default data
 	 */
-	public void populateDefault(){
+	public void populateDefault(){ 
 		Resident resident1 = new Resident();
 		Resident resident2 = new Resident();
 		Resident resident3 = new Resident();
@@ -277,7 +279,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		
 		Medication newMed2 = new Medication();
 		newMed2.setName("Percoset");
-		newMed2.setDescription("It's a pill");
+		newMed2.setDescription("Pain Relief");
 		newMed2.setNotes("You gotta take it to eat it.");
 		newMed2.setSideEffects("Well, it's not good.");
 		newMed2.setWarnings("Careful wid it.");

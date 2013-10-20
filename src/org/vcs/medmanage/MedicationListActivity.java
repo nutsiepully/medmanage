@@ -15,6 +15,7 @@ import entities.ResidentUtils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 /**
@@ -113,6 +114,12 @@ public class MedicationListActivity extends FragmentActivity implements
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.medication_detail_container, fragment)
 					.commit();
+			
+			//Now set the medication picture
+			String pack = getPackageName();
+			ImageView drugPicture = (ImageView)findViewById(R.id.medication_picture);
+			int picReference = getResources().getIdentifier(id.toLowerCase(), "drawable", pack);
+			drugPicture.setImageResource(picReference);
 
 		} else {
 			// In single-pane mode, simply start the detail activity
