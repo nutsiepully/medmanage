@@ -2,5 +2,7 @@
 <resources>
     <color name="section_title_text">#FFFFFF</color>
     <color name="detail_text">#000000</color>
+    <color name="section_background">#FFFFFF</color>
+    <color name="selected_medication">#B0B0B0</color>
     
 </resources>

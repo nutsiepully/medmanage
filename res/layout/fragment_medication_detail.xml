@@ -10,4 +10,5 @@
     android:textColor="@color/detail_text"
     android:background="@drawable/rounded_edges"
     android:fontFamily="sans-serif-light"
+    android:textSize="@dimen/medication_detail"
     />
