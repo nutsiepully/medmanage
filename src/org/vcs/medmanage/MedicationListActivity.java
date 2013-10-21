@@ -75,6 +75,10 @@ public class MedicationListActivity extends FragmentActivity implements
 					.findFragmentById(R.id.medication_list))
 					.setActivateOnItemClick(true);
 		}
+		
+		//Set the action bar back button because it's nice
+		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// TODO: Get a Res from an intent
 		//    This is where we would normally get a Resident. We will simply
@@ -85,8 +89,11 @@ public class MedicationListActivity extends FragmentActivity implements
 		List<Resident> foundResidents = ResidentUtils.findResident(dao, "James Cooper");
 		if(foundResidents.size() > 0){
 			currentResident = foundResidents.get(0);
+			
+			//Set the actionbar title to reflect the current resident
+			setTitle(currentResident.getName() + "'s Medication");
 	    	
-	    	//TODO: use the list to build the display and all.
+	    	//Builds display for fragment
 	    	Bundle arguments = new Bundle();
 			arguments.putInt("ResidentId", currentResident.getResident_id());
 			MedicationListFragment fragment = new MedicationListFragment();
