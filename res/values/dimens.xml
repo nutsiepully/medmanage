@@ -2,4 +2,5 @@
 <resources>
     <dimen name="medication_titles">24dp</dimen>
     <dimen name="medication_detail">18dp</dimen>
+    <dimen name="resident_preview_image">80dp</dimen>
 </resources>

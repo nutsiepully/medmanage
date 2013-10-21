@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:context=".ResidentFragment"
+    android:background="@drawable/rounded_edges" >   
+    
+    <TextView 
+        android:id="@+id/resident_name"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Mark SUMMERS"
+        android:textColor="@color/resident_preview_text"
+        android:paddingLeft="10dp"
+        />
+    
+    <TextView
+        android:id="@+id/room_number"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content" 
+        android:layout_gravity="center"
+        android:text="1234"
+        android:textColor="@color/resident_preview_text"
+        android:paddingRight="10dp"
+        />
+    
+    <ImageView 
+        android:id="@+id/resident_pic"
+        android:layout_width="@dimen/resident_preview_image"
+        android:layout_height="@dimen/resident_preview_image"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_launcher"
+        android:padding="10dp"
+        />
+    
+</LinearLayout>
