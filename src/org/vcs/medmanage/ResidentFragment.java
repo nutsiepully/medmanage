@@ -63,6 +63,12 @@ public class ResidentFragment extends Fragment{
 		}else{
 			Log.e(TAG, "Error retrieving reference to resident room number view.");
 		}
+		residentPicView = (ImageView) rootView.findViewById(R.id.resident_pic);
+		if(residentPicView != null){
+			residentPicView.setImageResource(R.drawable.kurthead);
+		}else{
+			Log.e(TAG, "Error retrieving reference to resident image view");
+		}
 
 		return rootView;
 	}
