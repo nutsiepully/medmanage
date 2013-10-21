@@ -1,15 +1,20 @@
 package org.vcs.medmanage;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ResidentFragment extends Fragment{
+	public final String TAG = ResidentFragment.class.getName();
 	
-	private String  residentName;
+	private String  residentName = "N/A";
 	
-	private int roomNumber;
+	private int roomNumber = -1;
 	
 	private TextView residentNameView;
 	
@@ -28,10 +33,37 @@ public class ResidentFragment extends Fragment{
 		//Get arguments
 		Bundle inArgs = getArguments();
 		if(inArgs != null){
-			//TODO: Check for key
+			if(inArgs.containsKey("ResidentName")){
+				residentName = inArgs.getString("ResidentName");
+			}
+			if(inArgs.containsKey("RoomNumber")){
+				roomNumber = inArgs.getInt("RoomNumber");
+			}
 		}
 	}
 	
 	//TODO: make each field clickable with the same behavior: navigate to 
 	// Resident page
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_resident,
+				container, false);
+
+		// Show the content as text in a TextView.
+		residentNameView = (TextView) rootView.findViewById(R.id.resident_name);
+		if(residentNameView != null){
+			residentNameView.setText(residentName);
+		}else{
+			Log.e(TAG, "Error retrieving reference to resident name view.");
+		}
+		roomNumberView = (TextView) rootView.findViewById(R.id.room_number);
+		if(roomNumberView != null){
+			roomNumberView.setText(Integer.toString(roomNumber));
+		}else{
+			Log.e(TAG, "Error retrieving reference to resident room number view.");
+		}
+
+		return rootView;
+	}
 }

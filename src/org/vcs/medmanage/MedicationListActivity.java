@@ -13,6 +13,9 @@ import entities.MedicationUtils;
 import entities.Resident;
 import entities.ResidentMedication;
 import entities.ResidentUtils;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -93,7 +96,7 @@ public class MedicationListActivity extends FragmentActivity implements
 			//Set the actionbar title to reflect the current resident
 			setTitle(currentResident.getName() + "'s Medication");
 	    	
-	    	//Builds display for fragment
+	    	//Builds display for list fragment
 	    	Bundle arguments = new Bundle();
 			arguments.putInt("ResidentId", currentResident.getResident_id());
 			MedicationListFragment fragment = new MedicationListFragment();
@@ -101,6 +104,19 @@ public class MedicationListActivity extends FragmentActivity implements
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.medication_list, fragment)
 					.commit();
+			
+			//Builds display for Resident preview FOR TESTING
+			//First put params to pass on: resident name and room number
+			Bundle residentArgs = new Bundle();
+			residentArgs.putString("ResidentName", currentResident.getName());
+			residentArgs.putInt("RoomNumber", currentResident.getRoomNumber());
+			//Update the fragment
+			ResidentFragment residentPreview = new ResidentFragment();
+			residentPreview.setArguments(residentArgs);
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.add(R.id.resident_preview, residentPreview);
+			fragmentTransaction.commit();
 			
 			//Made a bad decision trying fragments, so we have to be ugly and 
 			//    get medication twice. Here we get medication
