@@ -173,6 +173,7 @@ public class MedicationListFragment extends ListFragment {
 		// fragment is attached to one) that an item has been selected.
 		if(resContent != null){
 			mCallbacks.onItemSelected(resContent.ITEMS.get(position).toString());
+			listView.setSelector(R.color.selected_medication);
 		}
 	}
 

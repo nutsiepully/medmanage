@@ -13,6 +13,9 @@ import entities.MedicationUtils;
 import entities.Resident;
 import entities.ResidentMedication;
 import entities.ResidentUtils;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -75,6 +78,10 @@ public class MedicationListActivity extends FragmentActivity implements
 					.findFragmentById(R.id.medication_list))
 					.setActivateOnItemClick(true);
 		}
+		
+		//Set the action bar back button because it's nice
+		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// TODO: Get a Res from an intent
 		//    This is where we would normally get a Resident. We will simply
@@ -85,8 +92,11 @@ public class MedicationListActivity extends FragmentActivity implements
 		List<Resident> foundResidents = ResidentUtils.findResident(dao, "James Cooper");
 		if(foundResidents.size() > 0){
 			currentResident = foundResidents.get(0);
+			
+			//Set the actionbar title to reflect the current resident
+			setTitle(currentResident.getName() + "'s Medication");
 	    	
-	    	//TODO: use the list to build the display and all.
+	    	//Builds display for list fragment
 	    	Bundle arguments = new Bundle();
 			arguments.putInt("ResidentId", currentResident.getResident_id());
 			MedicationListFragment fragment = new MedicationListFragment();
@@ -94,6 +104,19 @@ public class MedicationListActivity extends FragmentActivity implements
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.medication_list, fragment)
 					.commit();
+			
+			//Builds display for Resident preview FOR TESTING
+			//First put params to pass on: resident name and room number
+			Bundle residentArgs = new Bundle();
+			residentArgs.putString("ResidentName", currentResident.getName());
+			residentArgs.putInt("RoomNumber", currentResident.getRoomNumber());
+			//Update the fragment
+			ResidentFragment residentPreview = new ResidentFragment();
+			residentPreview.setArguments(residentArgs);
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.add(R.id.resident_preview, residentPreview);
+			fragmentTransaction.commit();
 			
 			//Made a bad decision trying fragments, so we have to be ugly and 
 			//    get medication twice. Here we get medication
@@ -135,6 +158,7 @@ public class MedicationListActivity extends FragmentActivity implements
 			//Get the rest of the med info
 			TextView sideEffect = (TextView)findViewById(R.id.side_effects);
 			TextView warnings = (TextView)findViewById(R.id.warnings);
+			TextView notes = (TextView)findViewById(R.id.notes);
 			//Search for the matching med
 			Medication thisMed = new Medication();
 			for(Medication med : medsList){
@@ -142,8 +166,10 @@ public class MedicationListActivity extends FragmentActivity implements
 					thisMed = med;
 				}
 			}
+			//Set the text for the fields
 			sideEffect.setText("\n\t\t"+thisMed.getSideEffects());
 			warnings.setText("\n\t\t"+thisMed.getWarnings());
+			notes.setText("\n\t\t"+thisMed.getNotes());
 
 		} else {
 			// In single-pane mode, simply start the detail activity

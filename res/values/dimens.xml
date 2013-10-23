@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <dimen name="medication_titles">24dp</dimen>
     <dimen name="medication_detail">18dp</dimen>
+    <dimen name="resident_preview_image">80dp</dimen>
+    <dimen name="resident_name">24dp</dimen>
+    <dimen name="room_number">18dp</dimen>
+    <dimen name="resident_preview_height">90dp</dimen>
+    <dimen name="resident_preview_width">400dp</dimen>
+    <dimen name="activity_horizontal_margin">5dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="search_bar_landing">400dp</dimen>
+    <dimen name="resident_title">28dp</dimen>
+    <dimen name="search_text">24dp</dimen>
+
 </resources>
