@@ -14,7 +14,8 @@
 
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name" 
+        android:allowBackup="true">
         <activity android:name="org.vcs.medmanage.ResidentSearchActivity" >
         </activity>
         <activity android:name="org.vcs.medmanage.ResidentMedicineActivity" >
@@ -26,8 +27,6 @@
             android:name="org.vcs.medmanage.MedicationListActivity"
             android:label="@string/title_medication_list" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -44,7 +43,6 @@
             android:label="@string/title_activity_landing_page" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -1,5 +1,5 @@
 #
-# generated on 2013/10/19 07:05:01
+# generated on 2013/10/23 08:57:11
 #
 # --table-start--
 dataClass=entities.Log
@@ -72,6 +72,23 @@ generatedId=true
 # --field-end--
 # --field-start--
 fieldName=name
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=entities.RecentResident
+tableName=recent_residents
+# --table-fields-start--
+# --field-start--
+fieldName=queue_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=resident_id
+# --field-end--
+# --field-start--
+fieldName=rank
 # --field-end--
 # --table-fields-end--
 # --table-end--

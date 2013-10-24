@@ -16,25 +16,28 @@ import com.j256.ormlite.table.TableUtils;
 
 import entities.Medication;
 import entities.Provider;
+import entities.RecentResident;
 import entities.Resident;
 import entities.ResidentMedication;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public final String TAG = DatabaseHelper.class.getName();
 	private static final String DATABASE_NAME = "medManage.db";
-	private static final int DATABASE_VERSION = 15;
+	private static final int DATABASE_VERSION = 18;
 	
 	private Dao<Resident, Integer> residentDao = null;
 	private Dao<Medication, Integer> medicationDao = null;
 	private Dao<ResidentMedication, Integer> residentMedicationDao = null;
 	private Dao<Provider, Integer> providerDao = null;
 	private Dao<entities.Log, Integer> logDao = null;
+	private Dao<RecentResident, Integer> recentResidentDao = null;
 	
 	private RuntimeExceptionDao<Resident, Integer> residentRuntimeDao = null;
 	private RuntimeExceptionDao<Medication, Integer> medicationRuntimeDao = null;
 	private RuntimeExceptionDao<ResidentMedication, Integer> residentMedicationRuntimeDao = null;
 	private RuntimeExceptionDao<Provider, Integer> providerRuntimeDao = null;
 	private RuntimeExceptionDao<entities.Log, Integer> logRuntimeDao = null;
+	private RuntimeExceptionDao<RecentResident, Integer> recentResidentRuntimeDao = null;
 	
 	/**
 	 * This is used to load the Schema from a generated config file. The config
@@ -58,6 +61,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, ResidentMedication.class);
 			TableUtils.createTable(connectionSource, Provider.class);
 			TableUtils.createTable(connectionSource, entities.Log.class);
+			TableUtils.createTable(connectionSource, RecentResident.class);
 			
 			//Populate the DB with some default data
 			populateDefault();
@@ -77,6 +81,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.dropTable(connectionSource, ResidentMedication.class, true);
 			TableUtils.dropTable(connectionSource, Provider.class, true);
 			TableUtils.dropTable(connectionSource, entities.Log.class, true);
+			TableUtils.dropTable(connectionSource, RecentResident.class, true);
 			
 			//Recreate old tables
 			onCreate(db, connectionSource);
@@ -91,6 +96,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		super.close();
 		//Close references to entities here
 		residentRuntimeDao = null;
+		medicationRuntimeDao = null;
+		logRuntimeDao = null;
+		providerRuntimeDao = null;
+		residentMedicationRuntimeDao = null;
+		recentResidentRuntimeDao = null;
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
@@ -225,6 +235,31 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	}
 	
 	/**
+	 * Creates a Database Access Object for the RecentResidentQueue class (or returns 
+	 * cached value).
+	 * @return
+	 * @throws SQLException
+	 * @throws java.sql.SQLException 
+	 */
+	public Dao<RecentResident, Integer> getRecentResidentDao() throws SQLException{
+		if(recentResidentDao == null){
+			recentResidentDao = getDao(RecentResident.class);
+		}
+		return recentResidentDao;
+	}
+	
+	/**
+	 * Creates the RuntimeExceptionDao for Log.
+	 * @return
+	 */
+	public RuntimeExceptionDao<RecentResident, Integer> getRecentResidentDataDao(){
+		if(recentResidentRuntimeDao == null){
+			recentResidentRuntimeDao = getRuntimeExceptionDao(RecentResident.class);
+		}
+		return recentResidentRuntimeDao;
+	}
+	
+	/**
 	 * Populates the DB with some default data
 	 */
 	public void populateDefault(){ 
@@ -288,6 +323,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		ResidentMedication relation1 = new ResidentMedication(newMed1, 2);
 		ResidentMedication relation2 = new ResidentMedication(newMed2, 2);
 		
+		//Put some recent residents
+		RecentResident recent1 = new RecentResident(1, 1);
+		RecentResident recent2 = new RecentResident(2, 2);
+		
 		//Add to DB
 		RuntimeExceptionDao<Resident, Integer> dao = getResidentDataDao();
 		dao.create(resident1);
@@ -299,6 +338,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		
 		getResidentMedicationDataDao().create(relation1);
 		getResidentMedicationDataDao().create(relation2);
+		
+		getRecentResidentDataDao().create(recent1);
+		getRecentResidentDataDao().create(recent2);
 	}
 }
 
