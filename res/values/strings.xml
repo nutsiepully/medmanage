@@ -17,8 +17,8 @@
     <string name="search_hint">Search for resident...</string>
     <string name="search_button">Search</string>
     <string name="search_advanced">Advanced...</string>
-    <string name="recent_residents">Recent Residents</string>
-    <string name="upcoming">Upcoming</string>
+    <string name="recent_residents">RECENT RESIDENTS</string>
+    <string name="upcoming">UPCOMING</string>
     
 
 </resources>
