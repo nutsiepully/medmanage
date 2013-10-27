@@ -144,6 +144,22 @@ public class LandingPage extends FragmentActivity {
 		goToSearchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(goToSearchIntent);
 	}
+	
+	/**
+	 * We call onResume() so that the recent resident list is properly updated
+	 * if the Landing page is re-visted after navigating to a resident profile.
+	 */
+	@Override
+	protected void onResume(){
+		super.onResume();
+		
+		// Re-create the recent residents
+		recentResLayout.removeAllViews();
+		List<Resident> newRecents = getRecentResidents();
+		addRecentResidentsToView(newRecents);
+		
+		//TODO update Calendar section as well
+	}
 
 	/**
 	 * Gets a reference to the DB. If it fails, it returns null instead.
