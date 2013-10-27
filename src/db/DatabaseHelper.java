@@ -23,7 +23,7 @@ import entities.ResidentMedication;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public final String TAG = DatabaseHelper.class.getName();
 	private static final String DATABASE_NAME = "medManage.db";
-	private static final int DATABASE_VERSION = 18;
+	private static final int DATABASE_VERSION = 19;
 	
 	private Dao<Resident, Integer> residentDao = null;
 	private Dao<Medication, Integer> medicationDao = null;
@@ -266,6 +266,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		Resident resident1 = new Resident();
 		Resident resident2 = new Resident();
 		Resident resident3 = new Resident();
+		Resident resident4 = new Resident();
 		
 		//Create residents
 		resident1.setName("Barbara Velasquez");
@@ -304,6 +305,18 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		resident3.setRoomNumber(401);
 		resident3.setTerm("Short term");
 		
+		resident4.setName("Jacob Jeffries");
+		resident4.setGender(false);
+		resident4.setNeighborhood("Corridor 4");
+		resident4.setAllergies("None.");
+		resident4.setPrimaryDiagnosis("Chronic arthritis");
+		resident4.setOtherDiagnoses("None");
+		resident4.setNotes("Prefers to be called Jake");
+		resident4.setPrefs("Prefers pills to be crushed when they can be");
+		resident4.setRecentActions("Pill at 6am\nJoined Vincentian");
+		resident4.setRoomNumber(506);
+		resident4.setTerm("Short term");
+		
 		//Create meds
 		Medication newMed1 = new Medication();
 		newMed1.setName("Excedrin");
@@ -332,6 +345,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		dao.create(resident1);
 		dao.create(resident2);
 		dao.create(resident3);
+		dao.create(resident4);
 		
 		getMedicationDataDao().create(newMed1);
 		getMedicationDataDao().create(newMed2);

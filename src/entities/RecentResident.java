@@ -12,6 +12,8 @@ public class RecentResident {
 	@DatabaseField
 	private int rank; //How advanced in the Queue the Resident is
 	
+	public static final int RECENT_QUEUE_LENGTH = 5;
+	
 	public RecentResident(){
 		resident_id = -1;
 		rank = -1;

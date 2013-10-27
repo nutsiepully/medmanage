@@ -11,9 +11,7 @@ import entities.RecentResident;
 import entities.RecentResidentUtils;
 import entities.Resident;
 import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-import android.widget.TextView;
+import android.support.v4.app.FragmentActivity;
 
 /**
  * This is the first page to be started when the application starts. It displays
@@ -22,32 +20,39 @@ import android.widget.TextView;
  * @author Kurt
  *
  */
-public class LandingPage extends Activity {
+public class LandingPage extends FragmentActivity {
 	public final String TAG = LandingPage.class.getName();
 	/**
 	 * For accesses to the DB to get Resident meds and Res allergies.
 	 */
 	private DatabaseHelper databaseHelper = null;
+	private RuntimeExceptionDao<RecentResident, Integer> recentDao;
+	private RuntimeExceptionDao<Resident, Integer> residentDao;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_landing_page);
 		
-		//TEST recent query test
-		RuntimeExceptionDao<RecentResident, Integer> recentDao =
+		//Get DB references
+		recentDao =
 				getHelper().getRecentResidentDataDao();
-		RuntimeExceptionDao<Resident, Integer> residentDao =
+		residentDao =
 				getHelper().getResidentDataDao();
 		
+		
+	}
+	
+	/**
+	 * Gets a list of the most recently visited Residents. If it fails, 
+	 * returns 'null'.
+	 */
+	public List<Resident> getRecentResidents(){
 		RecentResidentUtils recentUtils = new RecentResidentUtils(recentDao);
 		List<Resident> recentResidents = new ArrayList<Resident>();
 		recentResidents = recentUtils.getRecentResidents(residentDao);
 		
-		TextView tempRecentRes = (TextView)findViewById(R.id.temp_recent_residents);
-		for(Resident res : recentResidents){
-			tempRecentRes.setText(tempRecentRes.getText()+"\n"+res.getName());
-		}
+		return recentResidents;
 	}
 
 	/**
@@ -59,5 +64,14 @@ public class LandingPage extends Activity {
 					OpenHelperManager.getHelper(this.getBaseContext(), DatabaseHelper.class);
 		}
 		return databaseHelper;
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		if(databaseHelper != null){
+			OpenHelperManager.releaseHelper();
+			databaseHelper = null;
+		}
 	}
 }
