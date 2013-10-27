@@ -15,6 +15,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 
 /**
  * This is the first page to be started when the application starts. It displays
@@ -31,11 +33,14 @@ public class LandingPage extends FragmentActivity {
 	private DatabaseHelper databaseHelper = null;
 	private RuntimeExceptionDao<RecentResident, Integer> recentDao;
 	private RuntimeExceptionDao<Resident, Integer> residentDao;
+	private LinearLayout recentResLayout = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_landing_page);
+		
+		recentResLayout = (LinearLayout)findViewById(R.id.recent_residents);
 		
 		//Get DB references
 		recentDao =
@@ -66,81 +71,17 @@ public class LandingPage extends FragmentActivity {
 	 * Adds the given recentResidents to the view.
 	 */
 	public void addRecentResidentsToView(List<Resident> recentResidents){
-		//Make all the fragments invisible by defualt
-		View recent1 = findViewById(R.id.recent_resident_1);
-		View recent2 = findViewById(R.id.recent_resident_2);
-		View recent3 = findViewById(R.id.recent_resident_3);
-		View recent4 = findViewById(R.id.recent_resident_4);
-		View recent5 = findViewById(R.id.recent_resident_5);
-		recent1.setVisibility(View.INVISIBLE);
-		recent2.setVisibility(View.INVISIBLE);
-		recent3.setVisibility(View.INVISIBLE);
-		recent4.setVisibility(View.INVISIBLE);
-		recent5.setVisibility(View.INVISIBLE);
-		
 		for(int i = 0; i < recentResidents.size(); i++){
 			Bundle residentArgs = new Bundle();
 			residentArgs.putString("ResidentName", recentResidents.get(i).getName());
 			residentArgs.putInt("RoomNumber", recentResidents.get(i).getRoomNumber());
-			switch(i){
-				case 0: {
-					ResidentFragment residentPreview = new ResidentFragment();
-					residentPreview.setArguments(residentArgs);
-					FragmentManager fragmentManager = getSupportFragmentManager();
-					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-					fragmentTransaction.add(R.id.recent_resident_1, residentPreview);
-					fragmentTransaction.commit();
-					
-					recent1.setVisibility(View.VISIBLE);
-				}
-				break;
-				case 1: {
-					ResidentFragment residentPreview = new ResidentFragment();
-					residentPreview.setArguments(residentArgs);
-					FragmentManager fragmentManager = getSupportFragmentManager();
-					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-					fragmentTransaction.add(R.id.recent_resident_2, residentPreview);
-					fragmentTransaction.commit();
-					
-					recent2.setVisibility(View.VISIBLE);
-				}
-				break;
-				case 2: {
-					ResidentFragment residentPreview = new ResidentFragment();
-					residentPreview.setArguments(residentArgs);
-					FragmentManager fragmentManager = getSupportFragmentManager();
-					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-					fragmentTransaction.add(R.id.recent_resident_3, residentPreview);
-					fragmentTransaction.commit();
-					
-					recent3.setVisibility(View.VISIBLE);
-				}
-				break;
-				case 3: {
-					ResidentFragment residentPreview = new ResidentFragment();
-					residentPreview.setArguments(residentArgs);
-					FragmentManager fragmentManager = getSupportFragmentManager();
-					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-					fragmentTransaction.add(R.id.recent_resident_4, residentPreview);
-					fragmentTransaction.commit();
-					
-					recent4.setVisibility(View.VISIBLE);
-					
-				}
-				break;
-				case 4: {
-					ResidentFragment residentPreview = new ResidentFragment();
-					residentPreview.setArguments(residentArgs);
-					FragmentManager fragmentManager = getSupportFragmentManager();
-					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-					fragmentTransaction.add(R.id.recent_resident_5, residentPreview);
-					fragmentTransaction.commit();
-					
-					recent5.setVisibility(View.VISIBLE);
-				}
-				break;
-				default: break;
-			}
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			
+			ResidentFragment recentFragment = new ResidentFragment();
+			recentFragment.setArguments(residentArgs);
+			fragmentTransaction.add(recentResLayout.getId(), recentFragment);
+			fragmentTransaction.commit();
 		}
 	}
 

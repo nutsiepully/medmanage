@@ -67,6 +67,7 @@
             android:layout_marginTop="30dp"
             />
         <LinearLayout 
+            android:id="@+id/recent_residents"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -74,41 +75,7 @@
             android:paddingTop="5dp"
             android:background="@drawable/border"
             >
-            <fragment
-	            android:id="@+id/recent_resident_1"
-	            android:name="org.vcs.medmanage.ResidentFragment"
-	            android:layout_height="wrap_content"
-	            android:layout_width="wrap_content"
-	            android:layout_marginBottom="5dp"
-            	/>
-            <fragment
-	            android:id="@+id/recent_resident_2"
-	            android:name="org.vcs.medmanage.ResidentFragment"
-	            android:layout_height="wrap_content"
-	            android:layout_width="wrap_content"
-	            android:layout_marginBottom="5dp"
-            	/>
-            <fragment
-	            android:id="@+id/recent_resident_3"
-	            android:name="org.vcs.medmanage.ResidentFragment"
-	            android:layout_height="wrap_content"
-	            android:layout_width="wrap_content"
-	            android:layout_marginBottom="5dp"
-            	/>
-            <fragment
-	            android:id="@+id/recent_resident_4"
-	            android:name="org.vcs.medmanage.ResidentFragment"
-	            android:layout_height="wrap_content"
-	            android:layout_width="wrap_content"
-	            android:layout_marginBottom="5dp"
-            	/>
-            <fragment
-	            android:id="@+id/recent_resident_5"
-	            android:name="org.vcs.medmanage.ResidentFragment"
-	            android:layout_height="wrap_content"
-	            android:layout_width="wrap_content"
-	            android:layout_marginBottom="5dp"
-            	/>
+            
         </LinearLayout>
         
     </LinearLayout>
