@@ -10,12 +10,15 @@ import db.DatabaseHelper;
 import entities.RecentResident;
 import entities.RecentResidentUtils;
 import entities.Resident;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 /**
@@ -33,7 +36,13 @@ public class LandingPage extends FragmentActivity {
 	private DatabaseHelper databaseHelper = null;
 	private RuntimeExceptionDao<RecentResident, Integer> recentDao;
 	private RuntimeExceptionDao<Resident, Integer> residentDao;
+	
 	private LinearLayout recentResLayout = null;
+	private Button searchButton = null;
+	private Button advancedButton = null;
+	private EditText searchText = null;
+	
+	private boolean isAdvanced = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +60,9 @@ public class LandingPage extends FragmentActivity {
 		//Get recent residents, if any, and add to view
 		List<Resident> recentResidents = getRecentResidents();
 		addRecentResidentsToView(recentResidents);
+		
+		//Setup UI listeners
+		setupUI();
 		
 		//TODO: Calendar stuff here probably
 	}
@@ -83,6 +95,54 @@ public class LandingPage extends FragmentActivity {
 			fragmentTransaction.add(recentResLayout.getId(), recentFragment);
 			fragmentTransaction.commit();
 		}
+	}
+	
+	/**
+	 * Makes basic UI setup configurations including getting references to UI
+	 * elements (buttons, edittext), and setting up listeners.
+	 */
+	public void setupUI(){
+		searchButton = (Button)findViewById(R.id.search_button);
+		advancedButton = (Button)findViewById(R.id.advanced_search);
+		searchText = (EditText)findViewById(R.id.resident_search);
+		
+		/**
+		 * Default search button behavior is just to try to take the search
+		 * string out of the resident search editText box and use it as a search
+		 * string. If there isn't a valid search string, then there is simply 
+		 * no behavior.
+		 */
+		searchButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				goToSearch();
+			}
+		});
+		
+		advancedButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				isAdvanced = true;
+				goToSearch();
+			}
+		});
+	}
+	
+	/**
+	 * Sends an Intent to start the ResidentSearchActivity
+	 */
+	public void goToSearch(){
+		Intent goToSearchIntent = new Intent(getBaseContext(), ResidentSearchActivity.class);
+		
+		if(isAdvanced){// If the 'isAdvanced' flag is set, then we don't
+			//    retrieve the search string from the EditText, and just 
+			//    navigate to the ResidentSearchActivity default page.
+			goToSearchIntent.putExtra("search_string", "NO_SEARCH");
+		}else{
+			goToSearchIntent.putExtra("search_string", searchText.getText().toString());
+		}
+		goToSearchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(goToSearchIntent);
 	}
 
 	/**
