@@ -1,12 +1,17 @@
 package org.vcs.medmanage;
 
+import entities.ResidentMedication;
+
 import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ResidentFragment extends Fragment{
@@ -40,10 +45,10 @@ public class ResidentFragment extends Fragment{
 				roomNumber = inArgs.getInt("RoomNumber");
 			}
 		}
+		
+		
 	}
 	
-	//TODO: make each field clickable with the same behavior: navigate to 
-	// Resident page
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -69,7 +74,29 @@ public class ResidentFragment extends Fragment{
 		}else{
 			Log.e(TAG, "Error retrieving reference to resident image view");
 		}
+		
+		//Set up the background to be clickable
+		LinearLayout background = (LinearLayout)rootView.findViewById(R.id.background);
+		background.setClickable(true);
+		background.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				navigateToProfile();
+			}
+		});
 
 		return rootView;
+	}
+	
+	/**
+	 * Sends an Intent to start the Profile page associated with the current
+	 * Resident. Packages in the Resident Name.
+	 */
+	public void navigateToProfile(){
+		Intent goToProfileIntent = new Intent(getActivity().getBaseContext(), ResidentMedicineActivity.class);
+		goToProfileIntent.putExtra("resident", residentName);
+		goToProfileIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(goToProfileIntent);
 	}
 }
