@@ -23,7 +23,7 @@ import entities.ResidentMedication;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public final String TAG = DatabaseHelper.class.getName();
 	private static final String DATABASE_NAME = "medManage.db";
-	private static final int DATABASE_VERSION = 19;
+	private static final int DATABASE_VERSION = 20;
 	
 	private Dao<Resident, Integer> residentDao = null;
 	private Dao<Medication, Integer> medicationDao = null;
@@ -324,6 +324,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		newMed1.setNotes("You gotta take it to eat it.");
 		newMed1.setSideEffects("Well, it's not good.");
 		newMed1.setWarnings("Careful wid it.");
+		newMed1.setTakeWithMeal(true);
+		newMed1.setSpecialInstructions("N/A");
+		newMed1.setInstructions("Have the resident swallow the pill with water.");
 		
 		Medication newMed2 = new Medication();
 		newMed2.setName("Percoset");
@@ -331,6 +334,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		newMed2.setNotes("You gotta take it to eat it.");
 		newMed2.setSideEffects("Well, it's not good.");
 		newMed2.setWarnings("Careful wid it.");
+		newMed2.setTakeWithMeal(true);
+		newMed2.setSpecialInstructions("Resident should be seated.");
+		newMed2.setInstructions("Have the resident swallow the pill with water.");
 		
 		//Associate meds with Ressys
 		ResidentMedication relation1 = new ResidentMedication(newMed1, 2);

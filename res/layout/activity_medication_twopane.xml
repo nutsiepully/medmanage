@@ -120,11 +120,13 @@
             android:textSize="@dimen/medication_detail"
             android:fontFamily="sans-serif-light"
             />
-        <fragment
-            android:id="@+id/resident_preview"
-            android:name="org.vcs.medmanage.ResidentFragment"
-            android:layout_height="wrap_content"
+        <Button 
+            android:id="@+id/give_med_button"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/give_med_string"
             />
     </LinearLayout>
 </LinearLayout>

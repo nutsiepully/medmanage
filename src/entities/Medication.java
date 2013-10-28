@@ -26,6 +26,12 @@ public class Medication {
 	private String sideEffects;
 	@DatabaseField
 	private String warnings; //e.g. should never be crushed
+	@DatabaseField
+	private boolean takeWithMeal;
+	@DatabaseField
+	private String specialInstructions;
+	@DatabaseField
+	private String instructions;
 	/**
 	 * END MEDICATION ATTRIBUTES
 	 */
@@ -38,6 +44,9 @@ public class Medication {
 		notes = new String();
 		sideEffects = new String();
 		warnings = new String();
+		takeWithMeal = false;
+		specialInstructions = "N/A";
+		instructions = new String();
 	}
 	
 	public Medication(String medName, String description){
@@ -47,6 +56,9 @@ public class Medication {
 		notes = new String();
 		sideEffects = new String();
 		warnings = new String();
+		takeWithMeal = false;
+		specialInstructions = "N/A";
+		instructions = new String();
 	}
 	
 	public int getMedication_id() {
@@ -91,5 +103,29 @@ public class Medication {
 	@Override
 	public String toString(){
 		return name;
+	}
+
+	public boolean isTakeWithMeal() {
+		return takeWithMeal;
+	}
+
+	public void setTakeWithMeal(boolean takeWithMeal) {
+		this.takeWithMeal = takeWithMeal;
+	}
+
+	public String getSpecialInstructions() {
+		return specialInstructions;
+	}
+
+	public void setSpecialInstructions(String specialInstructions) {
+		this.specialInstructions = specialInstructions;
+	}
+
+	public String getInstructions() {
+		return instructions;
+	}
+
+	public void setInstructions(String instructions) {
+		this.instructions = instructions;
 	}
 }

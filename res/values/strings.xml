@@ -22,5 +22,6 @@
     <string name="title_activity_walkthrough">Walkthrough</string>
     <string name="start_over_text">START OVER</string>
     <string name="call_nurse_text">CALL NURSE</string>
+    <string name="give_med_string">GIVE THIS MED</string>
 
 </resources>

@@ -15,6 +15,6 @@
     <dimen name="search_text">24dp</dimen>
     <dimen name="walkthrough_button_height">80dp</dimen>
     <dimen name="walkthrough_button_width">150dp</dimen>
-    <dimen name="walkthrough_instructions">32dp</dimen>
+    <dimen name="walkthrough_instructions">42dp</dimen>
 
 </resources>

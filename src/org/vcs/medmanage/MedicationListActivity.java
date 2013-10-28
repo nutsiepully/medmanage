@@ -19,6 +19,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +46,7 @@ import android.widget.Toast;
 public class MedicationListActivity extends FragmentActivity implements
 		MedicationListFragment.Callbacks {
 
+	private final String TAG = MedicationListActivity.class.getName();
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
@@ -56,9 +61,15 @@ public class MedicationListActivity extends FragmentActivity implements
 	 */
 	private List<Medication> medsList;
 	/**
+	 * The medication that is currently selected from the list
+	 */
+	private Medication selectedMed = null;
+	/**
 	 * For accesses to the DB to get Resident meds and Res allergies.
 	 */
 	private DatabaseHelper databaseHelper = null;
+	
+	public Button giveMedsButton = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,13 +94,24 @@ public class MedicationListActivity extends FragmentActivity implements
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		// TODO: Get a Res from an intent
-		//    This is where we would normally get a Resident. We will simply
-		//    fetch a default one for now.
+		String residentToGet = new String();
+		Intent inIntent = getIntent();
+		if(inIntent.hasExtra("resName")){
+			// If we got here during normal application usage, there will be 
+			// a resident attached as an extra, which we should get from 
+			// the database.
+			Bundle extras = inIntent.getExtras();
+			residentToGet = extras.getString("resName");
+		}else{// If there wasn't a matching key in the intent, then this page 
+			//    was probably navigated to during testing. In that case, we
+			//    just use a default Resident.
+			residentToGet = "James Cooper";
+		}
+		
 		//Get a reference to the DB the hard way
 		RuntimeExceptionDao<Resident, Integer> dao = getHelper()
 				.getResidentDataDao();
-		List<Resident> foundResidents = ResidentUtils.findResident(dao, "James Cooper");
+		List<Resident> foundResidents = ResidentUtils.findResident(dao, residentToGet);
 		if(foundResidents.size() > 0){
 			currentResident = foundResidents.get(0);
 			
@@ -105,19 +127,6 @@ public class MedicationListActivity extends FragmentActivity implements
 					.replace(R.id.medication_list, fragment)
 					.commit();
 			
-			//Builds display for Resident preview FOR TESTING
-			//First put params to pass on: resident name and room number
-			Bundle residentArgs = new Bundle();
-			residentArgs.putString("ResidentName", currentResident.getName());
-			residentArgs.putInt("RoomNumber", currentResident.getRoomNumber());
-			//Update the fragment
-			ResidentFragment residentPreview = new ResidentFragment();
-			residentPreview.setArguments(residentArgs);
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			fragmentTransaction.add(R.id.resident_preview, residentPreview);
-			fragmentTransaction.commit();
-			
 			//Made a bad decision trying fragments, so we have to be ugly and 
 			//    get medication twice. Here we get medication
 			RuntimeExceptionDao<Medication, Integer> medDao = getHelper()
@@ -126,8 +135,41 @@ public class MedicationListActivity extends FragmentActivity implements
 					getHelper().getResidentMedicationDataDao();
 			MedicationUtils medUtils = new MedicationUtils(medDao);
 			medsList = medUtils.getMedicationForResident(medsDao, currentResident.getResident_id());
+			
+			setupUI();
 		}else{
 			Toast.makeText(getBaseContext(), "Failed to find james cooper?", Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	/**
+	 * Currently  just sets up the give meds button
+	 */
+	public void setupUI(){
+		giveMedsButton = (Button)findViewById(R.id.give_med_button);
+		giveMedsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {// We set up the button so that if it
+				//    is clicked, it navigates the user to the walkthrough
+				//    activity with the current resident and medication.
+				goToWalkthrough();
+			}
+		});
+	}
+	
+	/**
+	 * Sends an Intent to start the walkthrough with the current medication and
+	 * resident.
+	 */
+	public void goToWalkthrough(){
+		if(currentResident != null && selectedMed != null){
+			Intent goToWalkthroughIntent = new Intent(getBaseContext(), Walkthrough.class);
+			goToWalkthroughIntent.putExtra("resName", currentResident.getName());
+			goToWalkthroughIntent.putExtra("medName", selectedMed.getName());
+			goToWalkthroughIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(goToWalkthroughIntent);
+		}else{
+			Log.i(TAG, "Can't navigate without selecting a med first.");
 		}
 	}
 
@@ -160,16 +202,15 @@ public class MedicationListActivity extends FragmentActivity implements
 			TextView warnings = (TextView)findViewById(R.id.warnings);
 			TextView notes = (TextView)findViewById(R.id.notes);
 			//Search for the matching med
-			Medication thisMed = new Medication();
 			for(Medication med : medsList){
 				if(med.toString().equals(id)){
-					thisMed = med;
+					selectedMed = med;
 				}
 			}
 			//Set the text for the fields
-			sideEffect.setText("\n\t\t"+thisMed.getSideEffects());
-			warnings.setText("\n\t\t"+thisMed.getWarnings());
-			notes.setText("\n\t\t"+thisMed.getNotes());
+			sideEffect.setText("\n\t\t"+selectedMed.getSideEffects());
+			warnings.setText("\n\t\t"+selectedMed.getWarnings());
+			notes.setText("\n\t\t"+selectedMed.getNotes());
 
 		} else {
 			// In single-pane mode, simply start the detail activity
