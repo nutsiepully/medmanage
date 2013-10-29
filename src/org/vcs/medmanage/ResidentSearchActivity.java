@@ -40,7 +40,6 @@ public class ResidentSearchActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resident_search);
 
-        ApplicationInitializer.init(this);
         setupUI();
     }
 

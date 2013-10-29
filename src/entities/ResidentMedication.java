@@ -17,9 +17,12 @@ public class ResidentMedication {
 	@DatabaseField(foreign = true, foreignAutoRefresh=true)
 	private Medication medication;
 	@DatabaseField
-	private int resident_id;
-	@DatabaseField
 	private String forWhat;
+    @DatabaseField(columnName = "medication_schedule")
+    private String medicationSchedule;
+    @DatabaseField(foreign = true, foreignAutoRefresh =  true, columnName = "resident_id")
+    private Resident resident;
+
 	/**
 	 * END RESIDENT MEDICATION ATTRIBUTES
 	 */
@@ -27,32 +30,23 @@ public class ResidentMedication {
 	public ResidentMedication(){
 		//Must define no-arg constructor for ORMLite
 		medication = new Medication();
-		resident_id = -1;
 		forWhat = new String();
 	}
 	
 	public ResidentMedication(Medication med, int residentId){
 		medication = med;
-		resident_id = residentId;
 		forWhat = new String();
 	}
 	
-	public ResidentMedication(Medication med, int residentId, String forWhat){
+	public ResidentMedication(Medication med, Resident resident, String forWhat, String medicationSchedule){
 		medication = med;
-		resident_id = residentId;
+		this.resident = resident;
 		this.forWhat = forWhat;
+        this.medicationSchedule = medicationSchedule;
 	}
 
 	public Medication getMedication() {
 		return medication;
-	}
-
-	public int getResident_id() {
-		return resident_id;
-	}
-
-	public void setResident_id(int resident_id) {
-		this.resident_id = resident_id;
 	}
 
 	public String getForWhat() {

@@ -23,7 +23,7 @@ import entities.ResidentMedication;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public final String TAG = DatabaseHelper.class.getName();
 	private static final String DATABASE_NAME = "medManage.db";
-	private static final int DATABASE_VERSION = 20;
+	private static final int DATABASE_VERSION = 24;
 	
 	private Dao<Resident, Integer> residentDao = null;
 	private Dao<Medication, Integer> medicationDao = null;
@@ -339,9 +339,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		newMed2.setInstructions("Have the resident swallow the pill with water.");
 		
 		//Associate meds with Ressys
-		ResidentMedication relation1 = new ResidentMedication(newMed1, 2);
-		ResidentMedication relation2 = new ResidentMedication(newMed2, 2);
-		
+		ResidentMedication relation1 = new ResidentMedication(newMed1, resident1, "", "* * * *");
+		ResidentMedication relation2 = new ResidentMedication(newMed2, resident1, "", "* * * *");
+		ResidentMedication relation3 = new ResidentMedication(newMed2, resident2, "", "* * * *");
+		ResidentMedication relation4 = new ResidentMedication(newMed2, resident2, "", "* * * *");
+
 		//Put some recent residents
 		RecentResident recent1 = new RecentResident(1, 1);
 		RecentResident recent2 = new RecentResident(2, 2);
@@ -358,7 +360,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		
 		getResidentMedicationDataDao().create(relation1);
 		getResidentMedicationDataDao().create(relation2);
-		
+		getResidentMedicationDataDao().create(relation3);
+		getResidentMedicationDataDao().create(relation4);
+
 		getRecentResidentDataDao().create(recent1);
 		getRecentResidentDataDao().create(recent2);
 	}
