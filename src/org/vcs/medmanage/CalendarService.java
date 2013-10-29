@@ -26,17 +26,12 @@ public class CalendarService {
     }
 
     public List<MedicationAppointment> getResidentMedications(Resident resident) {
-//        return getTestMedicationAppointments(resident);
-
         List<MedicationAppointment> medicationAppointments = new ArrayList<MedicationAppointment>();
         for(ResidentMedication residentMedication : resident.getResidentMedications()) {
             MedicationAppointment medicationAppointment =
                     new MedicationAppointment(resident, residentMedication.getMedication().getMedication_id(), new Date(), 10);
+            medicationAppointments.add(medicationAppointment);
         }
-
-//        RuntimeExceptionDao<ResidentMedication, Integer> dao = databaseHelper.getResidentMedicationDataDao();
-//        MedicationUtils medicationUtils = new MedicationUtils(databaseHelper.getMedicationDataDao());
-//        List<Medication> medsList = medicationUtils.getMedicationForResident(dao, resident.getResident_id());
 
         return medicationAppointments;
     }
