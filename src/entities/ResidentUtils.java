@@ -102,4 +102,17 @@ public class ResidentUtils{
 			return null;
 		}
 	}
+
+    public static Resident getResident(RuntimeExceptionDao<Resident, Integer> dao, int residentId) {
+        QueryBuilder<Resident, Integer> queryBuilder = dao.queryBuilder();
+
+        try {
+            queryBuilder.where().like("resident_id", residentId);
+
+            return dao.queryForFirst(queryBuilder.prepare());
+        } catch (SQLException e) {
+            Log.e(ResidentUtils.class.getName(), "Error trying to fetch resident for id : " + residentId, e);
+            return null;
+        }
+    }
 }
