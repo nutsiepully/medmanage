@@ -8,5 +8,10 @@
     <color name="landing_title">#000000</color>
     <color name="landing_text">#FFFFFF</color>
     <color name="landing_background">#FFFFFF</color>
+    <color name="walkthrough_button_background">#FFFFFF</color>
+    <color name="yes_button_border">#0DFC4D</color>
+    <color name="walkthrough_instructions_text">#FFFFFF</color>
+    <color name="walkthrough_button_text">#000000</color>
+    <color name="no_button_border">#FC0D0D</color>
     
 </resources>

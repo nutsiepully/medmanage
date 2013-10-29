@@ -47,6 +47,8 @@ public class Walkthrough extends Activity {
 	private LinearLayout flexButtons = null;
 	private Button startOver = null;
 	private Button callNurse = null;
+	private Button yesButton = null;
+	private Button noButton = null;
 	private TextView instructionsText = null;
 
 	@Override
@@ -195,13 +197,7 @@ public class Walkthrough extends Activity {
 		//Add to flex area
 		flexLayout.addView(residentImage, getImageParams());
 		
-		//Create and add buttons for 'yes' and 'no'
-		Button yesButton = new Button(getBaseContext());
-		Button noButton = new Button(getBaseContext());
-		yesButton.setText("YES");
-		noButton.setText("NO");
-		flexButtons.addView(yesButton, getButtonParams());
-		flexButtons.addView(noButton, getButtonParams());
+		addYesNoButtons();
 		
 		//Setup action listeners on the buttons
 		yesButton.setOnClickListener(new OnClickListener() {
@@ -236,13 +232,7 @@ public class Walkthrough extends Activity {
 		//Add to flex area
 		flexLayout.addView(medicatoinImage, getImageParams());
 		
-		//Create and add buttons for 'yes' and 'no'
-		Button yesButton = new Button(getBaseContext());
-		Button noButton = new Button(getBaseContext());
-		yesButton.setText("YES");
-		noButton.setText("NO");
-		flexButtons.addView(yesButton, getButtonParams());
-		flexButtons.addView(noButton, getButtonParams());
+		addYesNoButtons();
 		
 		//Setup action listeners on the buttons
 		yesButton.setOnClickListener(new OnClickListener() {
@@ -327,13 +317,7 @@ public class Walkthrough extends Activity {
 				medName + " to " + resName + " on " + dateString
 				);
 		
-		//Create and add buttons for 'yes' and 'no'
-		Button yesButton = new Button(getBaseContext());
-		Button noButton = new Button(getBaseContext());
-		yesButton.setText("YES");
-		noButton.setText("NO");
-		flexButtons.addView(yesButton, getButtonParams());
-		flexButtons.addView(noButton, getButtonParams());
+		addYesNoButtons();
 		
 		//Setup action listeners on the buttons
 		yesButton.setOnClickListener(new OnClickListener() {
@@ -384,13 +368,7 @@ public class Walkthrough extends Activity {
 			instructionsText.setText("This medication should be taken with a meal. Has "+
 					resName+" eaten yet?");
 			
-			//Create and add buttons for 'yes' and 'no'
-			Button yesButton = new Button(getBaseContext());
-			Button noButton = new Button(getBaseContext());
-			yesButton.setText("YES");
-			noButton.setText("NO");
-			flexButtons.addView(yesButton, getButtonParams());
-			flexButtons.addView(noButton, getButtonParams());
+			addYesNoButtons();
 			
 			//Setup action listeners on the buttons
 			yesButton.setOnClickListener(new OnClickListener() {
@@ -446,13 +424,7 @@ public class Walkthrough extends Activity {
 				medicationName+
 				".\nWould you like to administer any more meds at this time?");
 		
-		//Create and add buttons for 'yes' and 'no'
-		Button yesButton = new Button(getBaseContext());
-		Button noButton = new Button(getBaseContext());
-		yesButton.setText("YES");
-		noButton.setText("NO");
-		flexButtons.addView(yesButton, getButtonParams());
-		flexButtons.addView(noButton, getButtonParams());
+		addYesNoButtons();
 		
 		//Setup action listeners on the buttons
 		yesButton.setOnClickListener(new OnClickListener() {
@@ -496,6 +468,8 @@ public class Walkthrough extends Activity {
 		LinearLayout.LayoutParams params = 
 				new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 
 						LinearLayout.LayoutParams.WRAP_CONTENT);
+		params.rightMargin = 5;
+		params.leftMargin = 5;
 		return params;
 	}
 	
@@ -508,6 +482,28 @@ public class Walkthrough extends Activity {
 						500);
 		params.gravity = Gravity.CENTER;
 		return params;
+	}
+	
+	/**
+	 * Adds Yes and No buttons to the view
+	 */
+	public void addYesNoButtons(){
+		//Create and add buttons for 'yes' and 'no'
+		yesButton = new Button(getBaseContext());
+		noButton = new Button(getBaseContext());
+		
+		//Set some UI attributes
+		yesButton.setBackgroundResource(R.drawable.walkthrough_yes_border);
+		int textColor = getResources().getColor(R.color.walkthrough_button_text);
+		yesButton.setTextColor(textColor);
+		noButton.setBackgroundResource(R.drawable.walkthrough_no_border);
+		noButton.setTextColor(textColor);
+		
+		yesButton.setText("YES");
+		noButton.setText("NO");
+		
+		flexButtons.addView(yesButton, getButtonParams());
+		flexButtons.addView(noButton, getButtonParams());
 	}
 
 	@Override
