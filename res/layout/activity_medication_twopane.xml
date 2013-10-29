@@ -127,6 +127,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:text="@string/give_med_string"
+            android:background="@drawable/rounded_edges_2"
+            android:textColor="@color/walkthrough_button_text"
+            android:padding="5dp"
             />
     </LinearLayout>
 </LinearLayout>
