@@ -2,6 +2,7 @@ package org.vcs.medmanage;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,12 +19,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import db.DatabaseHelper;
 
+import entities.RecentResidentUtils;
 import entities.Resident;
+import entities.ResidentUtils;
 
 
 /* This class will be the Resident's profile page with a tab for the medications the residents are on
@@ -31,9 +35,12 @@ import entities.Resident;
  * */
 public class ResidentMedicineActivity extends Activity {
 
-    private DatabaseHelper database;
-  
+	private DatabaseHelper databaseHelper = null;
+	private RuntimeExceptionDao<Resident, Integer> residentDao;
+	private List<Resident> residentList = new ArrayList<Resident>();
+	
     Resident currentResident;
+    String residentName;
     
     private ArrayAdapter<Resident> residentAdapter;
 
@@ -41,13 +48,44 @@ public class ResidentMedicineActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.d(UI_MODE_SERVICE, "Entered App");
         setContentView(R.layout.resident_medicine);
-        // Set the default patient
-
-        /*RuntimeExceptionDao<Resident, Integer> dao = 
-        		((DatabaseHelper) getHelper()).getResidentDataDao();
+            
+        // Get the resident database
+        residentDao =
+				getHelper().getResidentDataDao();
         
-        */
+        Log.d(UI_MODE_SERVICE, "Created residentDao");
         
+      //Set the action bar back button because it's nice
+  		getActionBar().setHomeButtonEnabled(true);
+  		getActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        // Get the variables passed from the previous screen...
+        Intent inIntent = getIntent();
+		if(inIntent.hasExtra("resName")){
+			// If we got here during normal application usage, there will be 
+			// a resident attached as an extra, which we should get from 
+			// the database.
+			Bundle extras = inIntent.getExtras();
+			Log.d(UI_MODE_SERVICE, "Got Resident Name");
+			residentName = extras.getString("resName");
+		}else{// If there wasn't a matching key in the intent, then this page 
+			//    was probably navigated to during testing. In that case, we
+			//    just use a default Resident.
+			Log.d(UI_MODE_SERVICE, "Setting to Default Resident: James Cooper");
+			residentName = "James Cooper";
+		}
+        
+		
+        residentList = getResident(residentDao, residentName);
+		if(residentList.size() == 1){
+			currentResident = residentList.get(0);
+			Log.d(UI_MODE_SERVICE, "Got Resident: " + residentName);
+		}
+		else{
+			Log.d(UI_MODE_SERVICE, "Invalid number of Residents!");
+		}
+        
+		
         displayPatientProfile(currentResident);
         displayMedicineList(currentResident);
         
@@ -74,9 +112,10 @@ public class ResidentMedicineActivity extends Activity {
     
     // List view of the information 
     public void displayMedicineList(Resident res){
-    	
+    	Log.d(UI_MODE_SERVICE, "Entered displayMedicineList");
     }
     
+    // Update all the Text Views for the Patient
     public int updateTextView(String toThis, String name) {
     	String finalString = "";
     	TextView t;
@@ -136,5 +175,27 @@ public class ResidentMedicineActivity extends Activity {
     	updateTextView("10am: Gave tylenol for headache.", "txtPatientRecentActions");
     	updateTextView("Beach", "txtPatientNotes");
     }
+    
+	/**
+	 * Gets a reference to the DB. If it fails, it returns null instead.
+	 */
+	protected DatabaseHelper getHelper(){
+		if(databaseHelper == null){
+			databaseHelper = 
+					OpenHelperManager.getHelper(this.getBaseContext(), DatabaseHelper.class);
+		}
+		return databaseHelper;
+	}
+	
+	// Use the ResidentUtils class
+	public List<Resident> getResident(RuntimeExceptionDao<Resident, Integer> dao, String resName){
+		ResidentUtils resUtils = new ResidentUtils();
+		List<Resident> resList = new ArrayList<Resident>();
+		
+		resList = resUtils.findResident(dao, resName);
+		
+		return resList;
+	}
+	
 
 }
