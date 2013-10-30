@@ -28,6 +28,7 @@
             android:label="@string/title_medication_list" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,11 +50,17 @@
         <activity
             android:name="org.vcs.medmanage.Walkthrough"
             android:label="@string/title_activity_walkthrough" >
-            <intent-filter >
+            <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ResidentCalendarActivity" android:label="Resident Calendar">
+        <activity
+            android:name="org.vcs.medmanage.ResidentCalendarActivity"
+            android:label="Resident Calendar" >
+        </activity>
+        <activity
+            android:name="org.vcs.medmanage.MedicationFragment"
+            android:label="@string/title_activity_medication_fragment" >
         </activity>
     </application>
 

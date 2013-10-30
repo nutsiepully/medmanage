@@ -13,5 +13,9 @@
     <color name="walkthrough_instructions_text">#FFFFFF</color>
     <color name="walkthrough_button_text">#000000</color>
     <color name="no_button_border">#FC0D0D</color>
+    <color name="text_on_contrast">#000000</color>
+    <color name="text_on_normal">#FFFFFF</color>
+    <color name="normal">#000000</color>
+    <color name="contrast">#FFFFFF</color>
     
 </resources>
