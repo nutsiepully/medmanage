@@ -469,7 +469,7 @@ public class Walkthrough extends Activity {
 				new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 
 						LinearLayout.LayoutParams.WRAP_CONTENT);
 		params.rightMargin = 5;
-		params.leftMargin = 5;
+		params.leftMargin = 6;
 		return params;
 	}
 	

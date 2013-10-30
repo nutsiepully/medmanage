@@ -27,6 +27,8 @@
             android:name="org.vcs.medmanage.MedicationListActivity"
             android:label="@string/title_medication_list" >
             <intent-filter>
+                
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,7 +51,6 @@
             android:name="org.vcs.medmanage.Walkthrough"
             android:label="@string/title_activity_walkthrough" >
             <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
