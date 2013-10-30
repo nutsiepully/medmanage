@@ -1,7 +1,12 @@
 package entities;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * In-memory representation of a Resident from the DB backend. This class mostly
@@ -68,10 +73,12 @@ public class Resident {
 	private String neighborhood;
 	@DatabaseField
 	private String allergies;
+    @ForeignCollectionField
+    private ForeignCollection<ResidentMedication> residentMedications;
 	/**
 	 * END RESIDENT ATTRIBUTES
 	 */
-	
+
 	public Resident(){
 		//Per ORMLite, all classes that wish to be persisted to the DB must
 		//    declare a no-argument constructor.
@@ -224,6 +231,14 @@ public class Resident {
 	public void setAllergies(String allergies) {
 		this.allergies = allergies;
 	}
+
+    public List<ResidentMedication> getResidentMedications() {
+        List<ResidentMedication> residentMedicationList = new ArrayList<ResidentMedication>();
+        for (ResidentMedication residentMedication : residentMedications)
+            residentMedicationList.add(residentMedication);
+
+        return  residentMedicationList;
+    }
 
     @Override
     public String toString() {

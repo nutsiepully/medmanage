@@ -31,6 +31,10 @@ public class ResMedContent {
 	 * @param meds The meds to be added for the fragment to display.
 	 */
 	public ResMedContent(List<Medication> meds){
+		//Clobber old item list for safety
+		ITEMS = new ArrayList<Medication>();
+		ITEM_MAP = new HashMap<String, Medication>();
+		
 		for(Medication med : meds){
 			addItem(med);
 		}

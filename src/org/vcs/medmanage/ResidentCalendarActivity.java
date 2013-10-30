@@ -36,7 +36,7 @@ public class ResidentCalendarActivity extends Activity {
 
         TextView residentCalendarTextView = (TextView)findViewById(R.id.residentCalendarTextView);
 
-        CalendarService calendarService = new CalendarService();
+        CalendarService calendarService = new CalendarService(this);
         List<MedicationAppointment> residentMedications = calendarService.getResidentMedications(resident);
         residentCalendarTextView.setText(getMedicationString(residentMedications));
     }

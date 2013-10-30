@@ -16,7 +16,9 @@ import android.widget.ListView;
 
 import entities.Medication;
 import entities.MedicationUtils;
+import entities.Resident;
 import entities.ResidentMedication;
+import entities.ResidentUtils;
 
 /**
  * A list fragment representing a list of ResidentMeds. This fragment also
@@ -111,11 +113,15 @@ public class MedicationListFragment extends ListFragment {
 	 * them.
 	 */
 	public void extractMedication(){
+		RuntimeExceptionDao<Resident, Integer> resDao =
+				getHelper().getResidentDataDao();
+		Resident currentResident = ResidentUtils.getResident(resDao, residentId);
+		
 		//Get a list of Medications for the Resident
 		RuntimeExceptionDao<ResidentMedication, Integer> resMedDao = 
 				getHelper().getResidentMedicationDataDao();
     	MedicationUtils medUtils = new MedicationUtils(getHelper().getMedicationDataDao());
-    	List<Medication> medsList = medUtils.getMedicationForResident(resMedDao, residentId);
+    	List<Medication> medsList = medUtils.getMedicationForResident(currentResident);
     	
     	resContent = new ResMedContent(medsList);
 	}

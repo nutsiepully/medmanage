@@ -134,7 +134,7 @@ public class MedicationListActivity extends FragmentActivity implements
 			RuntimeExceptionDao<ResidentMedication, Integer> medsDao = 
 					getHelper().getResidentMedicationDataDao();
 			MedicationUtils medUtils = new MedicationUtils(medDao);
-			medsList = medUtils.getMedicationForResident(medsDao, currentResident.getResident_id());
+			medsList = medUtils.getMedicationForResident(currentResident);
 			
 			setupUI();
 		}else{
