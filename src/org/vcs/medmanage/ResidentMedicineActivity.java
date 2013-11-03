@@ -2,6 +2,7 @@ package org.vcs.medmanage;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,10 +14,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -38,6 +41,8 @@ public class ResidentMedicineActivity extends Activity {
 	private DatabaseHelper databaseHelper = null;
 	private RuntimeExceptionDao<Resident, Integer> residentDao;
 	private List<Resident> residentList = new ArrayList<Resident>();
+	private List<MedicationAppointment> medApts = new ArrayList<MedicationAppointment>();
+	private CalendarService calendar;
 	
     Resident currentResident;
     String residentName;
@@ -61,13 +66,13 @@ public class ResidentMedicineActivity extends Activity {
         
         // Get the variables passed from the previous screen...
         Intent inIntent = getIntent();
-		if(inIntent.hasExtra("resName")){
+		if(inIntent.hasExtra("ResidentName")){
 			// If we got here during normal application usage, there will be 
 			// a resident attached as an extra, which we should get from 
 			// the database.
 			Bundle extras = inIntent.getExtras();
 			Log.d(UI_MODE_SERVICE, "Got Resident Name");
-			residentName = extras.getString("resName");
+			residentName = extras.getString("ResidentName");
 		}else{// If there wasn't a matching key in the intent, then this page 
 			//    was probably navigated to during testing. In that case, we
 			//    just use a default Resident.
@@ -86,8 +91,10 @@ public class ResidentMedicineActivity extends Activity {
 		}
         
 		
+		displayPatientPicture(currentResident);
         displayPatientProfile(currentResident);
-        displayMedicineList(currentResident);
+        calendar = new CalendarService(this);
+        displayCalendar(currentResident, calendar);
         
         //Changes on click :)
         final Button button = (Button) findViewById(R.id.button1);
@@ -100,6 +107,10 @@ public class ResidentMedicineActivity extends Activity {
         
         }
     
+    public void displayPatientPicture(Resident res){
+    	
+    }
+    
     // Show the Patient Information in a normal fashion
     public void displayPatientProfile(Resident res){
     	
@@ -107,23 +118,78 @@ public class ResidentMedicineActivity extends Activity {
     	//ImageView iv = (ImageView) findViewById(R.id.patientPicture);
     	//iv.setImageBitmap(bitmap);
     	Log.d(UI_MODE_SERVICE, "Entered displayPatientProfile");
+    	    	
+    	updateTextView(res.getName(), "txtPatientName");
+    	if (res.isGender()){
+    		updateTextView("Female", "txtPatientGender");
+    	}
+    	else{
+    		updateTextView("Male", "txtPatientGender");
+    	}
+    	updateTextView(Integer.toString(res.getRoomNumber()), "txtPatientRoom");
+    	updateTextView(res.getDiagnosis(), "txtPatientDiagnosis");
+    	// What is "Other Diagnosis considered as?"
+    	updateTextView(Integer.toString(res.getAge()), "txtPatientAge");
+    	// Add weight to the database!
+    	//updateTextView(Integer.toString(res.getWeight()), "txtPatientWeight");
+    	updateTextView(res.getRecentActions(), "txtPatientRecentActions");
+    	updateTextView(res.getNotes(), "txtPatientNotes");
+    	
+    	
+    	// Check if any of these need to be put somewhere?
+    	Log.d(UI_MODE_SERVICE, "Primary Diagnosis?: "+ res.getPrimaryDiagnosis());
+    	Log.d(UI_MODE_SERVICE, "Other Diagnosis: "+ res.getOtherDiagnoses());
+    	Log.d(UI_MODE_SERVICE, "Allergies: "+ res.getAllergies());
+    	Log.d(UI_MODE_SERVICE, "Picture Path: "+ res.getPicturePath());
+    	Log.d(UI_MODE_SERVICE, "Preferences: "+ res.getPrefs());
     	
     }
     
     // List view of the information 
-    public void displayMedicineList(Resident res){
-    	Log.d(UI_MODE_SERVICE, "Entered displayMedicineList");
+    public void displayCalendar(Resident res, CalendarService cal){
+    	Log.d(UI_MODE_SERVICE, "Entered displayCalendar");
+    	
+    	// Get the list of times that each medication needs to be taken at...
+    	medApts = cal.getResidentMedications(res);
+    	
+    	// Sort medApts by time...
+    	sortMedApts(medApts);
+    	
+    	// Lets just get the names from the medApts and put it into an ArrayList?
+    	List<String> strMedApts = new ArrayList<String>();
+    	for(int i = 0; i < medApts.size(); i++){
+    		strMedApts.add(medApts.toString());
+    		Log.d(UI_MODE_SERVICE, "MedApt:" + strMedApts.get(i));
+    	}
+    	
+    	
+    	Log.d(UI_MODE_SERVICE, "Updating the listView?");
+    	// Send this to the list view to see it
+    	ListView listview = (ListView) findViewById(R.id.residentListView);
+
+    	Log.d(UI_MODE_SERVICE, "Updating Adapter?");
+    	// Create an adapter
+    	
+    	//final StableArrayAdapter adapter = new StableArrayAdapter(this,
+    	//        R.id.residentListView, strMedApts);
+    	    //listview.setAdapter(adapter);
+    	//ArrayAdapter test= new ArrayAdapter<String>(this, R.layout.list_item, R.id.residentListView, strMedApts);
+    	
+    	listview.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.aptinfo, strMedApts));
+
     }
     
-    // Update all the Text Views for the Patient
+    private void sortMedApts(List<MedicationAppointment> medApts2) {
+		// For now, lets just print the medicines in the list view
+	}
+
+	// Update all the Text Views for the Patient
     public int updateTextView(String toThis, String name) {
     	String finalString = "";
     	TextView t;
      	
     	if(name.equals("txtPatientName")){
     		t = (TextView) this.findViewById(R.id.txtPatientName);
-    		
-    		
     	}   	
      	else if(name.equals("txtPatientGender")){
     		t = (TextView) this.findViewById(R.id.txtPatientGender);
@@ -159,12 +225,13 @@ public class ResidentMedicineActivity extends Activity {
     	}
     	
     	finalString = finalString + toThis;
-    	Log.d(UI_MODE_SERVICE, "This is: " + finalString);
+    	Log.d(UI_MODE_SERVICE, finalString);
        
     	t.setText(finalString);
         return 1;
     }
     
+    // This was for testing purposes...
     public void setTxtViews(){
     	updateTextView("Phil Simms", "txtPatientName");
     	updateTextView("Male", "txtPatientGender");
@@ -190,12 +257,42 @@ public class ResidentMedicineActivity extends Activity {
 	// Use the ResidentUtils class
 	public List<Resident> getResident(RuntimeExceptionDao<Resident, Integer> dao, String resName){
 		ResidentUtils resUtils = new ResidentUtils();
-		List<Resident> resList = new ArrayList<Resident>();
 		
-		resList = resUtils.findResident(dao, resName);
-		
-		return resList;
+		return resUtils.findResident(dao, resName);	
 	}
 	
+	  private class StableArrayAdapter extends ArrayAdapter<String> {
+
+		    HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+
+		    public StableArrayAdapter(Context context, int textViewResourceId,
+		        List<String> objects) {
+		      super(context, textViewResourceId, objects);
+		      for (int i = 0; i < objects.size(); ++i) {
+		        mIdMap.put(objects.get(i), i);
+		      }
+		    }
+
+		    @Override
+		    public long getItemId(int position) {
+		      String item = getItem(position);
+		      return mIdMap.get(item);
+		    }
+
+		    @Override
+		    public boolean hasStableIds() {
+		      return true;
+		    }
+
+	  }
+
+		@Override
+		public void onDestroy(){
+			super.onDestroy();
+			if(databaseHelper != null){
+				OpenHelperManager.releaseHelper();
+				databaseHelper = null;
+			}
+		}
 
 }
