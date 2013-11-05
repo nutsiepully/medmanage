@@ -22,7 +22,7 @@ public class CronSchedule {
                 .newTrigger()
                 .withIdentity("trigger1", "group1")
                 .withSchedule(
-                        CronScheduleBuilder.cronSchedule("0/5 * * * * ?"))
+                        CronScheduleBuilder.cronSchedule(this.cronExpression))
                 .build();
 
         return TriggerUtils.computeFireTimesBetween(trigger, new BaseCalendar(), startDate, endDate);
