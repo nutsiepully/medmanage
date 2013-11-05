@@ -10,18 +10,11 @@ import org.quartz.TriggerUtils;
 import org.quartz.impl.calendar.BaseCalendar;
 import org.quartz.spi.OperableTrigger;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class CronExpressionTest extends TestCase {
-
-    public void testGetNextInvalidTimeAfter() throws Exception {
-        CronExpression cronExpression = new CronExpression("0 30 16 * * ? *");
-        Date today = new Date(2013, 12, 22, 0, 0, 0);
-        Date medicineTime = cronExpression.getNextValidTimeAfter(today);
-
-        assertEquals(new Date(2013, 10, 22, 16, 30, 0), medicineTime);
-    }
 
     public void testCronFireableTimes() throws Exception
     {
@@ -40,5 +33,23 @@ public class CronExpressionTest extends TestCase {
             System.out.println(date.toString());
         }
         System.out.println("*********************");
+    }
+
+    public void testDate() throws Exception
+    {
+        System.out.println("*******************");
+
+        Date date = new Date();
+        System.out.println(date.toString());
+
+        Calendar calendar = Calendar.getInstance();
+        System.out.println(calendar.getTime());
+
+        Calendar dCal = Calendar.getInstance();
+        dCal.set(Calendar.HOUR_OF_DAY, 0);
+        dCal.set(Calendar.MINUTE, 0);
+        dCal.set(Calendar.SECOND, 0);
+        dCal.set(Calendar.MILLISECOND, 0);
+        System.out.println(dCal.getTime());
     }
 }

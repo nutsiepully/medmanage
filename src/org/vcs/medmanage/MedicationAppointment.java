@@ -4,7 +4,7 @@ import java.util.Date;
 
 import entities.Resident;
 
-public class MedicationAppointment {
+public class MedicationAppointment implements Comparable<MedicationAppointment> {
 
     private Resident resident;
 
@@ -40,10 +40,14 @@ public class MedicationAppointment {
     @Override
     public String toString() {
         return "MedicationAppointment{" +
-                "resident=" + resident +
                 ", medicationId=" + medicationId +
                 ", medicationTime=" + medicationTime +
                 ", medicationWindow=" + medicationWindow +
                 '}';
+    }
+
+    @Override
+    public int compareTo(MedicationAppointment another) {
+        return this.medicationTime.compareTo(another.medicationTime);
     }
 }

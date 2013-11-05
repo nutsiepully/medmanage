@@ -56,4 +56,8 @@ public class ResidentMedication {
 	public void setForWhat(String forWhat) {
 		this.forWhat = forWhat;
 	}
+
+    public String getMedicationSchedule() {
+        return medicationSchedule;
+    }
 }
