@@ -24,7 +24,7 @@ public class ResidentSearchActivity extends Activity {
 
     private List<String> corridorsList = Arrays.asList(new String[]{"Corridor 1", "Corridor 2", "Corridor 3"});
     private List<String> residentStatusList = Arrays.asList(new String[]{"Red", "Yellow", "Green"});
-    private List<String> alphabeticRangeList = Arrays.asList(new String[]{"A-F", "G-M", "N-Z"});
+    private List<String> alphabeticRangeList = Arrays.asList(new String[]{"A-C", "D-G", "H-L", "M-Q", "R-T", "U-Z"});
 
     private List<Resident> residentList = new ArrayList<Resident>();
 
@@ -59,7 +59,7 @@ public class ResidentSearchActivity extends Activity {
         searchOptionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((ListView)parent).setItemChecked(position, true);
+                ((ListView) parent).setItemChecked(position, true);
                 fetchAndDisplayResidents(searchOptionsListView.getAdapter(), position);
             }
         });
@@ -75,7 +75,7 @@ public class ResidentSearchActivity extends Activity {
         RadioGroup searchButtonsRadioGroup = (RadioGroup) findViewById(R.id.searchButtonsRadioGroup);
 
         List<Resident> searchedResidents;
-        String searchTerm = (String)adapter.getItem(position);
+        String searchTerm = (String) adapter.getItem(position);
 
         switch (searchButtonsRadioGroup.getCheckedRadioButtonId()) {
             case R.id.roomSearchRadioButton:
@@ -110,6 +110,7 @@ public class ResidentSearchActivity extends Activity {
                 break;
         }
         searchOptionsListView.setItemChecked(0, true);
+        fetchAndDisplayResidents(searchOptionsListView.getAdapter(), 0);
     }
 
 }
