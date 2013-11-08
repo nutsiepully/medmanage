@@ -88,18 +88,13 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:layout_height="fill_parent"
-        android:id="@+id/residentSearchLinearLayout"
-        android:layout_width="0dp"
-        >
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/residentListView"
-            android:layout_gravity="left|center_vertical" />
-    </LinearLayout>
+    <LinearLayout 
+    android:id="@+id/list_medapts"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingTop="5dp"
+    />
+    
 </LinearLayout>

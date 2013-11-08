@@ -2,11 +2,14 @@ package org.vcs.medmanage;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
@@ -39,7 +43,7 @@ import entities.ResidentUtils;
 /* This class will be the Resident's profile page with a tab for the medications the residents are on
  * 
  * */
-public class ResidentMedicineActivity extends Activity {
+public class ResidentMedicineActivity extends FragmentActivity {
 
 	private DatabaseHelper databaseHelper = null;
 	private RuntimeExceptionDao<Resident, Integer> residentDao;
@@ -49,6 +53,7 @@ public class ResidentMedicineActivity extends Activity {
 	
     Resident currentResident;
     String residentName;
+    LinearLayout layout = null;
     
     private ArrayAdapter<Resident> residentAdapter;
 
@@ -69,7 +74,7 @@ public class ResidentMedicineActivity extends Activity {
         
         // Get the variables passed from the previous screen...
         Intent inIntent = getIntent();
-		if(inIntent.hasExtra("ResidentName")){
+		if(inIntent.hasExtra("resName")){
 			// If we got here during normal application usage, there will be 
 			// a resident attached as an extra, which we should get from 
 			// the database.
@@ -98,6 +103,7 @@ public class ResidentMedicineActivity extends Activity {
 		//debuglogRes(currentResident);
         displayPatientProfile(currentResident);
         calendar = new CalendarService(this);
+        //layout = (LinearLayout)findViewById(R.id.list_medapts);
         displayCalendar(currentResident, calendar);
         
         
@@ -173,27 +179,19 @@ public class ResidentMedicineActivity extends Activity {
     	sortMedApts(medApts);
     	
     	// Lets just get the names from the medApts and put it into an ArrayList?
-    	List<String> strMedApts = new ArrayList<String>();
+    	ArrayList<String> strMedApts = new ArrayList<String>();
     	for(int i = 0; i < medApts.size(); i++){
     		strMedApts.add(medApts.toString());
-    		Log.d(UI_MODE_SERVICE, "MedApt:" + strMedApts.get(i));
+    		Log.d(UI_MODE_SERVICE, "MedApt" + i + ": " + strMedApts.get(i));
     	}
     	
     	
     	Log.d(UI_MODE_SERVICE, "Updating the listView?");
     	// Send this to the list view to see it
-    	ListView listview = (ListView) findViewById(R.id.residentListView);
+    	//ListView listview = (ListView) findViewById(R.id.residentListView);
 
     	Log.d(UI_MODE_SERVICE, "Updating Adapter?");
-    	// Create an adapter
-    	
-    	//final StableArrayAdapter adapter = new StableArrayAdapter(this,
-    	//        R.id.residentListView, strMedApts);
-    	    //listview.setAdapter(adapter);
-    	//ArrayAdapter test= new ArrayAdapter<String>(this, R.layout.list_item, R.id.residentListView, strMedApts);
-    	
-    	//listview.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.aptinfo, strMedApts));
-
+    	//addList(strMedApts);
     }
     
     private void sortMedApts(List<MedicationAppointment> medApts2) {
@@ -250,7 +248,7 @@ public class ResidentMedicineActivity extends Activity {
         return 1;
     }
     
-    // This was for testing purposes...
+    // This was for testing purposes... to make sure we can change it
     public void setTxtViews(){
     	updateTextView("Phil Simms", "txtPatientName");
     	updateTextView("Male", "txtPatientGender");
@@ -279,31 +277,6 @@ public class ResidentMedicineActivity extends Activity {
 		
 		return resUtils.findResident(dao, resName);	
 	}
-	
-	  private class StableArrayAdapter extends ArrayAdapter<String> {
-
-		    HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-		    public StableArrayAdapter(Context context, int textViewResourceId,
-		        List<String> objects) {
-		      super(context, textViewResourceId, objects);
-		      for (int i = 0; i < objects.size(); ++i) {
-		        mIdMap.put(objects.get(i), i);
-		      }
-		    }
-
-		    @Override
-		    public long getItemId(int position) {
-		      String item = getItem(position);
-		      return mIdMap.get(item);
-		    }
-
-		    @Override
-		    public boolean hasStableIds() {
-		      return true;
-		    }
-
-	  }
 
 		@Override
 		public void onDestroy(){
@@ -311,6 +284,28 @@ public class ResidentMedicineActivity extends Activity {
 			if(databaseHelper != null){
 				OpenHelperManager.releaseHelper();
 				databaseHelper = null;
+			}
+		}
+		
+		// Adds medication fragments 
+		public void addList(ArrayList<String> list){
+			Bundle residentArgs = new Bundle();
+			// put in the resident name
+			residentArgs.putString("resName", residentName);
+			
+			for(int i = 1; i < list.size(); i++){
+				android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+				residentArgs.putString("intentArgName", list.get(i));
+				
+				
+				Log.d("main", "Adding" + list.get(i));
+				
+				MedicationFragment recentFragment = new MedicationFragment();
+				recentFragment.setArguments(residentArgs);
+				fragmentTransaction.add(layout.getId(), recentFragment);
+				Log.d("main", "Added to Fragment");
+				fragmentTransaction.commit();
 			}
 		}
 
