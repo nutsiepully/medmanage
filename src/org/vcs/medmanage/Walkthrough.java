@@ -333,6 +333,7 @@ public class Walkthrough extends Activity {
 				// TODO add logging ability
 				// Add to Resident recent activity
 				currentResident.addAction("Recieved "+medicationName+" at "+dateString+"\n");
+				logMedAdmin(true);
 				// Show success page
 				showSuccess();
 			}
@@ -404,6 +405,8 @@ public class Walkthrough extends Activity {
 		String resName = currentResident.getName();
 		instructionsText.setText("Please stop administering any medication to " +
 				resName + " because " + specificReason + " Seek a nurse for assistance.");
+
+		logMedAdmin(false);
 	}
 	
 	/**
@@ -432,7 +435,6 @@ public class Walkthrough extends Activity {
 		yesButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				logMedAdmin();
 				goBackToResidentMeds();
 			}
 		});
@@ -448,7 +450,7 @@ public class Walkthrough extends Activity {
 	 * Adds an entry to the Log DB confirming that the medication was successfully
 	 * given to the Resident.
 	 */
-	public void logMedAdmin(){
+	public void logMedAdmin(boolean success){
 		// Get ID for resident
 		List<Resident> foundRes = ResidentUtils.findResident(residentDao, residentName);
 		if(foundRes.size() > 0){
@@ -461,7 +463,7 @@ public class Walkthrough extends Activity {
 				int medId = foundMed.get(0).getMedication_id();
 				
 				//Save the Log to the DB
-				entities.Log givenLog = new entities.Log(-1, resId, medId, -1, true, false, "");
+				entities.Log givenLog = new entities.Log(-1, resId, medId, -1, success, !success, "");
 				logDao.create(givenLog);
 				
 				Log.i(TAG, "Logged the successful med administration.");
