@@ -103,7 +103,7 @@ public class ResidentMedicineActivity extends FragmentActivity {
 		//debuglogRes(currentResident);
         displayPatientProfile(currentResident);
         calendar = new CalendarService(this);
-        //layout = (LinearLayout)findViewById(R.id.list_medapts);
+        layout = (LinearLayout)findViewById(R.id.list_medapts);
         displayCalendar(currentResident, calendar);
         
         
@@ -191,7 +191,7 @@ public class ResidentMedicineActivity extends FragmentActivity {
     	//ListView listview = (ListView) findViewById(R.id.residentListView);
 
     	Log.d(UI_MODE_SERVICE, "Updating Adapter?");
-    	//addList(strMedApts);
+    	addList(strMedApts);
     }
     
     private void sortMedApts(List<MedicationAppointment> medApts2) {
@@ -289,16 +289,16 @@ public class ResidentMedicineActivity extends FragmentActivity {
 		
 		// Adds medication fragments 
 		public void addList(ArrayList<String> list){
-			Bundle residentArgs = new Bundle();
-			// put in the resident name
-			residentArgs.putString("resName", residentName);
-			
-			for(int i = 1; i < list.size(); i++){
+
+			for(int i = 0; i < list.size(); i++){
+                Bundle residentArgs = new Bundle();
+                // put in the resident name
+                residentArgs.putString("resName", residentName);
+
 				android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-				residentArgs.putString("intentArgName", list.get(i));
-				
-				
+				residentArgs.putString("medName", list.get(i));
+
 				Log.d("main", "Adding" + list.get(i));
 				
 				MedicationFragment recentFragment = new MedicationFragment();

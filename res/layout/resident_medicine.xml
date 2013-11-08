@@ -90,11 +90,21 @@
 
     <LinearLayout 
 	    android:id="@+id/list_medapts"
-	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
 	    android:orientation="vertical"
 	    android:paddingLeft="5dp"
-	    android:paddingTop="5dp"
-    />
+	    android:paddingTop="5dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:text="patientNotes"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            style="@android:style/TextAppearance.Medium"
+            android:id="@+id/temp" />
+
+    </LinearLayout>
     
 </LinearLayout>
