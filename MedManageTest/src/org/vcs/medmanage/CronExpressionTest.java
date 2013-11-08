@@ -52,4 +52,12 @@ public class CronExpressionTest extends TestCase {
         dCal.set(Calendar.MILLISECOND, 0);
         System.out.println(dCal.getTime());
     }
+
+    public void testRangeString() {
+        String str = "A-F";
+
+        String endCharacter = String.valueOf((char)(str.split("-")[1].charAt(0) + 1));
+
+        assertEquals("G", endCharacter);
+    }
 }
