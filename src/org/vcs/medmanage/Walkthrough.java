@@ -42,6 +42,7 @@ public class Walkthrough extends Activity {
 	private DatabaseHelper databaseHelper = null;
 	private RuntimeExceptionDao<Resident, Integer> residentDao;
 	private RuntimeExceptionDao<Medication, Integer> medicationDao;
+	private RuntimeExceptionDao<entities.Log, Integer> logDao;
 	
 	private LinearLayout flexLayout = null;
 	private LinearLayout flexButtons = null;
@@ -115,6 +116,7 @@ public class Walkthrough extends Activity {
 		databaseHelper = getHelper();
 		residentDao = databaseHelper.getResidentDataDao();
 		medicationDao = databaseHelper.getMedicationDataDao();
+		logDao = databaseHelper.getLogDataDao();
 		
 		List<Resident> foundResidents = 
 				ResidentUtils.findResident(residentDao, residentName);
@@ -430,6 +432,7 @@ public class Walkthrough extends Activity {
 		yesButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				logMedAdmin();
 				goBackToResidentMeds();
 			}
 		});
@@ -439,6 +442,35 @@ public class Walkthrough extends Activity {
 				goBackToResidentProfile();
 			}
 		});
+	}
+	
+	/**
+	 * Adds an entry to the Log DB confirming that the medication was successfully
+	 * given to the Resident.
+	 */
+	public void logMedAdmin(){
+		// Get ID for resident
+		List<Resident> foundRes = ResidentUtils.findResident(residentDao, residentName);
+		if(foundRes.size() > 0){
+			int resId = foundRes.get(0).getResident_id();
+			
+			// Get ID for medication
+			MedicationUtils medUtils = new MedicationUtils(medicationDao);
+			List<Medication> foundMed = medUtils.findMedication(medicationName);
+			if(foundMed.size() > 0){
+				int medId = foundMed.get(0).getMedication_id();
+				
+				//Save the Log to the DB
+				entities.Log givenLog = new entities.Log(-1, resId, medId, -1, true, false, "");
+				logDao.create(givenLog);
+				
+				Log.i(TAG, "Logged the successful med administration.");
+			}else{
+				Log.e(TAG, "Error trying to log the successful med administration.");
+			}
+		}else{
+			Log.e(TAG,  "Error trying to log the successful med administration.");
+		}
 	}
 	
 	/**
