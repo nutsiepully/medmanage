@@ -2,11 +2,13 @@ package org.vcs.medmanage;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +18,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,9 +54,9 @@ public class ResidentMedicineActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(UI_MODE_SERVICE, "Entered App");
+        Log.d(UI_MODE_SERVICE, "Entered Resident Medicine Activity");
         setContentView(R.layout.resident_medicine);
-            
+        
         // Get the resident database
         residentDao =
 				getHelper().getResidentDataDao();
@@ -91,10 +94,12 @@ public class ResidentMedicineActivity extends Activity {
 		}
         
 		
-		displayPatientPicture(currentResident);
+		displayPatientPicture(currentResident);	
+		//debuglogRes(currentResident);
         displayPatientProfile(currentResident);
         calendar = new CalendarService(this);
         displayCalendar(currentResident, calendar);
+        
         
         //Changes on click :)
         final Button button = (Button) findViewById(R.id.button1);
@@ -105,10 +110,22 @@ public class ResidentMedicineActivity extends Activity {
             }
         });
         
+        
         }
     
-    public void displayPatientPicture(Resident res){
-    	
+    private void debuglogRes(Resident res) {
+		Log.d("logRes", res.getName());
+		Log.d("logRes", "Age" +Integer.toString(res.getAge()));
+		Log.d("logRes", "Gender" + String.valueOf(res.isGender()));
+	}
+
+	public void displayPatientPicture(Resident res){
+    	// Make this so that you can first display a picture from a given path
+    	// Then when that is done, check if you have a picture from this resident
+    	// If you don't have a picture from the resident, take a picture and 
+    	//  store it in memory and store the path in the database?
+    	// Then whenever this resident is called, make it so that you update 
+    	//  it to the correct picture for this resident!
     }
     
     // Show the Patient Information in a normal fashion
@@ -175,13 +192,15 @@ public class ResidentMedicineActivity extends Activity {
     	    //listview.setAdapter(adapter);
     	//ArrayAdapter test= new ArrayAdapter<String>(this, R.layout.list_item, R.id.residentListView, strMedApts);
     	
-    	listview.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.aptinfo, strMedApts));
+    	//listview.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.aptinfo, strMedApts));
 
     }
     
     private void sortMedApts(List<MedicationAppointment> medApts2) {
 		// For now, lets just print the medicines in the list view
 	}
+    
+
 
 	// Update all the Text Views for the Patient
     public int updateTextView(String toThis, String name) {
@@ -225,7 +244,7 @@ public class ResidentMedicineActivity extends Activity {
     	}
     	
     	finalString = finalString + toThis;
-    	Log.d(UI_MODE_SERVICE, finalString);
+    	Log.d("UpdateTextView ", finalString);
        
     	t.setText(finalString);
         return 1;
@@ -294,5 +313,6 @@ public class ResidentMedicineActivity extends Activity {
 				databaseHelper = null;
 			}
 		}
+
 
 }
