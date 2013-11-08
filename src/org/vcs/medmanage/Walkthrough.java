@@ -403,7 +403,7 @@ public class Walkthrough extends Activity {
 	public void stopAdmin(String specificReason){
 		clobberViews();
 		String resName = currentResident.getName();
-		instructionsText.setText("Please stop administering any medication to " +
+		instructionsText.setText("Please stop your administration of medication to " +
 				resName + " because " + specificReason + " Seek a nurse for assistance.");
 
 		logMedAdmin(false);
