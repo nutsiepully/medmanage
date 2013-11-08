@@ -74,13 +74,13 @@ public class ResidentMedicineActivity extends FragmentActivity {
         
         // Get the variables passed from the previous screen...
         Intent inIntent = getIntent();
-		if(inIntent.hasExtra("resName")){
+		if(inIntent.hasExtra("resident")){
 			// If we got here during normal application usage, there will be 
 			// a resident attached as an extra, which we should get from 
 			// the database.
 			Bundle extras = inIntent.getExtras();
 			Log.d(UI_MODE_SERVICE, "Got Resident Name");
-			residentName = extras.getString("ResidentName");
+			residentName = extras.getString("resident");
 		}else{// If there wasn't a matching key in the intent, then this page 
 			//    was probably navigated to during testing. In that case, we
 			//    just use a default Resident.
