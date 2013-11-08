@@ -97,14 +97,6 @@
 	    android:paddingLeft="5dp"
 	    android:paddingTop="5dp">
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:text="patientNotes"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            style="@android:style/TextAppearance.Medium"
-            android:id="@+id/temp" />
-
     </LinearLayout>
     
 </LinearLayout>
