@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -74,13 +75,13 @@ public class ResidentMedicineActivity extends FragmentActivity {
         
         // Get the variables passed from the previous screen...
         Intent inIntent = getIntent();
-		if(inIntent.hasExtra("resName")){
+		if(inIntent.hasExtra("resident")){
 			// If we got here during normal application usage, there will be 
 			// a resident attached as an extra, which we should get from 
 			// the database.
 			Bundle extras = inIntent.getExtras();
 			Log.d(UI_MODE_SERVICE, "Got Resident Name");
-			residentName = extras.getString("ResidentName");
+			residentName = extras.getString("resident");
 		}else{// If there wasn't a matching key in the intent, then this page 
 			//    was probably navigated to during testing. In that case, we
 			//    just use a default Resident.
@@ -112,7 +113,14 @@ public class ResidentMedicineActivity extends FragmentActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-            	setTxtViews();
+            	//setTxtViews();
+            	
+            	Intent goToProfileIntent = new Intent(ResidentMedicineActivity.this, 
+            			MedicationListActivity.class);
+        		goToProfileIntent.putExtra("resName", residentName);
+        		goToProfileIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        		startActivity(goToProfileIntent);
+        		
             }
         });
         
@@ -175,8 +183,11 @@ public class ResidentMedicineActivity extends FragmentActivity {
     	// Get the list of times that each medication needs to be taken at...
     	medApts = cal.getResidentMedications(res);
     	
-    	// Sort medApts by time...
-    	sortMedApts(medApts);
+    	//Got the medication appts!
+    	// Use this to get the time for the medication... then after you've gotten
+    	// the time, check to see if it's the same as the previous time.
+    	// If it's the same as the previous time, don't put a text view out...
+    	// If it isn't, put a text view in a new layout with the time?
     	
     	// Lets just get the names from the medApts and put it into an ArrayList?
     	ArrayList<String> strMedApts = new ArrayList<String>();
@@ -192,12 +203,7 @@ public class ResidentMedicineActivity extends FragmentActivity {
 
     	Log.d(UI_MODE_SERVICE, "Updating Adapter?");
     	addList(strMedApts);
-    }
-    
-    private void sortMedApts(List<MedicationAppointment> medApts2) {
-		// For now, lets just print the medicines in the list view
-	}
-    
+    }   
 
 
 	// Update all the Text Views for the Patient
@@ -307,6 +313,20 @@ public class ResidentMedicineActivity extends FragmentActivity {
 				Log.d("main", "Added to Fragment");
 				fragmentTransaction.commit();
 			}
+		}
+		
+		// This is to Add to the "list" view
+		public void addTextViewtoList(){
+			TextView valueTV = new TextView(this);
+		    valueTV.setText("hallo hallo");
+		    valueTV.setId(5);
+		    valueTV.setLayoutParams(new LinearLayout.LayoutParams(
+		            LayoutParams.FILL_PARENT,
+		            LayoutParams.WRAP_CONTENT));
+
+		    //new LinearLayout.LayoutParams;
+		    
+			layout.addView(valueTV);
 		}
 
 
