@@ -115,4 +115,23 @@ public class ResidentUtils{
             return null;
         }
     }
+
+    public static List<Resident> getResidentsInNameRange(RuntimeExceptionDao<Resident, Integer> dao, String alphabetRange) {
+        List<Resident> residents = new ArrayList<Resident>();
+        QueryBuilder<Resident, Integer> queryBuilder = dao.queryBuilder();
+
+        String startCharacter = alphabetRange.split("-")[0];
+        String endCharacter = String.valueOf((char)(alphabetRange.split("-")[1].charAt(0) + 1));
+        try{
+            //Build query using SQL 'like' clause
+            queryBuilder.where().between("name", startCharacter, endCharacter);
+
+            //Do query
+            residents = dao.query(queryBuilder.prepare());
+            return residents;
+        }catch(SQLException e){
+            Log.e(ResidentUtils.class.getName(), "Error trying to search for resident with alphabet range: "+ alphabetRange, e);
+            return null;
+        }
+    }
 }

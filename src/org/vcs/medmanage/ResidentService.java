@@ -29,7 +29,7 @@ public class ResidentService {
     public List<Resident> getResidentsForAlphabetRange(String alphabetRange) {
         RuntimeExceptionDao<Resident, Integer> residentDao = this.databaseHelper.getRuntimeExceptionDao(Resident.class);
 
-        return ResidentUtils.getResidentsInNeighborhood(residentDao, alphabetRange);
+        return ResidentUtils.getResidentsInNameRange(residentDao, alphabetRange);
     }
 
     public List<Resident> getResidentsForStatus(String residentStatus) {

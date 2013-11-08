@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.Date;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -50,7 +52,7 @@ public class Log {
 		this.provider_id = provider_id;
 		this.resident_id = resident_id;
 		this.medication_id = medication_id;
-		this.timeStamp = timeStamp;
+		this.timeStamp = new Date().getTime();
 		this.wasTaken = wasTaken;
 		this.wasProblem = wasProblem;
 		this.problemDescription = problemDescription;
