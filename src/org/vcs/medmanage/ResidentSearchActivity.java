@@ -21,7 +21,7 @@ import entities.Resident;
 
 public class ResidentSearchActivity extends FragmentActivity {
 
-    private List<String> corridorsList = Arrays.asList(new String[]{"Corridor 1", "Corridor 2", "Corridor 3"});
+    private List<String> corridorsList = Arrays.asList(new String[]{"Corridor 1", "Corridor 2", "Corridor 3", "Corridor 4"});
     private List<String> residentStatusList = Arrays.asList(new String[]{"Red", "Yellow", "Green"});
     private List<String> alphabeticRangeList = Arrays.asList(new String[]{"A-C", "D-G", "H-L", "M-Q", "R-T", "U-Z"});
 
@@ -61,7 +61,6 @@ public class ResidentSearchActivity extends FragmentActivity {
         RadioButton roomSearchRadioButton = (RadioButton) findViewById(R.id.roomSearchRadioButton);
         roomSearchRadioButton.setChecked(true);
         selectSearchType(roomSearchRadioButton);
-        fetchAndDisplayResidents(searchOptionsListView.getAdapter(), 0);
     }
 
     private void fetchAndDisplayResidents(ListAdapter adapter, int position) {
