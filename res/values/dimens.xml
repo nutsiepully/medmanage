@@ -20,5 +20,6 @@
     <dimen name="medication_preview_height">90dp</dimen>
     <dimen name="medication_preview_image">80dp</dimen>
     <dimen name="medication_preview_text">28dp</dimen>
+    <dimen name="resident_image">300dp</dimen>
 
 </resources>

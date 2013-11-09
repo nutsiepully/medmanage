@@ -1,42 +1,35 @@
 package org.vcs.medmanage;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.ListActivity;
-import android.content.Context;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import db.DatabaseHelper;
-
-import entities.RecentResidentUtils;
 import entities.Resident;
 import entities.ResidentUtils;
 
@@ -45,12 +38,18 @@ import entities.ResidentUtils;
  * 
  * */
 public class ResidentMedicineActivity extends FragmentActivity {
-
+	public final String TAG = ResidentMedicineActivity.class.getName();
+	
 	private DatabaseHelper databaseHelper = null;
 	private RuntimeExceptionDao<Resident, Integer> residentDao;
 	private List<Resident> residentList = new ArrayList<Resident>();
 	private List<MedicationAppointment> medApts = new ArrayList<MedicationAppointment>();
 	private CalendarService calendar;
+	public final int PICKER = 1;// For taking a picture, need this reference
+	
+	private ImageView residentImage = null;
+	private String newImagePath = "";
+	private static String albumPath = "ResidentImages";
 	
     Resident currentResident;
     String residentName;
@@ -62,6 +61,9 @@ public class ResidentMedicineActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         Log.d(UI_MODE_SERVICE, "Entered Resident Medicine Activity");
         setContentView(R.layout.resident_medicine);
+        
+        
+        
         
         // Get the resident database
         residentDao =
@@ -98,7 +100,8 @@ public class ResidentMedicineActivity extends FragmentActivity {
 		else{
 			Log.d(UI_MODE_SERVICE, "Invalid number of Residents!");
 		}
-        
+		
+		setupImage();
 		
 		displayPatientPicture(currentResident);	
 		//debuglogRes(currentResident);
@@ -123,10 +126,165 @@ public class ResidentMedicineActivity extends FragmentActivity {
         		
             }
         });
-        
-        
         }
     
+    /**
+     * Displays the stored image of the resident if there is one. Otherwise,
+     * the launcher is displayed. If the user clicks on the image, they are
+     * given the option to take a new picture.
+     */
+    public void setupImage(){
+    	residentImage = (ImageView)findViewById(R.id.patientPicture);
+    	if(residentImage != null && currentResident != null){
+    		getCurrentPicture();
+    	}else{
+    		Log.e(TAG, "Failed to get reference to resident ImageView.");
+    	}
+     // Set up long-click listener for adding pictures
+ 		residentImage.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				takePicture(PICKER);
+			}
+		});
+    }
+    
+    /**
+     * Starts the camera app to take a picture.
+     * @param actionCode
+     */
+    public void takePicture(int actionCode){
+    	// Create a file for the resulting image to store into
+		File imageFile = null;
+		try {
+			imageFile = createImageFile();
+		} catch (IOException e) {
+			Log.e("NightCrwlr",
+					"Error trying to take picture: " + e.getMessage());
+		}
+
+		// Roll and send the intent
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+				Uri.fromFile(imageFile));
+		startActivityForResult(takePictureIntent, actionCode);
+    }
+    
+    /**
+	 * Creates an Image file in a directory with a time-stamped name.
+	 * @throws IOException
+	 */
+	private File createImageFile() throws IOException {
+		// Create an image file name
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+				.format(new Date());
+		String imageFileName = "img_" + timeStamp + "_";
+		File image = File.createTempFile(imageFileName, ".jpg", getAlbumDir());
+		newImagePath = image.getAbsolutePath();
+		return image;
+	}
+    
+	/**
+	 * Gets or creates a File in a directory designated by 'albumPath'.
+	 */
+	public static File getAlbumDir() {
+		File storageDir = null;
+		if (Environment.MEDIA_MOUNTED.equals(Environment
+				.getExternalStorageState())) {
+			storageDir = new File(
+					Environment
+							.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+					albumPath);
+			if (storageDir != null) {
+				if (!storageDir.mkdirs()) {
+					if (!storageDir.exists()) {
+						Log.e("Profile",
+								"Failed to create directory.");
+						return null;
+					}
+				}
+			}
+		} else {
+			Log.i("NightCrwlr:CrawlAlbumActivity",
+					"External storage is not mounted READ/WRITE.");
+		}
+		return storageDir;
+	}
+	
+	/**
+	 * We are navigated here after the picture is taken
+	 */
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			if (requestCode == PICKER) {// If this a result of navigating to
+										// take a pic
+				File newImage = new File(newImagePath);
+
+				Log.d(TAG, "newImage was added successfully!");
+
+				Uri imageUri = Uri.fromFile(newImage);
+				if (imageUri != null) {
+					// Update Resident with reference to their new image
+					currentResident.setPicturePath(imageUri.getPath());
+					residentDao.update(currentResident);
+					getCurrentPicture();
+				}
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
+	/**
+	 * Attempts to find the current image of the resident, if there is one. If 
+	 * there isn't one, shows the IC launcher for now.
+	 */
+	public void getCurrentPicture(){
+		Uri imageUri = null;
+		
+		String imagePath = currentResident.getPicturePath();
+		if(!imagePath.equals("")){
+			imageUri = Uri.parse(imagePath);
+			
+			// Load image
+			int targetWidth = 300;
+			int targetHeight = 300;
+
+			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+			// Get image dimensions
+			bitmapOptions.inJustDecodeBounds = true;
+			BitmapFactory.decodeFile(imageUri.getPath(), bitmapOptions);
+			int currentHeight = bitmapOptions.outHeight;
+			int currentWidth = bitmapOptions.outWidth;
+			
+			// We will store new sample size here
+			int sampleSize = 1;
+			// Now calculate sample size to resize image
+			if(currentHeight>targetHeight ||
+					currentWidth>targetWidth){
+				// Choose to scale based on which dimension is largest
+				if(currentWidth>currentHeight){
+					sampleSize = Math.round((float)currentHeight/(float)targetHeight);
+				}else{
+					sampleSize = Math.round((float)currentWidth/(float)targetWidth);
+				}
+			}
+			
+			// Use the new sample size
+			bitmapOptions.inSampleSize = sampleSize;
+			bitmapOptions.inJustDecodeBounds = false;
+			
+			// Get file as bitmap
+			Bitmap newPic = BitmapFactory.decodeFile(imageUri.getPath(), bitmapOptions);
+			
+			//Put new picture into gallery
+			residentImage.setImageBitmap(newPic);
+		}else{
+			// Setup default
+			residentImage.setImageResource(R.drawable.ic_launcher);
+			Log.i(TAG, "Need to take pic of resident.");
+		}
+	}
+	
     private void debuglogRes(Resident res) {
 		Log.d("logRes", res.getName());
 		Log.d("logRes", "Age" +Integer.toString(res.getAge()));
@@ -329,5 +487,22 @@ public class ResidentMedicineActivity extends FragmentActivity {
 			layout.addView(valueTV);
 		}
 
-
+		/**
+		 * We override the Back button, so that every back button push sends us to 
+		 * the CurrentCrawlActivity. We do not want it to navigate to any pages 
+		 * where we may have altered button text before a refresh, as is the case 
+		 * when the user presses "Synch", which is why this overriding is 
+		 * necessary.
+		 */
+		@Override
+		public void onBackPressed(){
+			// Scoot back to the CurrentCrawlActivity
+			Intent backToLandingIntent = new Intent(getBaseContext(),
+					LandingPage.class);
+			
+			backToLandingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			getBaseContext().startActivity(backToLandingIntent);
+			
+			this.finish();
+		}
 }

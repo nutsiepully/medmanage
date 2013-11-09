@@ -83,11 +83,13 @@ public class Resident {
 		//Per ORMLite, all classes that wish to be persisted to the DB must
 		//    declare a no-argument constructor.
 		recentActions = new String();
+		picturePath = new String("");
 	}
 
     public Resident(String name, int roomNumber) {
         this.name = name;
         this.roomNumber = roomNumber;
+        picturePath = new String("");
     }
 
 	public int getId() {
