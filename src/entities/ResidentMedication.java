@@ -20,6 +20,8 @@ public class ResidentMedication {
 	private String forWhat;
     @DatabaseField(columnName = "medication_schedule")
     private String medicationSchedule;
+    @DatabaseField
+    private int medicationWindow;
     @DatabaseField(foreign = true, foreignAutoRefresh =  true, columnName = "resident_id")
     private Resident resident;
 
@@ -59,5 +61,13 @@ public class ResidentMedication {
 
     public String getMedicationSchedule() {
         return medicationSchedule;
+    }
+
+    public int getMedicationWindow() {
+        return medicationWindow;
+    }
+
+    public int getMedicationWindowInMillis() {
+        return medicationWindow * 60 * 60 * 1000;
     }
 }

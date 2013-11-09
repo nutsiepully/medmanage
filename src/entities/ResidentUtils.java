@@ -3,6 +3,7 @@ package entities;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import android.util.Log;
@@ -134,4 +135,21 @@ public class ResidentUtils{
             return null;
         }
     }
+
+    public static List<entities.Log> getMedicationLogs(
+            RuntimeExceptionDao<entities.Log, Integer> logDao, Resident resident, Date startTime, Date endTime) {
+        List<entities.Log> medicationLogs = new ArrayList<entities.Log>();
+        QueryBuilder<entities.Log, Integer> queryBuilder = logDao.queryBuilder();
+
+        try {
+            queryBuilder.where().eq("resident_id", resident.getResident_id()).and().between("timeStamp", startTime.getTime(), endTime.getTime());
+
+            medicationLogs = logDao.query(queryBuilder.prepare());
+            return medicationLogs;
+        } catch (SQLException e) {
+            Log.e(ResidentUtils.class.getName(), "Error trying to find medication log : " + resident);
+            return null;
+        }
+    }
+
 }

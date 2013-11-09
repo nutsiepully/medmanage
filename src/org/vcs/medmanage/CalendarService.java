@@ -2,6 +2,9 @@ package org.vcs.medmanage;
 
 import android.content.Context;
 
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -10,8 +13,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import db.DatabaseHelper;
+import entities.Log;
 import entities.Resident;
 import entities.ResidentMedication;
+import entities.ResidentUtils;
 
 public class CalendarService {
 
@@ -22,14 +27,31 @@ public class CalendarService {
     }
 
     public List<MedicationAppointment> getResidentMedications(Resident resident) {
-        List<MedicationAppointment> medicationAppointments = new ArrayList<MedicationAppointment>();
-        for(ResidentMedication residentMedication : resident.getResidentMedications()) {
-            List<Date> medicationDates = new CronSchedule(residentMedication.getMedicationSchedule())
-                    .getTimings(getBeginningOfDay(), getEndOfDay());
+        return getResidentMedications(resident, TimeUtility.getBeginningOfDay(), TimeUtility.getEndOfDay());
+    }
 
-            for (Date timing : medicationDates) {
-                MedicationAppointment medicationAppointment =
-                        new MedicationAppointment(resident, residentMedication.getMedication().getMedication_id(), timing, 10);
+    public List<MedicationAppointment> getResidentMedications(Resident resident, Date startTime, Date endTime) {
+        List<ResidentMedication> residentMedications = resident.getResidentMedications();
+
+        RuntimeExceptionDao<Log, Integer> logDao = this.databaseHelper.getRuntimeExceptionDao(Log.class);
+        List<Log> medicationLogs = ResidentUtils.getMedicationLogs(logDao, resident, startTime, endTime);
+
+        List<MedicationAppointment> medicationAppointments = new ArrayList<MedicationAppointment>();
+        for(ResidentMedication residentMedication : residentMedications) {
+            List<Date> medicationTimingsToBeTaken = new CronSchedule(
+                    residentMedication.getMedicationSchedule()).getTimings(startTime, endTime);
+
+            for (Date timing : medicationTimingsToBeTaken) {
+                boolean isTaken = false;
+                for (Log medicationLog : medicationLogs) {
+                    if (medicationLog.getMedication_id() == residentMedication.getMedication().getMedication_id() &&
+                        medicationLog.getTimeStamp() < timing.getTime() + residentMedication.getMedicationWindowInMillis() &&
+                        medicationLog.getTimeStamp() > timing.getTime() - residentMedication.getMedicationWindowInMillis())
+                        isTaken = true;
+                }
+
+                MedicationAppointment medicationAppointment = new MedicationAppointment(resident,
+                        residentMedication.getMedication(), timing, residentMedication.getMedicationWindow(), isTaken);
                 medicationAppointments.add(medicationAppointment);
             }
         }
@@ -37,31 +59,6 @@ public class CalendarService {
         Collections.sort(medicationAppointments);
 
         return medicationAppointments;
-    }
-
-    private List<MedicationAppointment> getTestMedicationAppointments(Resident resident) {
-        List<MedicationAppointment> medicationAppointments = new ArrayList<MedicationAppointment>();
-        medicationAppointments.add(new MedicationAppointment(resident, 1, new Date(), 10));
-        medicationAppointments.add(new MedicationAppointment(resident, 2, new Date(), 10));
-        medicationAppointments.add(new MedicationAppointment(resident, 3, new Date(), 10));
-        return medicationAppointments;
-    }
-
-    public Date getBeginningOfDay() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTime();
-    }
-
-    public Date getEndOfDay() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-        return cal.getTime();
     }
 
 }

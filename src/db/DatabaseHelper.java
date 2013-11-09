@@ -133,7 +133,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		}
 		return residentRuntimeDao;
 	}
-	
+
 	/**
 	 * Creates a Database Access Object for the Medication class (or returns 
 	 * cached value).
@@ -365,6 +365,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 		getRecentResidentDataDao().create(recent1);
 		getRecentResidentDataDao().create(recent2);
+
+//        RuntimeExceptionDao<entities.Log, Integer> logDao = getLogDataDao();
+//        entities.Log log1 = new entities.Log(-1, resident1.getResident_id(), newMed1.getMedication_id(), new Date())
 	}
 }
 
