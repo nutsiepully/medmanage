@@ -14,6 +14,7 @@ import entities.ResidentUtils;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
@@ -195,7 +196,13 @@ public class Walkthrough extends Activity {
 		
 		//Create view element for Resident image to add to the flex area
 		ImageView residentImage = new ImageView(getBaseContext());
-		residentImage.setImageResource(R.drawable.kurthead);
+		Bitmap resPicture = currentResident.getCurrentPicture();
+		if(resPicture == null){
+			Log.e(TAG, "No picture for resident!");
+			residentImage.setImageResource(R.drawable.ic_launcher);
+		}else{
+			residentImage.setImageBitmap(resPicture);
+		}
 		//Add to flex area
 		flexLayout.addView(residentImage, getImageParams());
 		
@@ -333,6 +340,7 @@ public class Walkthrough extends Activity {
 				// TODO add logging ability
 				// Add to Resident recent activity
 				currentResident.addAction("Recieved "+medicationName+" at "+dateString+"\n");
+				residentDao.update(currentResident);
 				logMedAdmin(true);
 				// Show success page
 				showSuccess();

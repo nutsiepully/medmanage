@@ -1,5 +1,10 @@
 package entities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Log;
+
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -7,6 +12,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.vcs.medmanage.R;
 
 /**
  * In-memory representation of a Resident from the DB backend. This class mostly
@@ -242,6 +249,54 @@ public class Resident {
         return  residentMedicationList;
     }
 
+    /**
+	 * Attempts to find the current image of the resident, if there is one. If 
+	 * there isn't one, shows the IC launcher for now.
+	 */
+	public Bitmap getCurrentPicture(){
+		Uri imageUri = null;
+		
+		String imagePath = getPicturePath();
+		if(!imagePath.equals("")){
+			imageUri = Uri.parse(imagePath);
+			
+			// Load image
+			int targetWidth = 300;
+			int targetHeight = 300;
+
+			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+			// Get image dimensions
+			bitmapOptions.inJustDecodeBounds = true;
+			BitmapFactory.decodeFile(imageUri.getPath(), bitmapOptions);
+			int currentHeight = bitmapOptions.outHeight;
+			int currentWidth = bitmapOptions.outWidth;
+			
+			// We will store new sample size here
+			int sampleSize = 1;
+			// Now calculate sample size to resize image
+			if(currentHeight>targetHeight ||
+					currentWidth>targetWidth){
+				// Choose to scale based on which dimension is largest
+				if(currentWidth>currentHeight){
+					sampleSize = Math.round((float)currentHeight/(float)targetHeight);
+				}else{
+					sampleSize = Math.round((float)currentWidth/(float)targetWidth);
+				}
+			}
+			
+			// Use the new sample size
+			bitmapOptions.inSampleSize = sampleSize;
+			bitmapOptions.inJustDecodeBounds = false;
+			
+			// Get file as bitmap
+			Bitmap newPic = BitmapFactory.decodeFile(imageUri.getPath(), bitmapOptions);
+			
+			return newPic;
+		}else{
+			return null;
+		}
+	}
+    
     @Override
     public String toString() {
         return "Resident{" +

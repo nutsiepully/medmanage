@@ -1,103 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false"
-    >
+    android:orientation="horizontal" >
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="fill_parent"
         android:id="@+id/patientProfileLinearLayout"
-        >
-        
-		<ImageView
-	    android:id="@+id/patientPicture"
-	    android:layout_width="@dimen/resident_image"
-	    android:layout_height="@dimen/resident_image"
-	    android:src="@drawable/ic_launcher" />
-		
-        <TextView  
-	    android:layout_width="fill_parent" 
-	    android:text="patientName" 
-	    android:layout_height="wrap_content"
-	    android:textColor="@color/contrast" 
-	    android:textSize="40sp"
-	    android:id="@+id/txtPatientName"/>
-        <TextView  
-	    android:layout_width="fill_parent" 
-	    android:text="patientRoom" 
-	    android:layout_height="wrap_content"
-	    android:textColor="@color/contrast"  
-	    android:textSize="40sp"
-	    android:id="@+id/txtPatientRoom"/>
-        <TextView  
-	    android:layout_width="fill_parent" 
-	    android:text="patientGender" 
-	    android:layout_height="wrap_content" 
-	    android:textColor="@color/contrast" 
-	    style="@android:style/TextAppearance.Medium"
-	    android:id="@+id/txtPatientGender" />
-        <TextView  
-	    android:layout_width="fill_parent" 
-	    android:text="patientDiagnosis" 
-	    android:layout_height="wrap_content"
-	    android:textColor="@color/contrast"  
-	    style="@android:style/TextAppearance.Medium"
-	    android:id="@+id/txtPatientDiagnosis" />
-        <TextView  
-	    android:layout_width="fill_parent" 
-	    android:text="patientAge" 
-	    android:layout_height="wrap_content"
-	    android:textColor="@color/contrast"  
-	    style="@android:style/TextAppearance.Medium"
-	    android:id="@+id/txtPatientAge" />
-        <TextView  
-	    android:layout_width="fill_parent" 
-	    android:text="patientWeight" 
-	    android:layout_height="wrap_content" 
-	    android:textColor="@color/contrast" 
-	    style="@android:style/TextAppearance.Medium"
-	    android:id="@+id/txtPatientWeight" />
-        <TextView  
-	    android:layout_width="fill_parent" 
-	    android:text="patientRecentActions" 
-	    android:layout_height="wrap_content" 
-	    android:textColor="@color/contrast" 
-	    style="@android:style/TextAppearance.Medium"
-	    android:id="@+id/txtPatientRecentActions" />
-        <TextView  
-	    android:layout_width="fill_parent" 
-	    android:text="patientNotes" 
-	    android:layout_height="wrap_content" 
-	    android:textColor="@color/contrast" 
-	    style="@android:style/TextAppearance.Medium"
-	    android:id="@+id/txtPatientNotes" />
-        
-        <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/get_resident_meds" 
-        android:background="@drawable/rounded_edges_2"
-        android:textColor="@color/normal"
-        />
-
-    </LinearLayout>
-
-    <LinearLayout 
-	    android:id="@+id/list_medapts"
-	    android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-	    android:orientation="vertical"
-	    android:paddingLeft="5dp"
-	    android:paddingTop="5dp">
+        android:orientation="vertical" >
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/patientPicture"
+                android:layout_width="@dimen/resident_image"
+                android:layout_height="@dimen/resident_image"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_launcher" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/txtPatientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="patientName"
+                    android:textColor="@color/contrast"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:id="@+id/txtPatientRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="patientRoom"
+                    android:textColor="@color/contrast"
+                    android:textSize="40sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edges_2"
+            android:orientation="vertical" 
+            android:paddingLeft="10dp"
+            android:layout_margin="15dp"
+            >
+
+            <TextView
+                android:id="@+id/txtPatientGender"
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="patientGender"
+                android:textColor="@color/normal" />
+
+            <TextView
+                android:id="@+id/txtPatientDiagnosis"
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="patientDiagnosis"
+                android:textColor="@color/normal" />
+
+            <TextView
+                android:id="@+id/txtPatientAge"
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="patientAge"
+                android:textColor="@color/normal" />
+
+            <TextView
+                android:id="@+id/txtPatientWeight"
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="patientWeight"
+                android:textColor="@color/normal" />
+
+            <TextView
+                android:id="@+id/txtPatientRecentActions"
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="patientRecentActions"
+                android:textColor="@color/normal" />
+
+            <TextView
+                android:id="@+id/txtPatientNotes"
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="patientNotes"
+                android:textColor="@color/normal" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edges_2"
+            android:padding="10dp"
+            android:layout_marginLeft="15dp"
+            android:text="@string/get_resident_meds"
+            android:textColor="@color/normal" 
+            />
     </LinearLayout>
-    
+
+    <LinearLayout
+        android:id="@+id/list_medapts"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp" >
+    </LinearLayout>
+
 </LinearLayout>

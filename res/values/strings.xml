@@ -25,5 +25,6 @@
     <string name="give_med_string">GIVE THIS MED</string>
     <string name="title_activity_medication_fragment">MedicationFragment</string>
     <string name="get_resident_meds">MEDICATION...</string>
+    <string name="resident_name">NAME</string>
 
 </resources>

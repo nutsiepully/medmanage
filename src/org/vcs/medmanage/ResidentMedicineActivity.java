@@ -99,17 +99,14 @@ public class ResidentMedicineActivity extends FragmentActivity {
 		}
 		else{
 			Log.d(UI_MODE_SERVICE, "Invalid number of Residents!");
-		}
-		
+		}	
 		setupImage();
-		
-		displayPatientPicture(currentResident);	
+	
 		//debuglogRes(currentResident);
         displayPatientProfile(currentResident);
         calendar = new CalendarService(this);
         layout = (LinearLayout)findViewById(R.id.list_medapts);
         displayCalendar(currentResident, calendar);
-        
         
         //Changes on click :)
         final Button button = (Button) findViewById(R.id.button1);
@@ -151,15 +148,27 @@ public class ResidentMedicineActivity extends FragmentActivity {
     
     /**
      * Starts the camera app to take a picture.
-     * @param actionCode
      */
     public void takePicture(int actionCode){
+    	// First delete the old picture, if there is one
+    	if(!currentResident.getPicturePath().equals("")){
+    		File file = new File(currentResident.getPicturePath());
+    		if(file.exists()){
+    			boolean deleteSuccess = file.delete();
+    			if(deleteSuccess){
+    				Log.i(TAG, "Successfully deleted old image of resident.");
+    			}else{
+    				Log.i(TAG, "Could not delete old image of resident.");
+    			}
+    		}
+    	}
+    	
     	// Create a file for the resulting image to store into
 		File imageFile = null;
 		try {
 			imageFile = createImageFile();
 		} catch (IOException e) {
-			Log.e("NightCrwlr",
+			Log.e(TAG,
 					"Error trying to take picture: " + e.getMessage());
 		}
 
@@ -287,18 +296,9 @@ public class ResidentMedicineActivity extends FragmentActivity {
 	
     private void debuglogRes(Resident res) {
 		Log.d("logRes", res.getName());
-		Log.d("logRes", "Age" +Integer.toString(res.getAge()));
-		Log.d("logRes", "Gender" + String.valueOf(res.isGender()));
+		Log.d("logRes", "AGE" +Integer.toString(res.getAge()));
+		Log.d("logRes", "GENDER" + String.valueOf(res.isGender()));
 	}
-
-	public void displayPatientPicture(Resident res){
-    	// Make this so that you can first display a picture from a given path
-    	// Then when that is done, check if you have a picture from this resident
-    	// If you don't have a picture from the resident, take a picture and 
-    	//  store it in memory and store the path in the database?
-    	// Then whenever this resident is called, make it so that you update 
-    	//  it to the correct picture for this resident!
-    }
     
     // Show the Patient Information in a normal fashion
     public void displayPatientProfile(Resident res){
@@ -374,19 +374,19 @@ public class ResidentMedicineActivity extends FragmentActivity {
     	}   	
      	else if(name.equals("txtPatientGender")){
     		t = (TextView) this.findViewById(R.id.txtPatientGender);
-    		finalString = "Gender: ";
+    		finalString = "GENDER: ";
     	}
     	else if(name.equals("txtPatientRoom")){
     		t = (TextView) this.findViewById(R.id.txtPatientRoom);
-    		finalString = "Room ";
+    		finalString = "ROOM: ";
     	}
     	else if(name.equals("txtPatientDiagnosis")){
     		t = (TextView) this.findViewById(R.id.txtPatientDiagnosis);
-    		finalString = "Diagnosis: ";
+    		finalString = "DIAGNOSIS: ";
     	}
     	else if(name.equals("txtPatientAge")){
     		t = (TextView) findViewById(R.id.txtPatientAge);
-    		finalString = "Age: ";
+    		finalString = "AGE: ";
     	}
     	else if(name.equals("txtPatientWeight")){
     		t = (TextView) findViewById(R.id.txtPatientWeight);
@@ -394,11 +394,11 @@ public class ResidentMedicineActivity extends FragmentActivity {
     	}
     	else if(name.equals("txtPatientRecentActions")){
     		t = (TextView) findViewById(R.id.txtPatientRecentActions);
-    		finalString = "Recent Activity: \n";
+    		finalString = "RECENT ACTIVITY: \n";
     	}
     	else if(name.equals("txtPatientNotes")){
     		t = (TextView) findViewById(R.id.txtPatientNotes);
-    		finalString = "Nurse Notes: \n";
+    		finalString = "NURSE NOTES: \n";
     	}
     	else{
     		// Didn't find any text view
@@ -488,15 +488,14 @@ public class ResidentMedicineActivity extends FragmentActivity {
 		}
 
 		/**
-		 * We override the Back button, so that every back button push sends us to 
-		 * the CurrentCrawlActivity. We do not want it to navigate to any pages 
-		 * where we may have altered button text before a refresh, as is the case 
-		 * when the user presses "Synch", which is why this overriding is 
-		 * necessary.
+		 * We override the Back button, so that every back button press sends 
+		 * the user back to the Landing page, rather than the previously-viewed
+		 * activity. The prev-viewed activity might be the camera app or the 
+		 * medication list, so this gives us stronger control over the behavior.
 		 */
 		@Override
 		public void onBackPressed(){
-			// Scoot back to the CurrentCrawlActivity
+			// Scoot back to the LandingPage
 			Intent backToLandingIntent = new Intent(getBaseContext(),
 					LandingPage.class);
 			

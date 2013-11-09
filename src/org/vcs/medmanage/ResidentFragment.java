@@ -1,9 +1,16 @@
 package org.vcs.medmanage;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+
+import db.DatabaseHelper;
+import entities.Resident;
 import entities.ResidentMedication;
+import entities.ResidentUtils;
 
 import android.support.v4.app.Fragment;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +25,9 @@ public class ResidentFragment extends Fragment{
 	public final String TAG = ResidentFragment.class.getName();
 	
 	private String  residentName = "N/A";
+	private Resident currentResident = null;
+	private DatabaseHelper databaseHelper = null;
+	private RuntimeExceptionDao<Resident, Integer> residentDao;
 	
 	private int roomNumber = -1;
 	
@@ -40,13 +50,13 @@ public class ResidentFragment extends Fragment{
 		if(inArgs != null){
 			if(inArgs.containsKey("ResidentName")){
 				residentName = inArgs.getString("ResidentName");
+				residentDao = getHelper().getResidentDataDao();
+				currentResident = ResidentUtils.findResident(residentDao, residentName).get(0);
 			}
 			if(inArgs.containsKey("RoomNumber")){
 				roomNumber = inArgs.getInt("RoomNumber");
 			}
 		}
-		
-		
 	}
 	
 	@Override
@@ -70,7 +80,7 @@ public class ResidentFragment extends Fragment{
 		}
 		residentPicView = (ImageView) rootView.findViewById(R.id.resident_pic);
 		if(residentPicView != null){
-			residentPicView.setImageResource(R.drawable.kurthead);
+			setupImage();
 		}else{
 			Log.e(TAG, "Error retrieving reference to resident image view");
 		}
@@ -87,6 +97,30 @@ public class ResidentFragment extends Fragment{
 		});
 
 		return rootView;
+	}
+	
+	public void setupImage(){
+		if(residentPicView != null && currentResident != null){
+    		Bitmap resImage = currentResident.getCurrentPicture();
+    		if(resImage != null){
+    		residentPicView.setImageBitmap(resImage);
+    		}else{
+    			residentPicView.setImageResource(R.drawable.ic_launcher);
+    		}
+    	}else{
+    		Log.e(TAG, "Failed to get reference to resident ImageView.");
+    	}
+	}
+	
+	/**
+	 * Gets a reference to the DB. If it fails, it returns null instead.
+	 */
+	protected DatabaseHelper getHelper(){
+		if(databaseHelper == null){
+			databaseHelper = 
+					OpenHelperManager.getHelper(this.getActivity().getBaseContext(), DatabaseHelper.class);
+		}
+		return databaseHelper;
 	}
 	
 	/**
