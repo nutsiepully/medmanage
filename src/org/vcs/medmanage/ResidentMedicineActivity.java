@@ -388,10 +388,12 @@ public class ResidentMedicineActivity extends FragmentActivity {
     		t = (TextView) findViewById(R.id.txtPatientAge);
     		finalString = "AGE: ";
     	}
-    	else if(name.equals("txtPatientWeight")){
+    	/*else if(name.equals("txtPatientWeight")){
+    		// Weight is not populated at the moment
+    		
     		t = (TextView) findViewById(R.id.txtPatientWeight);
     		finalString = "Weight: ";
-    	}
+    	}*/
     	else if(name.equals("txtPatientRecentActions")){
     		t = (TextView) findViewById(R.id.txtPatientRecentActions);
     		finalString = "RECENT ACTIVITY: \n";
