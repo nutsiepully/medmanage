@@ -293,12 +293,6 @@ public class ResidentMedicineActivity extends FragmentActivity {
 		}
 	}
 
-	private void debuglogRes(Resident res) {
-		Log.d("logRes", res.getName());
-		Log.d("logRes", "AGE" + Integer.toString(res.getAge()));
-		Log.d("logRes", "GENDER" + String.valueOf(res.isGender()));
-	}
-
 	// Show the Patient Information in a normal fashion
 	public void displayPatientProfile(Resident res) {
 		// Change the patient profile picture
@@ -341,12 +335,6 @@ public class ResidentMedicineActivity extends FragmentActivity {
 		// Get the list of times that each medication needs to be taken at...
 		medApts = cal.getResidentMedications(res);
 
-		// Got the medication appts!
-		// Use this to get the time for the medication... then after you've
-		// gotten
-		// the time, check to see if it's the same as the previous time.
-		// If it's the same as the previous time, don't put a text view out...
-		// If it isn't, put a text view in a new layout with the time?
 		int referenceHours = -1;
 		Date thisMedTime = new Date();
 		int thisHours = -1;
@@ -488,42 +476,6 @@ public class ResidentMedicineActivity extends FragmentActivity {
 			OpenHelperManager.releaseHelper();
 			databaseHelper = null;
 		}
-	}
-
-	// Adds medication fragments
-	public void addList(ArrayList<String> list) {
-
-		for (int i = 0; i < list.size(); i++) {
-			Bundle residentArgs = new Bundle();
-			// put in the resident name
-			residentArgs.putString("resName", residentName);
-
-			android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager
-					.beginTransaction();
-			residentArgs.putString("medName", list.get(i));
-
-			Log.d("main", "Adding" + list.get(i));
-
-			MedicationFragment recentFragment = new MedicationFragment();
-			recentFragment.setArguments(residentArgs);
-			fragmentTransaction.add(medAppointments.getId(), recentFragment);
-			Log.d("main", "Added to Fragment");
-			fragmentTransaction.commit();
-		}
-	}
-
-	// This is to Add to the "list" view
-	public void addTextViewtoList() {
-		TextView valueTV = new TextView(this);
-		valueTV.setText("hallo hallo");
-		valueTV.setId(5);
-		valueTV.setLayoutParams(new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-
-		// new LinearLayout.LayoutParams;
-
-		medAppointments.addView(valueTV);
 	}
 
 	/**

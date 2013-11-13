@@ -87,7 +87,7 @@ public class MedicationFragment extends Fragment{
 		}
 		if(isHourMed && hour != -1){
 			TextView hourText = (TextView)rootView.findViewById(R.id.hour_of_day);
-			hourText.setText(Integer.toString(hour));
+			hourText.setText(formatTime(hour));
 		}
 		
 		//Set up the background to be clickable
@@ -113,5 +113,29 @@ public class MedicationFragment extends Fragment{
 		goToResMedsIntent.putExtra("resName", resName);
 		goToResMedsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(goToResMedsIntent);
+	}
+	
+	/**
+	 * Creates a mroe friendly display of the hour for a scheduled med.
+	 * Example: 13 would become "1:00pm"
+	 * @param hour The 24-hour time to convert.
+	 */
+	public String formatTime(int hour){
+		final String ending = ":00";
+		final String am = "am";
+		final String pm = "pm";
+		String hourString = Integer.toString(hour);
+		
+		if(hour <= 11){
+			return hourString + ending + am;
+		}else if(hour == 12){
+			return hourString + ending + pm;
+		}else if(hour == 24){
+			return "12" + ending + am;
+		}else{
+			int modifiedHour = hour-12;
+			String modifiedHourString = Integer.toString(modifiedHour);
+			return modifiedHourString + ending + pm;
+		}
 	}
 }

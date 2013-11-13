@@ -8,8 +8,8 @@
     <LinearLayout
         android:id="@+id/patientProfileLinearLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -117,6 +117,12 @@
             />
     </LinearLayout>
 
+    <View 
+        android:layout_height="match_parent"
+        android:layout_width="2dp"
+        android:background="@color/contrast"
+        />
+    
     <LinearLayout
         android:id="@+id/list_medapts"
         android:layout_width="0dp"
@@ -131,6 +137,7 @@
             android:textSize="@dimen/resident_title"
             android:textColor="@color/landing_title"
             android:text="@string/upcoming"
+            android:fontFamily="sans-serif-thin"
             android:background="@color/landing_background"
             android:padding="5dp"
             android:layout_marginTop="15dp"
