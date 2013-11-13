@@ -31,6 +31,9 @@ public class ResidentSearchActivity extends FragmentActivity {
 
     private ResidentService residentService;
     private LinearLayout residentsLayout;
+    
+    private boolean sortedByStatus = false;
+    private String status = "";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +78,11 @@ public class ResidentSearchActivity extends FragmentActivity {
                 searchedResidents = residentService.getResidentsForCorridor(searchTerm);
                 break;
             case R.id.statusSearchRadioButton:
+            {
+            	sortedByStatus = true;
+            	status = searchTerm;
                 searchedResidents = residentService.getResidentsForStatus(searchTerm);
+            }
                 break;
             case R.id.alphabeticSearchRadioButton:
                 searchedResidents = residentService.getResidentsForAlphabetRange(searchTerm);
@@ -91,6 +98,9 @@ public class ResidentSearchActivity extends FragmentActivity {
             Bundle residentArgs = new Bundle();
             residentArgs.putString("ResidentName", residents.get(i).getName());
             residentArgs.putInt("RoomNumber", residents.get(i).getRoomNumber());
+            if(sortedByStatus){
+            	residentArgs.putString("status", status);
+            }
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

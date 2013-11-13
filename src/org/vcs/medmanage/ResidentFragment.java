@@ -26,6 +26,7 @@ public class ResidentFragment extends Fragment{
 	
 	private String  residentName = "N/A";
 	private Resident currentResident = null;
+	private String status = null;
 	private DatabaseHelper databaseHelper = null;
 	private RuntimeExceptionDao<Resident, Integer> residentDao;
 	
@@ -56,6 +57,9 @@ public class ResidentFragment extends Fragment{
 			if(inArgs.containsKey("RoomNumber")){
 				roomNumber = inArgs.getInt("RoomNumber");
 			}
+			if(inArgs.containsKey("status")){
+				status = inArgs.getString("status");
+			}
 		}
 	}
 	
@@ -85,8 +89,24 @@ public class ResidentFragment extends Fragment{
 			Log.e(TAG, "Error retrieving reference to resident image view");
 		}
 		
-		//Set up the background to be clickable
+		//Set up the background color
 		LinearLayout background = (LinearLayout)rootView.findViewById(R.id.background);
+		if(status != null){
+			if(status.equals("Red")){
+				background.setBackgroundResource(R.drawable.border_red);
+			}else if(status.equals("Yellow")){
+				background.setBackgroundResource(R.drawable.border_yellow);
+			}else if(status.equals("Green")){
+				background.setBackgroundResource(R.drawable.border_green);
+			}else{
+				// Default behavior
+				background.setBackgroundResource(R.drawable.rounded_edges_2);
+			}
+		}else{
+			// Default behavior
+			background.setBackgroundResource(R.drawable.rounded_edges_2);
+		}
+		// Make the background clickable
 		background.setClickable(true);
 		background.setOnClickListener(new OnClickListener() {
 			

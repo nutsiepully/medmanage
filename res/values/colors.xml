@@ -17,5 +17,8 @@
     <color name="text_on_normal">#FFFFFF</color>
     <color name="normal">#000000</color>
     <color name="contrast">#FFFFFF</color>
+    <color name="red">#FF0055</color>
+    <color name="yellow">#DDFF00</color>
+    <color name="green">#1EFF00</color>
     
 </resources>
