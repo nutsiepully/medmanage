@@ -237,7 +237,9 @@ public class Walkthrough extends Activity {
 		
 		//Create view element for Resident image to add to the flex area
 		ImageView medicatoinImage = new ImageView(getBaseContext());
-		medicatoinImage.setImageResource(R.drawable.excedrin);
+		String pack = getPackageName();
+		int picReference = getResources().getIdentifier(medName.toLowerCase(), "drawable", pack);
+		medicatoinImage.setImageResource(picReference);
 		//Add to flex area
 		flexLayout.addView(medicatoinImage, getImageParams());
 		

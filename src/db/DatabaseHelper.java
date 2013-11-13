@@ -23,7 +23,7 @@ import entities.ResidentMedication;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public final String TAG = DatabaseHelper.class.getName();
 	private static final String DATABASE_NAME = "medManage.db";
-	private static final int DATABASE_VERSION = 28;
+	private static final int DATABASE_VERSION = 29;
 	
 	private Dao<Resident, Integer> residentDao = null;
 	private Dao<Medication, Integer> medicationDao = null;
