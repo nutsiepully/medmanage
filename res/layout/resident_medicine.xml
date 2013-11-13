@@ -80,14 +80,20 @@
                 android:text="patientAge"
                 android:textColor="@color/normal" />
 
-            <TextView
+            <!--  TextView
                 android:id="@+id/txtPatientWeight"
                 style="@android:style/TextAppearance.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="patientWeight"
+                android:textColor="@color/normal" /-->
+            <TextView
+                android:id="@+id/txtPatientNotes"
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="patientNotes"
                 android:textColor="@color/normal" />
-
             <TextView
                 android:id="@+id/txtPatientRecentActions"
                 style="@android:style/TextAppearance.Medium"
@@ -96,13 +102,7 @@
                 android:text="patientRecentActions"
                 android:textColor="@color/normal" />
 
-            <TextView
-                android:id="@+id/txtPatientNotes"
-                style="@android:style/TextAppearance.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="patientNotes"
-                android:textColor="@color/normal" />
+
         </LinearLayout>
 
         <Button

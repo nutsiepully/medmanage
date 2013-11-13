@@ -401,58 +401,66 @@ public class ResidentMedicineActivity extends FragmentActivity {
 		}
 	}
 
-	// Update all the Text Views for the Patient
-	public int updateTextView(String toThis, String name) {
-		String finalString = "";
-		TextView t;
-
-		if (name.equals("txtPatientName")) {
-			t = (TextView) this.findViewById(R.id.txtPatientName);
-		} else if (name.equals("txtPatientGender")) {
-			t = (TextView) this.findViewById(R.id.txtPatientGender);
-			finalString = "GENDER: ";
-		} else if (name.equals("txtPatientRoom")) {
-			t = (TextView) this.findViewById(R.id.txtPatientRoom);
-			finalString = "ROOM: ";
-		} else if (name.equals("txtPatientDiagnosis")) {
-			t = (TextView) this.findViewById(R.id.txtPatientDiagnosis);
-			finalString = "DIAGNOSIS: ";
-		} else if (name.equals("txtPatientAge")) {
-			t = (TextView) findViewById(R.id.txtPatientAge);
-			finalString = "AGE: ";
-		} else if (name.equals("txtPatientWeight")) {
-			t = (TextView) findViewById(R.id.txtPatientWeight);
-			finalString = "Weight: ";
-		} else if (name.equals("txtPatientRecentActions")) {
-			t = (TextView) findViewById(R.id.txtPatientRecentActions);
-			finalString = "RECENT ACTIVITY: \n";
-		} else if (name.equals("txtPatientNotes")) {
-			t = (TextView) findViewById(R.id.txtPatientNotes);
-			finalString = "NURSE NOTES: \n";
-		} else {
-			// Didn't find any text view
-			return -1;
-		}
-
-		finalString = finalString + toThis;
-		Log.d("UpdateTextView ", finalString);
-
-		t.setText(finalString);
-		return 1;
-	}
-
-	// This was for testing purposes... to make sure we can change it
-	public void setTxtViews() {
-		updateTextView("Phil Simms", "txtPatientName");
-		updateTextView("Male", "txtPatientGender");
-		updateTextView("24", "txtPatientAge");
-		updateTextView("13", "txtPatientRoom");
-		updateTextView("Melanoma", "txtPatientDiagnosis");
-		updateTextView("165", "txtPatientWeight");
-		updateTextView("10am: Gave tylenol for headache.",
-				"txtPatientRecentActions");
-		updateTextView("Beach", "txtPatientNotes");
-	}
+    public int updateTextView(String toThis, String name) {
+    	String finalString = "";
+    	TextView t;
+     	
+    	if(name.equals("txtPatientName")){
+    		t = (TextView) this.findViewById(R.id.txtPatientName);
+    	}   	
+     	else if(name.equals("txtPatientGender")){
+    		t = (TextView) this.findViewById(R.id.txtPatientGender);
+    		finalString = "GENDER: ";
+    	}
+    	else if(name.equals("txtPatientRoom")){
+    		t = (TextView) this.findViewById(R.id.txtPatientRoom);
+    		finalString = "ROOM: ";
+    	}
+    	else if(name.equals("txtPatientDiagnosis")){
+    		t = (TextView) this.findViewById(R.id.txtPatientDiagnosis);
+    		finalString = "DIAGNOSIS: ";
+    	}
+    	else if(name.equals("txtPatientAge")){
+    		t = (TextView) findViewById(R.id.txtPatientAge);
+    		finalString = "AGE: ";
+    	}
+    	/*else if(name.equals("txtPatientWeight")){
+    		// Weight is not populated at the moment
+    		
+    		t = (TextView) findViewById(R.id.txtPatientWeight);
+    		finalString = "Weight: ";
+    	}*/
+    	else if(name.equals("txtPatientRecentActions")){
+    		t = (TextView) findViewById(R.id.txtPatientRecentActions);
+    		finalString = "RECENT ACTIVITY: \n";
+    	}
+    	else if(name.equals("txtPatientNotes")){
+    		t = (TextView) findViewById(R.id.txtPatientNotes);
+    		finalString = "NURSE NOTES: \n";
+    	}
+    	else{
+    		// Didn't find any text view
+    		return -1;
+    	}
+    	
+    	finalString = finalString + toThis;
+    	Log.d("UpdateTextView ", finalString);
+       
+    	t.setText(finalString);
+        return 1;
+    }
+    
+    // This was for testing purposes... to make sure we can change it
+    public void setTxtViews(){
+    	updateTextView("Phil Simms", "txtPatientName");
+    	updateTextView("Male", "txtPatientGender");
+    	updateTextView("24", "txtPatientAge");
+    	updateTextView("13", "txtPatientRoom");
+    	updateTextView("Melanoma", "txtPatientDiagnosis");
+    	updateTextView("165", "txtPatientWeight");
+    	updateTextView("10am: Gave tylenol for headache.", "txtPatientRecentActions");
+    	updateTextView("Beach", "txtPatientNotes");
+    }
 
 	/**
 	 * Gets a reference to the DB. If it fails, it returns null instead.

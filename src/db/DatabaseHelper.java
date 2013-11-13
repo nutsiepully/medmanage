@@ -319,24 +319,59 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		
 		//Create meds
 		Medication newMed1 = new Medication();
-		newMed1.setName("Excedrin");
-		newMed1.setDescription("It's a pill");
-		newMed1.setNotes("You gotta take it to eat it.");
-		newMed1.setSideEffects("Well, it's not good.");
-		newMed1.setWarnings("Careful wid it.");
-		newMed1.setTakeWithMeal(true);
-		newMed1.setSpecialInstructions("N/A");
-		newMed1.setInstructions("Have the resident swallow the pill with water.");
+		newMed1.setName("Acetaminophen");
+		newMed1.setDescription("Pain Relief");
+		newMed1.setNotes("Excess acetaminophen may cause liver disease, " +
+				"Does not cause the stomach and intestinal ulcers, " +
+				"Does not reduce swelling ");
+		newMed1.setSideEffects("No side effects");
+		newMed1.setWarnings("Adults < 4000 milligrams/24 hrs, " +
+				"Avoid alcohol, " +
+				"Do not take with fever > 3 days, " +
+				"Do not take > 10 days, " +
+				"Rare and possibly fatal skin reactions");
+		newMed1.setTakeWithMeal(false);
+		newMed1.setSpecialInstructions("Check for history with liver disease, " +
+				"regular use/abuse of alcohol");
+		newMed1.setInstructions("Swallow the pill with water orally, " +
+				"Shake the medication well");
 		
 		Medication newMed2 = new Medication();
-		newMed2.setName("Percoset");
-		newMed2.setDescription("Pain Relief");
-		newMed2.setNotes("You gotta take it to eat it.");
-		newMed2.setSideEffects("Well, it's not good.");
-		newMed2.setWarnings("Careful wid it.");
-		newMed2.setTakeWithMeal(true);
-		newMed2.setSpecialInstructions("Resident should be seated.");
-		newMed2.setInstructions("Have the resident swallow the pill with water.");
+		newMed2.setName("Docusate");
+		newMed2.setDescription("Stool Softener");
+		newMed2.setNotes("Should be used only when clearly needed during pregnancy,  " +
+				"Check severe abdominal pain, nausea, vomiting, or" +
+				"Sudden change in bowel habits over the previous 2 weeks");
+		newMed2.setSideEffects("rectal bleeding or irritation, " +
+				"numbness or a rash around your rectum, " +
+				"severe diarrhea or stomach cramps, " +
+				"continued constipation, mild diarrhea, mild nausea, " +
+				"gastrointestinal cramping, bitter taste, throat irritation, rash");
+		newMed2.setWarnings("Avoid using laxatives or other stool softeners, " +
+				"Avoid using the bathroom just after using docusate enema, " +
+				"Do not take > 7 days");
+		newMed2.setTakeWithMeal(false);
+		newMed2.setSpecialInstructions("Do not crush, chew, or break a docusate capsule. Swallow it whole.");
+		newMed2.setInstructions("Administer each dose with full glass of water, " +
+				"Empty your bowel and bladder just before using the enema.");
+		
+		Medication newMed3 = new Medication();
+		newMed3.setName("Cholecalciferol / Vitamin D3");
+		newMed3.setDescription("Calcium Absorber");
+		newMed3.setNotes("Do not use if allergic reaction to vitamin D, " +
+				"high levels of calcium or vitamin D in blood, or malabsorption");
+		newMed3.setSideEffects("headache, anorexia, nausea, vomiting, metallic taste, " +
+				"constipation, abdominal cramps, dry mouth, weakness, fatigue, muscle and bone pain, " +
+				"ataxia, tinnitus, and vertigo. Later hypercalcemia may result in pruritus, " +
+				"mental confusion, coma, hypertension, cardiac arrhythmias, seizures, " +
+				"metastatic calcification, and renal insufficiency manifested by polyuria, " +
+				"nocturia, polydipsia, and proteinuria");
+		newMed3.setWarnings("Do not take other vitamin or mineral supplements unless your " +
+				"doctor has told you to. Avoid using calcium supplements or antacids");
+		newMed3.setTakeWithMeal(true);
+		newMed3.setSpecialInstructions("Check heart disease, kidney disease or electrolyte imbalance");
+		newMed3.setInstructions("The cholecalciferol wafer is usually taken only once per week or once per month. " +
+				"The wafer must be chewed before you swallow it. Follow special diet if given");
 		
 		//Associate meds with Ressys
 		ResidentMedication relation1 = new ResidentMedication(newMed1, resident1, "", "0 30 16 1/1 * ? *");
