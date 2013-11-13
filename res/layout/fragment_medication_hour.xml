@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    tools:context=".MedicationFragment" >
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/contrast"
+        />
+
+    <TextView
+        android:id="@+id/hour_of_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/contrast"
+        android:textSize="@dimen/medication_titles" />
+
+    <LinearLayout
+        android:layout_width="@dimen/medication_preview_width"
+    	android:layout_height="@dimen/medication_preview_height"
+        android:orientation="horizontal" 
+    	android:background="@drawable/rounded_edges_2"
+    	>
+
+        <ImageView
+            android:id="@+id/med_image"
+            android:layout_width="@dimen/medication_preview_image"
+            android:layout_height="@dimen/medication_preview_image"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="3dp" />
+
+        <TextView
+            android:id="@+id/med_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/text_on_contrast"
+            android:textSize="@dimen/medication_preview_text" />
+    </LinearLayout>
+
+</LinearLayout>

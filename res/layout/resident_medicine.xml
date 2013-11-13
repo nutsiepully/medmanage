@@ -125,6 +125,17 @@
         android:orientation="vertical"
         android:paddingLeft="5dp"
         android:paddingTop="5dp" >
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/resident_title"
+            android:textColor="@color/landing_title"
+            android:text="@string/upcoming"
+            android:background="@color/landing_background"
+            android:padding="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            />
     </LinearLayout>
 
 </LinearLayout>

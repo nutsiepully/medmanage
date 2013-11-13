@@ -3,6 +3,7 @@
     android:id="@+id/background"
     android:layout_width="@dimen/medication_preview_width"
     android:layout_height="@dimen/medication_preview_height"
+    android:layout_margin="5dp"
     android:orientation="horizontal"
     tools:context=".MedicationFragment"
     android:background="@drawable/rounded_edges_2" 
@@ -14,6 +15,7 @@
         android:layout_height="@dimen/medication_preview_image"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="3dp"
         />
     
     <TextView

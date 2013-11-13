@@ -24,6 +24,8 @@ public class MedicationFragment extends Fragment{
 	
 	private ImageView medImage = null;
 	private TextView nameText = null;
+	private boolean isHourMed = false;
+	private int hour = -1;
 	
 	/**
 	 * intentArgName
@@ -50,14 +52,23 @@ public class MedicationFragment extends Fragment{
 			if(inArgs.containsKey("resName")){
 				resName = inArgs.getString("resName");
 			}
+			if(inArgs.containsKey("hour")){
+				isHourMed = true;
+				hour = inArgs.getInt("hour");
+			}
 		}
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_medication,
+		View rootView = null;
+		if(!isHourMed){
+			rootView = inflater.inflate(R.layout.fragment_medication,
 				container, false);
+		}else{
+			rootView = inflater.inflate(R.layout.fragment_medication_hour, container, false);
+		}
 
 		// Show the content as text in a TextView.
 		nameText = (TextView) rootView.findViewById(R.id.med_name);
@@ -73,6 +84,10 @@ public class MedicationFragment extends Fragment{
 			medImage.setImageResource(picReference);
 		}else{
 			Log.e(TAG, "Error retrieving reference to resident image view");
+		}
+		if(isHourMed && hour != -1){
+			TextView hourText = (TextView)rootView.findViewById(R.id.hour_of_day);
+			hourText.setText(Integer.toString(hour));
 		}
 		
 		//Set up the background to be clickable
