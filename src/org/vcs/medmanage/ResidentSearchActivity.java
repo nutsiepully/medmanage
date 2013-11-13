@@ -75,7 +75,10 @@ public class ResidentSearchActivity extends FragmentActivity {
         switch (searchButtonsRadioGroup.getCheckedRadioButtonId()) {
             case R.id.roomSearchRadioButton:
             default:
+            {
+            	sortedByStatus = false;
                 searchedResidents = residentService.getResidentsForCorridor(searchTerm);
+            }
                 break;
             case R.id.statusSearchRadioButton:
             {
@@ -85,7 +88,10 @@ public class ResidentSearchActivity extends FragmentActivity {
             }
                 break;
             case R.id.alphabeticSearchRadioButton:
+            {
+            	sortedByStatus = false;
                 searchedResidents = residentService.getResidentsForAlphabetRange(searchTerm);
+            }
                 break;
         }
 
