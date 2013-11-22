@@ -345,6 +345,10 @@ public class ResidentMedicineActivity extends FragmentActivity {
 				}
 			}
 		});
+		
+		// Add secondary diagnoses
+		TextView secondaryDiagnoses = (TextView)findViewById(R.id.secondaryDiagnoses);
+		secondaryDiagnoses.setText(currentResident.getOtherDiagnoses());
 
 		// Check if any of these need to be put somewhere?
 		Log.d(UI_MODE_SERVICE,

@@ -27,5 +27,6 @@
     <string name="get_resident_meds">MEDICATION...</string>
     <string name="resident_name">NAME</string>
     <string name="nurse_notes">NOTES:</string>
+    <string name="other_diagnoses">OTHER DIAGNOSES: </string>
 
 </resources>

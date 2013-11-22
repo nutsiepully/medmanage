@@ -60,25 +60,25 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                >
+                
+                <LinearLayout
+			    android:layout_width="0dp"
+			    android:layout_weight="1"
+			    android:layout_height="wrap_content"
+			    android:orientation="vertical"
                 android:background="@drawable/rounded_edges_2"
-                android:orientation="vertical"
-                android:paddingLeft="10dp" >
-
+                android:layout_margin="5dp"
+                android:padding="5dp"
+			    >
                 <TextView
                     android:id="@+id/txtPatientGender"
                     android:fontFamily="sans-serif-thin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="patientGender"
-                    android:textSize="@dimen/resident_details"
-                    android:textColor="@color/normal" />
-
-                <TextView
-                    android:id="@+id/txtPatientDiagnosis"
-                    android:fontFamily="sans-serif-thin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="patientDiagnosis"
                     android:textSize="@dimen/resident_details"
                     android:textColor="@color/normal" />
 
@@ -90,7 +90,44 @@
                     android:text="patientAge"
                     android:textSize="@dimen/resident_details"
                     android:textColor="@color/normal" />
-
+                
+                <TextView
+                    android:id="@+id/txtPatientDiagnosis"
+                    android:fontFamily="sans-serif-thin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="patientDiagnosis"
+                    android:textSize="@dimen/resident_details"
+                    android:textColor="@color/normal" />
+                
+                <TextView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/resident_details"
+                    android:fontFamily="sans-serif-thin"
+                    android:textColor="@color/normal"
+                    android:text="@string/other_diagnoses"
+                    />
+                
+                <TextView
+                    android:id="@+id/secondaryDiagnoses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/resident_details"
+                    android:fontFamily="sans-serif-thin"
+                    android:textColor="@color/normal"
+                    />
+                </LinearLayout>     
+                
+			<LinearLayout
+			    android:layout_width="0dp"
+			    android:layout_weight="1"
+			    android:layout_height="wrap_content"
+			    android:orientation="vertical"
+                android:background="@drawable/rounded_edges_2"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+			    >
                 <TextView
                     android:fontFamily="sans-serif-thin"
                     android:layout_width="wrap_content"
@@ -116,6 +153,10 @@
                     android:text="patientRecentActions"
                     android:textSize="@dimen/resident_details"
                     android:textColor="@color/normal" />
+             </LinearLayout>
+                
+                
+                
             </LinearLayout>
         </ScrollView>
 

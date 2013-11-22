@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/search_hint"
             android:textSize="@dimen/search_text"
+            android:fontFamily="sans-serif-thin"
             android:inputType="textPersonName"
             android:background="@drawable/border"
             android:layout_marginTop="15dp"
@@ -46,6 +47,7 @@
                 android:textColor="@color/landing_title"
                 android:background="@color/landing_background"
                 android:layout_marginRight="15dp"
+                android:fontFamily="sans-serif-thin"
                 />
             <Button 
                 android:id="@+id/advanced_search"
@@ -55,6 +57,7 @@
                 android:text="@string/search_advanced"
                 android:textColor="@color/landing_title"
                 android:background="@color/landing_background"
+                android:fontFamily="sans-serif-thin"
                 />
         </LinearLayout>
         

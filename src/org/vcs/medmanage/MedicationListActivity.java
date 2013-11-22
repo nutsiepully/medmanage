@@ -233,6 +233,23 @@ public class MedicationListActivity extends FragmentActivity implements
 		return databaseHelper;
 	}
 	
+	/**
+	 * We override the Back button, so that every back button press sends the
+	 * user back to the Resident page, rather than the previously-viewed
+	 * activity.
+	 */
+	@Override
+	public void onBackPressed() {
+		// Scoot back to the Resident page
+		Intent backToResidentIntent = new Intent(getBaseContext(),
+				ResidentMedicineActivity.class);
+		backToResidentIntent.putExtra("resident", currentResident.getName());
+		backToResidentIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		getBaseContext().startActivity(backToResidentIntent);
+
+		this.finish();
+	}
+	
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
