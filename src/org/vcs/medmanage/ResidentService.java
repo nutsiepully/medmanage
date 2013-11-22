@@ -91,4 +91,40 @@ public class ResidentService {
 
         return returnResidents;
     }
+
+    public List<MedicationAppointment> getAppointmentsForAllResidents(Date startTime, Date endTime) {
+        RuntimeExceptionDao<Resident, Integer> residentDao = this.databaseHelper.getRuntimeExceptionDao(Resident.class);
+        List<Resident> residents = ResidentUtils.getAllResidents(residentDao);
+
+        List<MedicationAppointment> medicationAppointments = new ArrayList<MedicationAppointment>();
+        for(Resident resident : residents) {
+            List<MedicationAppointment> residentAppointments = new CalendarService(context).getResidentMedications(resident, startTime, endTime);
+            medicationAppointments.addAll(residentAppointments);
+        }
+
+        Collections.sort(medicationAppointments);
+
+        return medicationAppointments;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
