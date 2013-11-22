@@ -19,7 +19,9 @@ import entities.Resident;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -114,7 +116,7 @@ public class LandingPage extends FragmentActivity {
 
             Map<Resident, List<MedicationAppointment>> hourResidentsMap = hourAppointmentsMap.get(hour);
             for (Resident resident : hourResidentsMap.keySet()) {
-                String residentText = resident.getName();
+                String residentText = "  "+resident.getName();
                 String takenMedicines = "      Taken : ";
                 String notTakenMedicines = "      Not Taken : ";
                 for (MedicationAppointment medicationAppointment : hourResidentsMap.get(resident)) {
@@ -124,11 +126,12 @@ public class LandingPage extends FragmentActivity {
                         notTakenMedicines += medicationAppointment.getMedication().getName() + "  ";
                 }
                 TextView residentTextView = new TextView(this);
-                residentTextView.setPadding(5, 10, 5, 5);
+                residentTextView.setPadding(15, 10, 5, 5);
                 residentTextView.setTextColor(Color.BLACK);
                 residentTextView.setTag(resident);
-                residentTextView.setBackgroundColor(Color.WHITE);
-                residentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                residentTextView.setBackgroundResource(R.drawable.rounded_edges_2);
+                residentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+                residentTextView.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
                 residentTextView.setText(residentText + "\n" + takenMedicines + "\n" + notTakenMedicines);
                 residentTextView.setOnClickListener(new OnClickListener() {
                     @Override
