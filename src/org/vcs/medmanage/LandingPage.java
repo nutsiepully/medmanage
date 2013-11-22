@@ -161,6 +161,12 @@ public class LandingPage extends FragmentActivity {
 		//TODO update Calendar section as well
 	}
 
+	@Override
+	public void onBackPressed() {
+		//Don't want it to to do anything, so we define this method
+		
+	}
+	
 	/**
 	 * Gets a reference to the DB. If it fails, it returns null instead.
 	 */
