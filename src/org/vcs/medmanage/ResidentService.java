@@ -48,32 +48,47 @@ public class ResidentService {
      *      Green - Medication is up to date.
      */
     public List<Resident> getResidentsForStatus(String residentStatus) {
+        Date now = new Date(); Date startTime = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+        List<Resident> residents = getResidentsWithAppointmentsAndStatus(startTime, now, true);
+
+        List<Resident> matchingResidents = new ArrayList<Resident>();
+        for(Resident resident : residents) {
+            if (resident.getStatus().toString().equalsIgnoreCase(residentStatus)) matchingResidents.add(resident);
+        }
+        return matchingResidents;
+    }
+
+    /*
+     * Sets the status for all residents with appointments and returns the ones that have
+     * an appointment. Yes, the function is named and it sets. malpractice alert!
+     */
+    public List<Resident> getResidentsWithAppointmentsAndStatus(Date startTime, Date endTime, boolean allResidents) {
         RuntimeExceptionDao<Resident, Integer> residentDao = this.databaseHelper.getRuntimeExceptionDao(Resident.class);
         List<Resident> residents = ResidentUtils.getAllResidents(residentDao);
 
-        Date now = new Date(); Date startTime = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-        List<Resident> matchingResidents = new ArrayList<Resident>();
+        List<Resident> returnResidents = new ArrayList<Resident>();
         for (Resident resident : residents) {
-            ResidentStatus status;
-            List<MedicationAppointment> medicationAppointments = new CalendarService(context).getResidentMedications(resident, startTime, now);
+            List<MedicationAppointment> medicationAppointments =
+                    new CalendarService(context).getResidentMedications(resident, startTime, endTime);
+
+            if (!allResidents && (medicationAppointments == null || medicationAppointments.size() == 0)) continue;
+            returnResidents.add(resident);
 
             List<MedicationAppointment> unfulfilledAppointments = new ArrayList<MedicationAppointment>();
             for(MedicationAppointment medicationAppointment : medicationAppointments) {
                 if (!medicationAppointment.isComplete()) unfulfilledAppointments.add(medicationAppointment);
             }
 
-            if (unfulfilledAppointments.isEmpty()) status = ResidentStatus.GREEN;
+            if (unfulfilledAppointments.isEmpty()) resident.setStatus(ResidentStatus.GREEN);
             else {
-                status = ResidentStatus.YELLOW;
+                resident.setStatus(ResidentStatus.YELLOW);
                 for (MedicationAppointment medicationAppointment : unfulfilledAppointments) {
-                    if (now.getTime() > medicationAppointment.getMedicationTime().getTime() + medicationAppointment.getMedicationWindowInMillis())
-                        status = ResidentStatus.RED;
+                    if (endTime.getTime() > medicationAppointment.getMedicationTime().getTime() + medicationAppointment.getMedicationWindowInMillis())
+                        resident.setStatus(ResidentStatus.RED);
                 }
             }
-
-            if (status.toString().equalsIgnoreCase(residentStatus)) matchingResidents.add(resident);
         }
 
-        return matchingResidents;
+        return returnResidents;
     }
 }
