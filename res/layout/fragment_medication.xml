@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/text_on_contrast"
         android:textSize="@dimen/medication_preview_text"
+        android:fontFamily="sans-serif-thin"
         android:layout_gravity="center_vertical"
         />
 

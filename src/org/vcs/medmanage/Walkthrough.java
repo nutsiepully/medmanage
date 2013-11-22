@@ -338,8 +338,6 @@ public class Walkthrough extends Activity {
 				
 				Date d = new Date();
 				CharSequence dateString = DateFormat.format("EEEE, MMMM d, yyyy, hh:mm", d.getTime());
-				// Log that the med was given
-				// TODO add logging ability
 				// Add to Resident recent activity
 				currentResident.addAction("Recieved "+medicationName+" at "+dateString+"\n");
 				residentDao.update(currentResident);
@@ -555,6 +553,23 @@ public class Walkthrough extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.walkthrough, menu);
 		return true;
+	}
+	
+	/**
+	 * We override the Back button, so that every back button press sends the
+	 * user back to the Resident page, rather than the previously-viewed
+	 * activity.
+	 */
+	@Override
+	public void onBackPressed() {
+		// Scoot back to the LandingPage
+		Intent backToResidentIntent = new Intent(getBaseContext(),
+				ResidentMedicineActivity.class);
+		backToResidentIntent.putExtra("resident", currentResident.getName());
+		backToResidentIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		getBaseContext().startActivity(backToResidentIntent);
+
+		this.finish();
 	}
 
 	/**

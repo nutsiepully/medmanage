@@ -17,12 +17,15 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,8 +60,6 @@ public class ResidentMedicineActivity extends FragmentActivity {
 	Resident currentResident;
 	String residentName;
 	LinearLayout medAppointments = null;
-
-	private ArrayAdapter<Resident> residentAdapter;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -314,7 +315,36 @@ public class ResidentMedicineActivity extends FragmentActivity {
 		// updateTextView(Integer.toString(res.getWeight()),
 		// "txtPatientWeight");
 		updateTextView(res.getRecentActions(), "txtPatientRecentActions");
-		updateTextView(res.getNotes(), "txtPatientNotes");
+		
+		// Get nurse notes, or blank
+		EditText nurseNotes = (EditText)findViewById(R.id.txtPatientNotes);
+		String notes = currentResident.getNotes();
+		if(!notes.equals("")){
+			nurseNotes.setText(notes);
+		}else{
+			nurseNotes.setText("Add notes here...");
+		}
+		
+		nurseNotes.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// Persist to DB
+				String newNotes = s.toString();
+				currentResident.setNotes(newNotes);
+				if(residentDao != null){
+					residentDao.update(currentResident);
+				}
+			}
+		});
 
 		// Check if any of these need to be put somewhere?
 		Log.d(UI_MODE_SERVICE,
@@ -421,10 +451,6 @@ public class ResidentMedicineActivity extends FragmentActivity {
     	else if(name.equals("txtPatientRecentActions")){
     		t = (TextView) findViewById(R.id.txtPatientRecentActions);
     		finalString = "RECENT ACTIVITY: \n";
-    	}
-    	else if(name.equals("txtPatientNotes")){
-    		t = (TextView) findViewById(R.id.txtPatientNotes);
-    		finalString = "NURSE NOTES: \n";
     	}
     	else{
     		// Didn't find any text view
