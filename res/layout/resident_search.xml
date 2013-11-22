@@ -69,12 +69,5 @@
         android:id="@+id/residentSearchLinearLayout"
         android:layout_width="0dp"
         >
-
-        <!--<ListView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/residentListView"-->
-            <!--android:layout_gravity="left|center_vertical" -->
-            <!--/>-->
     </LinearLayout>
 </LinearLayout>

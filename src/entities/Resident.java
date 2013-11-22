@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.vcs.medmanage.R;
+import org.vcs.medmanage.ResidentStatus;
 
 /**
  * In-memory representation of a Resident from the DB backend. This class mostly
@@ -86,17 +87,21 @@ public class Resident {
 	 * END RESIDENT ATTRIBUTES
 	 */
 
+    private ResidentStatus status;
+
 	public Resident(){
 		//Per ORMLite, all classes that wish to be persisted to the DB must
 		//    declare a no-argument constructor.
 		recentActions = new String();
 		picturePath = new String("");
+        status = ResidentStatus.UNKNOWN;
 	}
 
     public Resident(String name, int roomNumber) {
         this.name = name;
         this.roomNumber = roomNumber;
         picturePath = new String("");
+        status = ResidentStatus.UNKNOWN;
     }
 
 	public int getId() {
@@ -303,5 +308,13 @@ public class Resident {
                 "name='" + name + '\'' +
                 ", roomNumber=" + roomNumber +
                 '}';
+    }
+
+    public ResidentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ResidentStatus status) {
+        this.status = status;
     }
 }

@@ -1,17 +1,23 @@
 package org.vcs.medmanage;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import db.DatabaseHelper;
+import entities.Medication;
 import entities.RecentResident;
 import entities.RecentResidentUtils;
 import entities.Resident;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * This is the first page to be started when the application starts. It displays
@@ -41,7 +48,9 @@ public class LandingPage extends FragmentActivity {
 	private Button searchButton = null;
 	private Button advancedButton = null;
 	private EditText searchText = null;
-	
+
+    private LinearLayout upcomingResidentsLayout;
+
 	private boolean isAdvanced = false;
 
 	@Override
@@ -63,11 +72,61 @@ public class LandingPage extends FragmentActivity {
 		
 		//Setup UI listeners
 		setupUI();
-		
-		//TODO: Calendar stuff here probably
+
+        upcomingResidentsLayout = (LinearLayout)findViewById(R.id.upcomingResidentsLayout);
+        displayCalendar();
 	}
-	
-	/**
+
+    private void displayCalendar() {
+        Date now = new Date();
+        Date startTime = new Date(now.getTime() - 8 * 60 * 60 * 1000);
+        Date endTime = new Date(now.getTime() + 12 * 60 * 60 * 1000);
+        List<MedicationAppointment> medicationAppointments =
+                new ResidentService(this).getAppointmentsForAllResidents(startTime, endTime);
+
+        Map<Date, Map<Resident, List<MedicationAppointment>>> hourAppointmentsMap = new LinkedHashMap<Date, Map<Resident, List<MedicationAppointment>>>();
+        for (MedicationAppointment medicationAppointment : medicationAppointments) {
+            Date medicationHour = new Date(medicationAppointment.getMedicationTime().getTime() -
+                    medicationAppointment.getMedicationTime().getMinutes() * 60 * 1000);
+
+            if (!hourAppointmentsMap.containsKey(medicationHour))
+                hourAppointmentsMap.put(medicationHour, new HashMap<Resident, List<MedicationAppointment>>());
+
+            Map<Resident, List<MedicationAppointment>> hourMap = hourAppointmentsMap.get(medicationHour);
+            Resident currentResident = medicationAppointment.getResident();
+            if (!hourMap.containsKey(currentResident))
+                hourMap.put(currentResident, new ArrayList<MedicationAppointment>());
+
+            hourMap.get(currentResident).add(medicationAppointment);
+        }
+
+        for(Date hour : hourAppointmentsMap.keySet()) {
+            TextView hourTextView = new TextView(this);
+            hourTextView.setText(hour.toString());
+            upcomingResidentsLayout.addView(hourTextView);
+
+            Map<Resident, List<MedicationAppointment>> hourResidentsMap = hourAppointmentsMap.get(hour);
+            for (Resident resident : hourResidentsMap.keySet()) {
+                String residentText = resident.getName();
+                for (MedicationAppointment medicationAppointment : hourResidentsMap.get(resident)) {
+                    residentText += " " + medicationAppointment.getMedication().getName();
+                }
+                TextView residentTextView = new TextView(this);
+                residentTextView.setText(residentText);
+
+                upcomingResidentsLayout.addView(residentTextView);
+            }
+        }
+    }
+
+    private void addFragmentToLayout(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(upcomingResidentsLayout.getId(), fragment);
+        fragmentTransaction.commit();
+    }
+
+    /**
 	 * Gets a list of the most recently visited Residents. If it fails, 
 	 * returns 'null'.
 	 */
