@@ -339,7 +339,7 @@ public class Walkthrough extends Activity {
 				Date d = new Date();
 				CharSequence dateString = DateFormat.format("EEEE, MMMM d, yyyy, hh:mm", d.getTime());
 				// Add to Resident recent activity
-				currentResident.addAction("Recieved "+medicationName+" at "+dateString);
+				currentResident.addAction("Received "+medicationName+" at "+dateString);
 				residentDao.update(currentResident);
 				logMedAdmin(true);
 				// Show success page
