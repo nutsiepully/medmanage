@@ -3,6 +3,7 @@ package org.vcs.medmanage;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -83,7 +84,7 @@ public class LandingPage extends FragmentActivity {
         List<MedicationAppointment> medicationAppointments =
                 new ResidentService(this).getAppointmentsForAllResidents(startTime, endTime);
 
-        Map<Date, Map<Resident, List<MedicationAppointment>>> hourAppointmentsMap = new HashMap<Date, Map<Resident, List<MedicationAppointment>>>();
+        Map<Date, Map<Resident, List<MedicationAppointment>>> hourAppointmentsMap = new LinkedHashMap<Date, Map<Resident, List<MedicationAppointment>>>();
         for (MedicationAppointment medicationAppointment : medicationAppointments) {
             Date medicationHour = new Date(medicationAppointment.getMedicationTime().getTime() -
                     medicationAppointment.getMedicationTime().getMinutes() * 60 * 1000);
