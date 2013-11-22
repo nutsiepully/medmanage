@@ -22,5 +22,6 @@
     <dimen name="medication_preview_text">28dp</dimen>
     <dimen name="resident_image">300dp</dimen>
     <dimen name="resident_details">22dp</dimen>
+    <dimen name="medium_text">22dp</dimen>
 
 </resources>
