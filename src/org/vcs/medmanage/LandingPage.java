@@ -1,5 +1,6 @@
 package org.vcs.medmanage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,14 +16,19 @@ import entities.Medication;
 import entities.RecentResident;
 import entities.RecentResidentUtils;
 import entities.Resident;
+
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -52,8 +58,9 @@ public class LandingPage extends FragmentActivity {
     private LinearLayout upcomingResidentsLayout;
 
 	private boolean isAdvanced = false;
+    private View TextView;
 
-	@Override
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_landing_page);
@@ -100,23 +107,47 @@ public class LandingPage extends FragmentActivity {
             hourMap.get(currentResident).add(medicationAppointment);
         }
 
-        for(Date hour : hourAppointmentsMap.keySet()) {
+        for (Date hour : hourAppointmentsMap.keySet()) {
             TextView hourTextView = new TextView(this);
-            hourTextView.setText(hour.toString());
+            hourTextView.setText("\n\n" + new SimpleDateFormat("E, MMM, d   h a").format(hour));
             upcomingResidentsLayout.addView(hourTextView);
 
             Map<Resident, List<MedicationAppointment>> hourResidentsMap = hourAppointmentsMap.get(hour);
             for (Resident resident : hourResidentsMap.keySet()) {
                 String residentText = resident.getName();
+                String takenMedicines = "      Taken : ";
+                String notTakenMedicines = "      Not Taken : ";
                 for (MedicationAppointment medicationAppointment : hourResidentsMap.get(resident)) {
-                    residentText += " " + medicationAppointment.getMedication().getName();
+                    if (medicationAppointment.isComplete())
+                        takenMedicines += medicationAppointment.getMedication().getName() + "  ";
+                    else
+                        notTakenMedicines += medicationAppointment.getMedication().getName() + "  ";
                 }
                 TextView residentTextView = new TextView(this);
-                residentTextView.setText(residentText);
+                residentTextView.setPadding(5, 10, 5, 5);
+                residentTextView.setTextColor(Color.BLACK);
+                residentTextView.setTag(resident);
+                residentTextView.setBackgroundColor(Color.WHITE);
+                residentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                residentTextView.setText(residentText + "\n" + takenMedicines + "\n" + notTakenMedicines);
+                residentTextView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        navigateToProfile((Resident) v.getTag());
+                    }
+                });
 
                 upcomingResidentsLayout.addView(residentTextView);
+                upcomingResidentsLayout.addView(getPaddingView());
             }
         }
+    }
+
+    public void navigateToProfile(Resident resident){
+        Intent goToProfileIntent = new Intent(this, ResidentMedicineActivity.class);
+        goToProfileIntent.putExtra("resident", resident.getName());
+        goToProfileIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(goToProfileIntent);
     }
 
     private void addFragmentToLayout(Fragment fragment) {
@@ -245,4 +276,18 @@ public class LandingPage extends FragmentActivity {
 			databaseHelper = null;
 		}
 	}
+
+    public View getPaddingView() {
+        View paddingView = new View(this);
+        paddingView.setLayoutParams(new ViewGroup.LayoutParams(200, 2));
+        return paddingView;
+    }
+
+    public View getTextView() {
+        return TextView;
+    }
+
+    public void setTextView(View textView) {
+        TextView = textView;
+    }
 }
