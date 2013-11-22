@@ -70,6 +70,7 @@ public class MedicationListActivity extends FragmentActivity implements
 	private DatabaseHelper databaseHelper = null;
 	
 	public Button giveMedsButton = null;
+	private String inMed = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +107,9 @@ public class MedicationListActivity extends FragmentActivity implements
 			//    was probably navigated to during testing. In that case, we
 			//    just use a default Resident.
 			residentToGet = "James Cooper";
+		}if(inIntent.hasExtra("MedicationName")){
+			Bundle extras = inIntent.getExtras();
+			inMed = extras.getString("MedicationName");
 		}
 		
 		//Get a reference to the DB the hard way
@@ -121,6 +125,7 @@ public class MedicationListActivity extends FragmentActivity implements
 	    	//Builds display for list fragment
 	    	Bundle arguments = new Bundle();
 			arguments.putInt("ResidentId", currentResident.getResident_id());
+			arguments.putString("MedicationName", inMed);
 			MedicationListFragment fragment = new MedicationListFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()

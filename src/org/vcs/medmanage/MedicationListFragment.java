@@ -10,6 +10,7 @@ import db.DatabaseHelper;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -30,6 +31,7 @@ import entities.ResidentUtils;
  * interface.
  */
 public class MedicationListFragment extends ListFragment {
+	public static final String TAG = MedicationListFragment.class.getName();
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -50,6 +52,7 @@ public class MedicationListFragment extends ListFragment {
 	
 	private ResMedContent resContent = null;
 	private int residentId = -1;
+	public String inMed = "";
 	DatabaseHelper databaseHelper = null;
 
 	/**
@@ -92,12 +95,16 @@ public class MedicationListFragment extends ListFragment {
 				residentId = inArgs.getInt("ResidentId");
 				extractMedication();
 			}
+			if(inArgs.containsKey("MedicationName")){
+				inMed = inArgs.getString("MedicationName");
+			}
 		}
 		
 		if(resContent != null){
-			setListAdapter(new ArrayAdapter<Medication>(getActivity(),
+			ArrayAdapter<Medication> newAdapter = new ArrayAdapter<Medication>(getActivity(),
 					android.R.layout.simple_list_item_activated_1,
-					android.R.id.text1, ResMedContent.ITEMS));
+					android.R.id.text1, ResMedContent.ITEMS);
+			setListAdapter(newAdapter);	
 		}
 	}
 	
@@ -105,7 +112,20 @@ public class MedicationListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
+		
 		setListShown(true);
+		
+		// Set the default selected med
+		if(resContent != null){
+			int pos = resContent.getMedPosition(inMed);
+			if(pos != -1){
+				Log.i(TAG, "Setting default position");
+				getListView().requestFocusFromTouch();
+				getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+				getListView().setItemChecked(pos, true);
+				getListView().performItemClick(getListView().getAdapter().getView(pos, null, null), pos, pos);
+			}
+		}
 	}
 	
 	/**

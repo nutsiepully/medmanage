@@ -111,6 +111,7 @@ public class MedicationFragment extends Fragment{
 	public void navigateToMedList(){
 		Intent goToResMedsIntent = new Intent(getActivity().getBaseContext(), MedicationListActivity.class);
 		goToResMedsIntent.putExtra("resName", resName);
+		goToResMedsIntent.putExtra("MedicationName", medName);
 		goToResMedsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(goToResMedsIntent);
 	}

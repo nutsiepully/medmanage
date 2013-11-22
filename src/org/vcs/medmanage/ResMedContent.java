@@ -44,4 +44,20 @@ public class ResMedContent {
 		ITEMS.add(item);
 		ITEM_MAP.put(item.getName(), item);
 	}
+	
+	/**
+	 * Returns the position in the list of a given med, for setting the default
+	 * med selection.
+	 * @param medName The name of the med to look for.
+	 * @return The index.
+	 */
+	public int getMedPosition(String medName){
+		int pos = -1;
+		for(Medication med : ITEMS){
+			if(med.getName().equals(medName)){
+				pos = ITEMS.indexOf(med);
+			}
+		}
+		return pos;
+	}
 }
