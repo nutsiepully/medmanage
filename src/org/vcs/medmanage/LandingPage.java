@@ -1,5 +1,6 @@
 package org.vcs.medmanage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -102,21 +103,40 @@ public class LandingPage extends FragmentActivity {
 
         for(Date hour : hourAppointmentsMap.keySet()) {
             TextView hourTextView = new TextView(this);
-            hourTextView.setText(hour.toString());
+            hourTextView.setText("\n\n" + new SimpleDateFormat("E, MMM, d h a").format(hour));
             upcomingResidentsLayout.addView(hourTextView);
 
             Map<Resident, List<MedicationAppointment>> hourResidentsMap = hourAppointmentsMap.get(hour);
             for (Resident resident : hourResidentsMap.keySet()) {
                 String residentText = resident.getName();
+                String takenMedicines = "      Taken : "; String notTakenMedicines = "      Not Taken : ";
                 for (MedicationAppointment medicationAppointment : hourResidentsMap.get(resident)) {
-                    residentText += " " + medicationAppointment.getMedication().getName();
+                    if (medicationAppointment.isComplete())
+                        takenMedicines += medicationAppointment.getMedication().getName() + "  ";
+                    else
+                        notTakenMedicines += medicationAppointment.getMedication().getName() + "  ";
                 }
                 TextView residentTextView = new TextView(this);
-                residentTextView.setText(residentText);
+                residentTextView.setPadding(5, 10, 5, 5);
+                residentTextView.setTag(resident);
+                residentTextView.setText(residentText + "\n" + takenMedicines + "\n" + notTakenMedicines);
+                residentTextView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        navigateToProfile((Resident)v.getTag());
+                    }
+                });
 
                 upcomingResidentsLayout.addView(residentTextView);
             }
         }
+    }
+
+    public void navigateToProfile(Resident resident){
+        Intent goToProfileIntent = new Intent(this, ResidentMedicineActivity.class);
+        goToProfileIntent.putExtra("resident", resident.getName());
+        goToProfileIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(goToProfileIntent);
     }
 
     private void addFragmentToLayout(Fragment fragment) {
