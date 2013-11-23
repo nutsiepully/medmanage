@@ -68,7 +68,10 @@ public class LandingPage extends FragmentActivity {
 		setContentView(R.layout.activity_landing_page);
 		
 		recentResLayout = (LinearLayout)findViewById(R.id.recent_residents);
-		
+
+        AlarmReceiver alarmReceiver = new AlarmReceiver();
+        alarmReceiver.setAlarm(this);
+
 		//Get DB references
 		recentDao =
 				getHelper().getRecentResidentDataDao();
