@@ -111,7 +111,7 @@ public class ResidentService {
         RuntimeExceptionDao<Resident, Integer> residentDao = this.databaseHelper.getRuntimeExceptionDao(Resident.class);
         List<Resident> residents = ResidentUtils.getAllResidents(residentDao);
 
-        Date now = new Date(); Date startTime = new Date(now.getTime() - 10 * 60 * 1000);
+        Date now = new Date(); Date startTime = new Date(now.getTime() - 2 * 60 * 60 * 1000);
 
         List<String> alerts = new ArrayList<String>();
         for (Resident resident : residents) {
@@ -120,7 +120,7 @@ public class ResidentService {
 
             for (MedicationAppointment medicationAppointment : medicationAppointments) {
                 if (!medicationAppointment.isComplete()) {
-                    if (now.getTime() -
+                    if (-now.getTime() +
                             (medicationAppointment.getMedicationTime().getTime() +
                              medicationAppointment.getMedicationWindowInMillis()) < (10 * 60 * 1000)) {
                         alerts.add(resident.getName() + " " + resident.getRoomNumber() + " " + medicationAppointment.getMedication().getName());

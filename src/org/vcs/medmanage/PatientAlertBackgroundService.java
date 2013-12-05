@@ -30,8 +30,6 @@ public class PatientAlertBackgroundService extends IntentService {
         Log.d("PATIENT_ALERT_SERVICE", "In here " + new Date().toString());
         ResidentService residentService = new ResidentService(this);
         List<String> alerts = residentService.getResidentsToAlert();
-        alerts.add("Quentin San");
-        alerts.add("James Cameron");
 
         for (String alert : alerts) {
             NotificationManager notificationManager =
@@ -44,7 +42,7 @@ public class PatientAlertBackgroundService extends IntentService {
 
             PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this, LandingPage.class), 0);
             SmsManager sms = SmsManager.getDefault();
-            sms.sendTextMessage("14794306665", "14126239623", alert, pi, null);
+            sms.sendTextMessage("14126239623", "14126239623", alert, pi, null);
         }
     }
 
