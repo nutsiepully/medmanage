@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">VCS Medicine Management System</string>
+    <string name="app_name">Caretaker</string>
     <string name="roomSearchRadioButton">Room</string>
     <string name="statusSearchRadioButton">Status</string>
     <string name="alphabeticSearchRadioButton">A-Z</string>

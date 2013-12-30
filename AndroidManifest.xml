@@ -15,17 +15,17 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
-        <activity android:name="org.vcs.medmanage.ResidentSearchActivity" >
+        android:label="@string/app_name">
+        <activity android:name="org.vcs.medmanage.ResidentSearchActivity" android:screenOrientation="landscape">
         </activity>
-        <activity android:name="org.vcs.medmanage.ResidentMedicineActivity" >
+        <activity android:name="org.vcs.medmanage.ResidentMedicineActivity" android:screenOrientation="landscape">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="org.vcs.medmanage.MedicationListActivity"
-            android:label="@string/title_medication_list" >
+            android:label="@string/title_medication_list" android:screenOrientation="landscape">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -33,14 +33,14 @@
         <activity
             android:name="org.vcs.medmanage.MedicationDetailActivity"
             android:label="@string/title_medication_detail"
-            android:parentActivityName=".MedicationListActivity" >
+            android:parentActivityName=".MedicationListActivity" android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MedicationListActivity" />
         </activity>
         <activity
             android:name="org.vcs.medmanage.LandingPage"
-            android:label="@string/title_activity_landing_page" >
+            android:label="@string/title_activity_landing_page" android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -48,18 +48,14 @@
         </activity>
         <activity
             android:name="org.vcs.medmanage.Walkthrough"
-            android:label="@string/title_activity_walkthrough" >
+            android:label="@string/title_activity_walkthrough" android:screenOrientation="landscape">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="org.vcs.medmanage.ResidentCalendarActivity"
-            android:label="Resident Calendar" >
-        </activity>
-        <activity
-            android:name="org.vcs.medmanage.MedicationFragment"
-            android:label="@string/title_activity_medication_fragment" >
+            android:label="Resident Calendar" android:screenOrientation="landscape">
         </activity>
     </application>
 

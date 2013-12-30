@@ -23,7 +23,7 @@ import entities.ResidentMedication;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public final String TAG = DatabaseHelper.class.getName();
 	private static final String DATABASE_NAME = "medManage.db";
-	private static final int DATABASE_VERSION = 31;
+	private static final int DATABASE_VERSION = 33;
 	
 	private Dao<Resident, Integer> residentDao = null;
 	private Dao<Medication, Integer> medicationDao = null;
@@ -287,11 +287,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		resident2.setAllergies("Asparagus");
 		resident2.setPrimaryDiagnosis("Dementia");
 		resident2.setOtherDiagnoses("None");
-		resident2.setNotes("Can have sudden mood swings.");
+		resident2.setNotes("Fell in the tub last Thursday. Can have sudden mood swings.");
 		resident2.setPrefs("Prefers pills with apple sauce.");
 		resident2.setRecentActions("Took acetomeniphin\nJoined Vincentian");
 		resident2.setRoomNumber(211);
 		resident2.setTerm("Acute care");
+		resident2.setAge(87);
 		
 		resident3.setName("Patricia Anderson");
 		resident3.setGender(true);
@@ -378,6 +379,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		ResidentMedication relation2 = new ResidentMedication(newMed2, resident1, "", "0 20 9 1/1 * ? *");
 		ResidentMedication relation3 = new ResidentMedication(newMed1, resident2, "", "0 30 16 1/1 * ? *");
 		ResidentMedication relation4 = new ResidentMedication(newMed2, resident2, "", "0 20 9 1/1 * ? *");
+		ResidentMedication relation5 = new ResidentMedication(newMed1, resident2, "", "0 20 9 1/1 * ? *");
 
 		//Put some recent residents
 		RecentResident recent1 = new RecentResident(1, 1);
@@ -397,6 +399,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		getResidentMedicationDataDao().create(relation2);
 		getResidentMedicationDataDao().create(relation3);
 		getResidentMedicationDataDao().create(relation4);
+		getResidentMedicationDataDao().create(relation5);
 
 		getRecentResidentDataDao().create(recent1);
 		getRecentResidentDataDao().create(recent2);

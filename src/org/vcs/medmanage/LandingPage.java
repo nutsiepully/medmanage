@@ -84,6 +84,8 @@ public class LandingPage extends FragmentActivity {
 
         upcomingResidentsLayout = (LinearLayout)findViewById(R.id.upcomingResidentsLayout);
         displayCalendar();
+        
+        getActionBar().setTitle("Caretaker");
 	}
 
     private void displayCalendar() {
@@ -198,6 +200,16 @@ public class LandingPage extends FragmentActivity {
 		searchButton = (Button)findViewById(R.id.search_button);
 		advancedButton = (Button)findViewById(R.id.advanced_search);
 		searchText = (EditText)findViewById(R.id.resident_search);
+		
+		/**
+		 * TODO remove this-- this is for demo purposes only
+		 */
+		searchText.setVisibility(View.INVISIBLE);
+		searchButton.setVisibility(View.INVISIBLE);
+		advancedButton.setText("Find a Resident...");
+		/**
+		 * 
+		 */
 		
 		/**
 		 * Default search button behavior is just to try to take the search
