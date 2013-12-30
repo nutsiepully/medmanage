@@ -30,21 +30,6 @@ import org.vcs.medmanage.ResidentStatus;
 @DatabaseTable(tableName = "residents")
 public class Resident {
 	public static final String TAG = "entities::Resident"; //For error log
-	public static final String[] RESIDENTS_COLUMNS = 
-		{ 
-		"resident_id", 
-		"name", 
-		"age", 
-		"gender",
-		"room_number",
-		"diagnosis",
-		"preferences",
-		"notes",
-		"recent_actions",
-		"resident_picture",
-		"term",
-		"neighborhood"
-		};//Used for SQLite queries
 	
 	/**
 	 * RESIDENT ATTRIBUTES

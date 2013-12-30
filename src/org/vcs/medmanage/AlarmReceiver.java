@@ -23,22 +23,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // BEGIN_INCLUDE(alarm_onreceive)
-        /*
-         * If your receiver intent includes extras that need to be passed along to the
-         * service, use setComponent() to indicate that the service should handle the
-         * receiver's intent. For example:
-         *
-         * ComponentName comp = new ComponentName(context.getPackageName(),
-         *      MyService.class.getName());
-         *
-         * // This intent passed in this call will include the wake lock extra as well as
-         * // the receiver intent contents.
-         * startWakefulService(context, (intent.setComponent(comp)));
-         *
-         * In this example, we simply create a new intent to deliver to the service.
-         * This intent holds an extra identifying the wake lock.
-         */
         Intent service = new Intent(context, PatientAlertBackgroundService.class);
 
         // Start the service, keeping the device awake while it is launching.

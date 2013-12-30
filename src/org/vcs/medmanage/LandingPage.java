@@ -209,7 +209,7 @@ public class LandingPage extends FragmentActivity {
 		 */
 		searchText.setVisibility(View.INVISIBLE);
 		searchButton.setVisibility(View.INVISIBLE);
-		advancedButton.setText("Find a Resident....");
+		advancedButton.setText("Find a Resident...");
 		/**
 		 * 
 		 */

@@ -10,18 +10,17 @@ import entities.Medication;
 /**
  * Helper class for providing sample content for user interfaces created by
  * Android template wizards.
- * <p>
- * TODO: Replace all uses of this class before publishing your app.
+ * 
  */
 public class ResMedContent {
 
 	/**
-	 * An array of sample (dummy) items.
+	 * An array of items.
 	 */
 	public static List<Medication> ITEMS = new ArrayList<Medication>();
 
 	/**
-	 * A map of sample (dummy) items, by ID.
+	 * A map of items, by ID.
 	 */
 	public static Map<String, Medication> ITEM_MAP = new HashMap<String, Medication>();
 	
