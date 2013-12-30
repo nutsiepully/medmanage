@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <uses-sdk
         android:minSdkVersion="17"
@@ -57,6 +61,18 @@
             android:name="org.vcs.medmanage.ResidentCalendarActivity"
             android:label="Resident Calendar" android:screenOrientation="landscape">
         </activity>
+
+        <receiver android:name=".AlarmReceiver"></receiver>
+        <receiver android:name=".BootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".PatientAlertBackgroundService">
+        </service>
+
     </application>
 
 </manifest>
